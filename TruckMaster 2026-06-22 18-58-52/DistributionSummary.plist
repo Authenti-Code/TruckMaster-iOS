@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>TruckMaster.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>buildNumber</key>
+			<string>1</string>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>5FDAA7E37DE7D2A12DAD3A0D4DC1B2033FAD666C</string>
+				<key>dateExpires</key>
+				<string>02/03/27</string>
+				<key>type</key>
+				<string>Apple Development</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>CWF9Z95X55.com.app.truckmaster</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>CWF9Z95X55</string>
+				<key>get-task-allow</key>
+				<true/>
+			</dict>
+			<key>name</key>
+			<string>TruckMaster.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>4ee9779d-a3c1-4e4c-8c1f-52538512d9e4</string>
+				<key>dateExpires</key>
+				<string>15/06/27</string>
+				<key>name</key>
+				<string>iOS Team Provisioning Profile: com.app.truckmaster</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>CWF9Z95X55</string>
+				<key>name</key>
+				<string>Ricardo Cumberbatch</string>
+			</dict>
+			<key>versionNumber</key>
+			<string>1.0</string>
+		</dict>
+	</array>
+</dict>
+</plist>
