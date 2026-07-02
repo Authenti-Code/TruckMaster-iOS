@@ -34,6 +34,7 @@ final class EnRouteViewModel: ObservableObject {
 
     func orderTapped(_ order: ShipmentModel) {
         // router.navigate(to: .orderDetail) — wire when ready
+        router.navigate(to: .mapTrack)
     }
 
     private func loadOrders() async {

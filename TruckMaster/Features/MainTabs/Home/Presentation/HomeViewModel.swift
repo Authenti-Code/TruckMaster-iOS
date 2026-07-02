@@ -42,9 +42,9 @@ final class HomeViewModel: ObservableObject {
 
     // MARK: - Actions
     func notificationTapped() {
-//         router.navigate(to: .notifications)
+         router.navigate(to: .notifications)
 //         router.navigate(to: .giveFeedback)
-        router.navigate(to: .mapTrack)
+//        router.navigate(to: .mapTrack)
     }
 
     func startNewShipmentTapped() {
