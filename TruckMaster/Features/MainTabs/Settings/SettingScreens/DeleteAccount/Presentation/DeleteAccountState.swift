@@ -13,6 +13,9 @@ struct DeleteAccountState {
     var showPasswordSheet = false
     var isPasswordVisible = false
     var isLoading = false
+    var showSnackbar:   Bool         = false
+    var snackbarMessage: String      = ""
+    var snackbarType:   SnackbarType = .error
 
     var isProceedEnabled: Bool {
         selectedReason != nil
@@ -21,4 +24,6 @@ struct DeleteAccountState {
     var isDeleteEnabled: Bool {
         !password.trimmingCharacters(in: .whitespaces).isEmpty
     }
+    
+    
 }

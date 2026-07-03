@@ -27,12 +27,14 @@ final class OrdersViewModel: ObservableObject {
         self.router           = router
     }
 
-    // MARK: - Lifecycle
     func onAppear() {
+        
         Task { await loadOrders(isRefresh: false) }
     }
 
     func onRefresh() async {
+        state.currentPage = "1"
+        state.orders.removeAll()
         await loadOrders(isRefresh: true)
     }
 
@@ -50,7 +52,6 @@ final class OrdersViewModel: ObservableObject {
     private func loadOrders(isRefresh: Bool, isLoadMore: Bool = false) async {
         if isRefresh {
             state.isRefreshing = true
-            state.currentPage  = 1
         } else if isLoadMore {
             state.isLoadingMore = true
         } else {
@@ -61,8 +62,10 @@ final class OrdersViewModel: ObservableObject {
             state.isRefreshing  = false
             state.isLoadingMore = false
         }
+        
+        let request = OrderListRequest(page: state.currentPage, limit: state.limit, status: "all")
         do {
-            let data = try await getOrdersUseCase.execute(page: state.currentPage)
+            let data = try await getOrdersUseCase.execute(request: request)
 
             if isRefresh {
                 state.orders = data
@@ -71,7 +74,10 @@ final class OrdersViewModel: ObservableObject {
             }
 
             state.hasMoreData = !data.isEmpty
-            if !data.isEmpty { state.currentPage += 1 }
+            if !data.isEmpty {
+                let nextPage = (Int(state.currentPage) ?? 1) + 1
+                state.currentPage = String(nextPage)
+            }
             state.snackbarMessage = ""
         } catch {
             triggerError(error.localizedDescription)

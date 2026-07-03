@@ -10,12 +10,13 @@ internal import SwiftUI
 
 // MARK: - State
 struct OrderState {
-    var orders:         [OrderModel] = []
+    var orders:         [OrderResponse] = []
     var isLoading:      Bool         = false
     var isRefreshing:   Bool         = false
     var isLoadingMore:  Bool         = false
     var hasMoreData:    Bool         = true
-    var currentPage:    Int          = 1
+    var limit:          String     = "10"
+    var currentPage:    String     = "1"
     var showSnackbar:   Bool         = false
     var snackbarMessage: String      = ""
     var snackbarType:   SnackbarType = .error

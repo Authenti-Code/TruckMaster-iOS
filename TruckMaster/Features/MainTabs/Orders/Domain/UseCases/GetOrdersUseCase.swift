@@ -15,7 +15,7 @@ final class GetOrdersUseCase {
         self.repository = repository
     }
 
-    func execute(page: Int = 1) async throws -> [OrderModel] {
-        try await repository.getOrders(page: page)
+    func execute(request: OrderListRequest) async throws -> [OrderResponse] {
+        try await repository.getOrders(request: request)
     }
 }

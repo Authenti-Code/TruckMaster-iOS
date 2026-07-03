@@ -68,7 +68,7 @@ struct OrdersView: View {
                             minHeight: UIScreen.main.bounds.height * 0.6
                         )
                     } else {
-                        VStack(spacing: 12) {
+                        LazyVStack(spacing: 12) {
                             ForEach(viewModel.state.orders) { order in
                                 OrderCard(order: order)
                                     .padding(.horizontal, 20)
@@ -106,7 +106,7 @@ struct OrdersView: View {
 @available(iOS 16.0, *)
 private struct OrderCard: View {
 
-    let order: OrderModel
+    let order: OrderResponse
 
     var body: some View {
         CardContainer(
@@ -123,7 +123,7 @@ private struct OrderCard: View {
                         .frame(width: 40, height: 40)
 
                     ReusableText(
-                        title: LocalizedStringKey(order.type),
+                        title: LocalizedStringKey(order.status),
                         fontSize: 14,
                         fontName: "Livvic-SemiBold",
                         fontColor: AppColors.textBlack1
@@ -131,12 +131,12 @@ private struct OrderCard: View {
 
                     Spacer()
 
-                    Text(order.status.label)
+                    Text(order.status)
                         .font(.custom("Livvic-SemiBold", size: 11))
-                        .foregroundColor(order.status.textColor)
+//                        .foregroundColor(order.status.textColor)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
-                        .background(order.status.backgroundColor)
+//                        .background(order.status.backgroundColor)
                         .cornerRadius(5)
                 }
                 .padding(.bottom, 10)
@@ -151,11 +151,11 @@ private struct OrderCard: View {
                             fontColor: AppColors.grey1
                         )
 
-                        Text(order.trackingID)
+                        Text(String(order.id))
                             .font(.custom("Livvic-SemiBold", size: 13))
                             .foregroundColor(AppColors.textBlack1)
 
-                        if let time = order.estimatedTime {
+                      
                             HStack(spacing: 4) {
                                 ReusableText(
                                     title: "estimated_time_label",
@@ -163,11 +163,10 @@ private struct OrderCard: View {
                                     fontName: "Livvic-Regular",
                                     fontColor: AppColors.grey1
                                 )
-                                Text(time)
+                                Text("15")
                                     .font(.custom("Livvic-SemiBold", size: 12))
                                     .foregroundColor(AppColors.colorYellow)
                             }
-                        }
                     }
 
                     Spacer()
@@ -180,7 +179,7 @@ private struct OrderCard: View {
                             fontColor: AppColors.grey1
                         )
 
-                        Text(order.driver)
+                        Text("Driver")
                             .font(.custom("Livvic-SemiBold", size: 13))
                             .foregroundColor(AppColors.textBlack1)
                     }

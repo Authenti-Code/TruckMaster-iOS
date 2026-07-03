@@ -263,7 +263,10 @@ final class AppContainer {
     }
     
     func makeDeleteAccountView() -> some View {
+        let repository = DeleteAccountRepositoryImpl(apiClient: apiClient)
+        let useCase    = DeleteAccountUseCase(repository: repository)
         let viewModel = DeleteAccountViewModel(
+            deleteAccountUseCase: useCase,
             router: router
         )
 

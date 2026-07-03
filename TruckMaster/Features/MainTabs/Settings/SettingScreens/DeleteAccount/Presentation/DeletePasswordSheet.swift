@@ -36,18 +36,15 @@ struct DeletePasswordSheet: View {
                 title: "delete_account_title",
                 isEnabled: viewModel.state.isDeleteEnabled
             ) {
-                viewModel.deleteAccountTapped()
+                Task{
+                    await viewModel.deleteAccountTapped()
+                }
             }
             .padding(.bottom, 10)
         }
         .padding(.horizontal, 20)
         .padding(.top, 20)
         .frame(maxWidth: .infinity, alignment: .leading)
-//        .overlay {
-//            if viewModel.state.isLoading {
-//                Color.black.opacity(0.3).ignoresSafeArea()
-//                ProgressView().tint(.white).scaleEffect(1.5)
-//            }
-//        }
+       
     }
 }

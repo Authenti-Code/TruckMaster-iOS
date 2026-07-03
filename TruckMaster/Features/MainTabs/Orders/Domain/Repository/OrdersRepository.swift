@@ -8,5 +8,5 @@
 import Foundation
 
 protocol OrdersRepository {
-    func getOrders(page: Int) async throws -> [OrderModel]
+    func getOrders(request: OrderListRequest) async throws -> [OrderResponse]
 }

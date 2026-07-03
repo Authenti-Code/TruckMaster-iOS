@@ -95,6 +95,17 @@ struct DeleteAccountView: View {
             .padding(.bottom, 20)
         }
         .navigationBarHidden(true)
+        .snackbar(
+            isShowing: viewModel.binding(for: \.state.showSnackbar),
+            message: viewModel.state.snackbarMessage,
+            type: viewModel.state.snackbarType
+        )
+        .overlay {
+            if viewModel.state.isLoading {
+                Color.black.opacity(0.3).ignoresSafeArea(edges: .vertical)
+                ProgressView().tint(.white).scaleEffect(1.5)
+            }
+        }
         .sheet(isPresented: viewModel.binding(for: \.state.showPasswordSheet)) {
             if #available(iOS 16.4, *) {
                 DeletePasswordSheet(viewModel: viewModel)

@@ -25,10 +25,12 @@ enum EndPoints {
     case addAddress
     case updateAddress
     case profile
+    case deleteAccount
     
     //shimpent
     case category
     case createOrder
+    case getOrders
 
     var path: String {
 
@@ -80,6 +82,9 @@ enum EndPoints {
             
         case .changePassword:
             return "/profile/update/password"
+        
+        case .deleteAccount:
+            return "/account/delete"
             
             
         
@@ -89,8 +94,12 @@ enum EndPoints {
        
         case .category:
             return "/category"
+            
         case .createOrder:
             return "/order/create"
+            
+        case .getOrders:
+            return "/orders"
         }
     }
 

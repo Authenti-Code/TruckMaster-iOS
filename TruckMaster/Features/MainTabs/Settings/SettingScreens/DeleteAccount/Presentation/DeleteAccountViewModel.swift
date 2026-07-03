@@ -14,9 +14,11 @@ final class DeleteAccountViewModel: ObservableObject {
 
     @Published var state = DeleteAccountState()
 
+    private let deleteAccountUseCase: DeleteAccountUseCase
     private let router: AppRouter
 
-    init(router: AppRouter) {
+    init(deleteAccountUseCase: DeleteAccountUseCase, router: AppRouter) {
+        self.deleteAccountUseCase = deleteAccountUseCase
         self.router = router
 
         state.reasons = [
@@ -36,8 +38,41 @@ final class DeleteAccountViewModel: ObservableObject {
         state.showPasswordSheet = true
     }
 
-    func deleteAccountTapped() {
-        // API call
+    func deleteAccountTapped() async{
+        state.showPasswordSheet = false
+        state.isLoading = true
+        defer { state.isLoading = false }
+        
+        let request = DeleteAccountRequestModel(
+            password:   state.password,
+            reason: "\(String(describing: state.selectedReason?.title))"
+        )
+        do {
+            let message = try await deleteAccountUseCase.execute(request: request)
+            triggerSuccess(message)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                UserPreferences.shared.clearUser()
+                self.router.navigateToRoot()
+                self.router.navigate(to: .signIn)
+            }
+            
+        }
+        catch{
+            triggerError(error.localizedDescription)
+        }
+    
+    }
+    
+    private func triggerError(_ message: String) {
+        state.snackbarMessage = message
+        state.snackbarType    = .error
+        state.showSnackbar    = true
+    }
+
+    private func triggerSuccess(_ message: String) {
+        state.snackbarMessage = message
+        state.snackbarType    = .success
+        state.showSnackbar    = true
     }
 
     func backTapped() {
