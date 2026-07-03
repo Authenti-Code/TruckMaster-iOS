@@ -35,3 +35,38 @@ struct ReviewBookingState {
     var snackbarMessage: String = ""
     var snackbarType: SnackbarType = .error
 }
+
+extension CategorySummary {
+    static let dummyList: [CategorySummary] = [
+        CategorySummary(
+            id: 1,
+            name: "Furniture",
+            image: "https://picsum.photos/id/1060/200/200",
+            totalItems: 5
+        ),
+        CategorySummary(
+            id: 2,
+            name: "Electronics",
+            image: "https://picsum.photos/id/1080/200/200",
+            totalItems: 3
+        ),
+        CategorySummary(
+            id: 3,
+            name: "Appliances",
+            image: "https://picsum.photos/id/1084/200/200",
+            totalItems: 2
+        ),
+        CategorySummary(
+            id: 4,
+            name: "Boxes & Cartons",
+            image: "https://picsum.photos/id/1050/200/200",
+            totalItems: 8
+        ),
+        CategorySummary(
+            id: 5,
+            name: "Fragile Items",
+            image: "https://picsum.photos/id/1025/200/200",
+            totalItems: 1
+        )
+    ]
+}

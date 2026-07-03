@@ -30,11 +30,17 @@ final class EnRouteViewModel: ObservableObject {
 
     func tabChanged(_ tab: EnRouteTab) {
         state.selectedTab = tab
+        
     }
 
     func orderTapped(_ order: ShipmentModel) {
-        // router.navigate(to: .orderDetail) — wire when ready
-        router.navigate(to: .mapTrack)
+        
+        if state.selectedTab == .delivered {
+            router.navigate(to: .deliveredDetail)
+        }
+        else {
+            router.navigate(to: .mapTrack)
+        }
     }
 
     private func loadOrders() async {

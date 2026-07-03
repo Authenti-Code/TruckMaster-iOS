@@ -401,6 +401,14 @@ final class AppContainer {
     }
     
     
+    func makeDeliveredDetailView() -> some View {
+        let viewModel = DeliveredDetailViewModel(
+            router: router
+        )
+        return DeliveredDetailView(viewModel: viewModel)
+    }
+    
+    
     private func cachedViewModel<T: AnyObject>(
          key: String,
          create: () -> T

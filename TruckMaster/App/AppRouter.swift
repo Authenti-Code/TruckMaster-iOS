@@ -39,6 +39,7 @@ enum Route: Hashable {
     case enRoute
     case giveFeedback
     case mapTrack
+    case deliveredDetail
 }
 
 
@@ -167,16 +168,24 @@ struct RootView: View {
                         
                     case .reviewBooking:
                         container.makeReviewBookingView()
+                        
                     case .searchCompany:
                         container.makePickupLocationView()
+                        
                     case .orderDetails:
                         container.makeOrderDetailView()
+                        
                     case .enRoute:
                         container.makeEnRouteView()
+                        
                     case .giveFeedback:
                         container.makeFeedbackView()
+                        
                     case .mapTrack:
                         container.makeMapTrackView()
+                        
+                    case .deliveredDetail:
+                        container.makeDeliveredDetailView()
                     }
                 }
         }
