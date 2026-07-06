@@ -36,15 +36,25 @@ struct SettingsView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 20)
                     .padding(.bottom, 16)
-
+                    
+                    
+                 
+                    
                     // MARK: - Profile Card
                     if let user = viewModel.state.user {
+                        
+                        
                         CardContainer(
                             cornerRadius: 16,
                             backgroundColor: AppColors.grey3
                         ) {
+                      
+                                  
                             HStack(spacing: 12) {
+                       
+                                
                                 if let profileImage = user.profileImage, !profileImage.isEmpty {
+                                    
                                     AsyncImage(url: URL(string: profileImage)) { image in
                                         image
                                             .resizable()
@@ -57,6 +67,7 @@ struct SettingsView: View {
                                     }
                                     .frame(width: 50, height: 50)
                                     .clipShape(Circle())
+                              
                                 } else {
                                     Image(ImageConstants.user)
                                         .resizable()

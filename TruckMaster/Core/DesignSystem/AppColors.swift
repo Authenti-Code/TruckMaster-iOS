@@ -47,6 +47,7 @@ enum AppColors {
     //blueVarients varient
     static let colorBlue = Color("colorBlue")
     static let colorBlue1 = Color("colorBlue1")
+    static let colorBlue2 = Color("colorBlue2")
     
     //yellowVarients varient
     static let colorYellow = Color("colorYellow")

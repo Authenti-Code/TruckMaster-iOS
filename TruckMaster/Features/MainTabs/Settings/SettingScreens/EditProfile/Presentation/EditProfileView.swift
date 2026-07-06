@@ -188,6 +188,7 @@ struct EditProfileView: View {
             }
             .ignoresSafeArea()
         }
+        .dismissKeyboardOnTap()
     }
 }
 

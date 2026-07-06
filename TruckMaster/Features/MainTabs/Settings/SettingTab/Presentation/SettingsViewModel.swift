@@ -75,6 +75,7 @@ final class SettingsViewModel: ObservableObject {
 //            triggerError(error.localizedDescription)
 //        }
     }
+    
 
     // MARK: - Private
     private func loadProfile() async {

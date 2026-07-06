@@ -47,6 +47,8 @@ enum ImageConstants {
     static let startEmpty = "ic_star_empty"
     static let calling = "ic_calling"
     static let line1 = "line1"
+    static let date = "ic_date"
+    static let time = "ic_time"
     
     //Home icons
     static let homeUnSelected = "ic_home_unselected"

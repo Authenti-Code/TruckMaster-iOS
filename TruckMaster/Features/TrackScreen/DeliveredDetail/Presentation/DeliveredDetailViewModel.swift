@@ -37,6 +37,10 @@ final class DeliveredDetailViewModel: ObservableObject {
     func backTapped() {
         router.navigateBack()
     }
+    
+    func priceBreakUpTapped() {
+        state.isPriceDetailVisible.toggle()
+    }
 
 
     private func loadData() async {
