@@ -68,7 +68,7 @@ final class ChangePasswordViewModel: ObservableObject {
         do {
             _ = try await changePasswordUseCase.execute(request: request)
             triggerSuccess("Password updated successfully")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.router.navigateBack()
             }
         } catch {

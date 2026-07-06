@@ -31,7 +31,7 @@ struct StartShipmentView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 16)
             
-            HStack(spacing: 10) {
+            HStack(spacing: 5) {
                 
                 VStack(spacing: 0){
                     Image(ImageConstants.greenDot)
@@ -48,7 +48,7 @@ struct StartShipmentView: View {
                 VStack(spacing: 16){
                 // Pickup
                     if viewModel.state.isLoading {
-                        HStack(alignment: .top, spacing: 12) {
+                        HStack(alignment: .top, spacing: 5) {
                             VStack(alignment: .leading, spacing: 6) {
                                 RoundedRectangle(cornerRadius: 4)
                                     .fill(AppColors.grey2)
@@ -111,7 +111,7 @@ struct StartShipmentView: View {
                 
                 // Drop location
                 Button { viewModel.dropLocationTapped() } label: {
-                    HStack(spacing: 12) {
+                    HStack(spacing: 5) {
                         
                         Text(viewModel.state.dropAddress.isEmpty
                                                ? "drop_location_placeholder"

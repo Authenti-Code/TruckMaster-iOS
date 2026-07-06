@@ -44,14 +44,14 @@ struct SheduleSheet: View {
                 if viewModel.state.sheduleBooking {
                     HStack(spacing: 12) {
                         DateField(
-                            placeholder: "Date",
+                            placeholder: "date_title",
                             iconSystemName: "calendar",
                             date: viewModel.binding(for: \.state.selectedDate),
                             displayedComponents: .date
                         )
 
                         DateField(
-                            placeholder: "Time",
+                            placeholder: "time_title",
                             iconSystemName: "clock",
                             date: viewModel.binding(for: \.state.selectedTime),
                             displayedComponents: .hourAndMinute
@@ -65,6 +65,11 @@ struct SheduleSheet: View {
             }
             .padding(.vertical, 10)
         }
+        .snackbar(
+            isShowing: viewModel.binding(for: \.state.showSnackbar),
+            message: viewModel.state.snackbarMessage,
+            type: viewModel.state.snackbarType
+        )
         .padding(.horizontal, 20)
         .padding(.top, 20)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -74,7 +79,7 @@ struct SheduleSheet: View {
 }
 
 private struct DateField: View {
-    let placeholder: String
+    let placeholder: LocalizedStringKey
     let iconSystemName: String
     @Binding var date: Date
     let displayedComponents: DatePickerComponents
@@ -87,9 +92,8 @@ private struct DateField: View {
             showPicker = true
         } label: {
             HStack {
-                Text(hasSelected ? formattedValue : placeholder)
-                    .font(.custom("Livvic-Regular", size: 14))
-                    .foregroundColor(hasSelected ? AppColors.textBlack1 : .gray)
+
+                ReusableText(title: placeholder, fontSize: 14, fontName: "Livvic-Regular", fontColor: hasSelected ? AppColors.textBlack1 : .gray)
 
                 Spacer()
 

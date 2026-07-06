@@ -7,6 +7,7 @@
 
 struct SettingsState {
     var profile:        UserModel?      = nil
+    var profileData:      ProfileResponse? = nil
     var isLoading:      Bool            = false
     var showSnackbar:   Bool            = false
     var snackbarMessage: String         = ""

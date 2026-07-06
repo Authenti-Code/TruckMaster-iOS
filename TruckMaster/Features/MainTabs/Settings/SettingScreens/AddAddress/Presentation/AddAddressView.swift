@@ -90,6 +90,7 @@ struct AddAddressView: View {
             }
         }
         .onAppear { viewModel.onAppear() }
+        .dismissKeyboardOnTap()
     }
 }
 

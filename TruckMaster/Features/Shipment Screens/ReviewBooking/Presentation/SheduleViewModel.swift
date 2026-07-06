@@ -44,7 +44,21 @@ final class SheduleViewModel: ObservableObject {
         state.sheduleBooking = true
     }
 
+    private func triggerError(_ message: String) {
+        state.snackbarMessage = message
+        state.snackbarType    = .error
+        state.showSnackbar    = true
+    }
+
+    private func triggerSuccess(_ message: String) {
+        state.snackbarMessage = message
+        state.snackbarType    = .success
+        state.showSnackbar    = true
+    }
+    
     func continueTapped() {
+
+        guard validateSchedule() else { return }
 
         draft.scheduleType = state.instantBooking ? "instant" : "scheduled"
         draft.scheduledAt = state.sheduleBooking
@@ -52,21 +66,40 @@ final class SheduleViewModel: ObservableObject {
             : nil
 
         guard let request = draft.buildRequest() else {
-            print("Invalid shipment draft")
+            triggerError("Something went wrong. Please try again.")
             return
         }
 
         Task {
             do {
                 try await createOrderUseCase.execute(request: request)
-                print("Order created successfully")
                 router.navigate(to: .searchCompany)
             } catch {
-                print(error.localizedDescription)
+                triggerError(error.localizedDescription)
             }
         }
     }
 
+    // MARK: - Private
+
+    private func validateSchedule() -> Bool {
+        guard state.instantBooking || state.sheduleBooking else {
+            triggerError("Please select instant or scheduled booking")
+            return false
+        }
+
+        if state.sheduleBooking {
+            let scheduledDateTime = combinedDateTime()
+            guard scheduledDateTime > Date() else {
+                triggerError("Please select a valid future date and time")
+                return false
+            }
+        }
+
+        return true
+    }
+    
+    
     // MARK: - Private
 
     private func combinedDateTime() -> Date {

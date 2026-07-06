@@ -55,7 +55,7 @@ struct ExtrasRequest: Encodable {
     var urgent: Bool = false
     var zipHandler: Bool = false
     var elevator: Bool = false
-    var additionalInfo: String? = nil
+    var additionalInfo: String = ""
 
     enum CodingKeys: String, CodingKey {
         case helpers

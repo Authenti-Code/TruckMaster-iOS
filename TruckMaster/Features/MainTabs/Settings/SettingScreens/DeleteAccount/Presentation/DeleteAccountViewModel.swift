@@ -50,7 +50,7 @@ final class DeleteAccountViewModel: ObservableObject {
         do {
             let message = try await deleteAccountUseCase.execute(request: request)
             triggerSuccess(message)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 UserPreferences.shared.clearUser()
                 self.router.navigateToRoot()
                 self.router.navigate(to: .signIn)

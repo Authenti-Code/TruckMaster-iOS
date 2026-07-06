@@ -10,4 +10,5 @@ import Foundation
 protocol SettingsRepository {
     func getUserProfile() async throws -> UserModel?
     func logout(request: LogoutRequestModel) async throws -> String?
+    func getUserProfileApi() async throws -> ProfileResponse
 }

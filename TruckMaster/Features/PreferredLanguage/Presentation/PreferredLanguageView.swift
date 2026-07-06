@@ -43,7 +43,7 @@ struct PreferredLanguageView: View {
 
                 Spacer()
 
-                PrimaryButton(title: "continue_title") {
+                PrimaryButton(title: "continue_title", isEnabled: !viewModel.selectedLanguage.isEmpty) {
                     viewModel.continueTapped()
                 }
             }

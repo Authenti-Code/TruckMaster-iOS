@@ -80,10 +80,9 @@ struct ReviewBookingView: View {
 
                     // Address
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Address")
-                            .font(.custom("Livvic-SemiBold", size: 16))
-                            .foregroundColor(AppColors.textBlack1)
-
+                        
+                        ReusableText(title: "address_title", fontSize: 16, fontName: "Livvic-SemiBold", fontColor: AppColors.textBlack1)
+                            
                         VStack(alignment: .leading, spacing: 16) {
                             HStack(alignment: .top, spacing: 10) {
                                 VStack(spacing: 0) {
@@ -92,9 +91,9 @@ struct ReviewBookingView: View {
                                     Rectangle().fill(Color.gray.opacity(0.3)).frame(width: 1).frame(maxHeight: .infinity)
                                 }
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text("From")
-                                        .font(.custom("Livvic-Medium", size: 14))
-                                        .foregroundColor(AppColors.grey1)
+                                   
+                                    ReusableText(title: "from_title", fontSize: 14, fontName: "Livvic-Medium", fontColor: AppColors.grey1)
+                                    
                                     Text(viewModel.state.pickupAddress)
                                         .font(.custom("Livvic-Medium", size: 14))
                                         .foregroundColor(AppColors.textBlack1)
@@ -105,9 +104,9 @@ struct ReviewBookingView: View {
                                 Circle().fill(Color.red).frame(width: 8, height: 8)
                                     .padding(.top, 12)
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text("Shipping to")
-                                        .font(.custom("Livvic-Regular", size: 13))
-                                        .foregroundColor(AppColors.grey1)
+                                    
+                                     ReusableText(title: "shipping_to_label", fontSize: 14, fontName: "Livvic-Medium", fontColor: AppColors.grey1)
+                                    
                                     Text(viewModel.state.dropAddress)
                                         .font(.custom("Livvic-Medium", size: 14))
                                         .foregroundColor(AppColors.textBlack1)
@@ -126,9 +125,8 @@ struct ReviewBookingView: View {
 
                     // Extras
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Extras")
-                            .font(.custom("Livvic-SemiBold", size: 15))
-                            .foregroundColor(AppColors.textBlack1)
+                        
+                         ReusableText(title: "extras_title", fontSize: 15, fontName: "Livvic-SemiBold", fontColor: AppColors.textBlack1)
 
                         VStack(alignment: .leading, spacing: 8) {
                             ForEach(viewModel.state.extrasLines, id: \.self) { line in
@@ -149,9 +147,8 @@ struct ReviewBookingView: View {
 
                     // Terms
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Read before booking")
-                            .font(.custom("Livvic-SemiBold", size: 15))
-                            .foregroundColor(AppColors.textBlack1)
+                        
+                         ReusableText(title: "read_before_booking_title", fontSize: 15, fontName: "Livvic-SemiBold", fontColor: AppColors.textBlack1)
 
                         VStack(alignment: .leading, spacing: 8) {
                             ForEach(viewModel.state.termsLines, id: \.self) { line in

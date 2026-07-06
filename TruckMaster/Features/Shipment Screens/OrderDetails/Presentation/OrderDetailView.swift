@@ -70,9 +70,8 @@ struct OrderDetailView: View {
 
                         // Address
                         VStack(alignment: .leading, spacing: 10) {
-                            Text("Address")
-                                .font(.custom("Livvic-SemiBold", size: 16))
-                                .foregroundColor(AppColors.textBlack1)
+                            
+                            ReusableText(title: "address_title", fontSize: 16, fontName: "Livvic-SemiBold", fontColor: AppColors.textBlack1)
 
                             VStack(alignment: .leading, spacing: 16) {
                                 HStack(alignment: .top, spacing: 10) {
@@ -82,9 +81,9 @@ struct OrderDetailView: View {
                                         Rectangle().fill(Color.gray.opacity(0.3)).frame(width: 1).frame(maxHeight: .infinity)
                                     }
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text("From")
-                                            .font(.custom("Livvic-Medium", size: 14))
-                                            .foregroundColor(AppColors.grey1)
+                                        
+                                         ReusableText(title: "from_title", fontSize: 14, fontName: "Livvic-Medium", fontColor: AppColors.grey1)
+                                        
                                         Text(order.pickupAddress.address)
                                             .font(.custom("Livvic-Medium", size: 14))
                                             .foregroundColor(AppColors.textBlack1)
@@ -95,9 +94,9 @@ struct OrderDetailView: View {
                                     Circle().fill(Color.red).frame(width: 8, height: 8)
                                         .padding(.top, 12)
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text("Shipping to")
-                                            .font(.custom("Livvic-Regular", size: 13))
-                                            .foregroundColor(AppColors.grey1)
+                                        
+                                         ReusableText(title: "shipping_to_label", fontSize: 14, fontName: "Livvic-Medium", fontColor: AppColors.grey1)
+                                        
                                         Text(order.dropAddress.address)
                                             .font(.custom("Livvic-Medium", size: 14))
                                             .foregroundColor(AppColors.textBlack1)
@@ -116,9 +115,8 @@ struct OrderDetailView: View {
 
                         // Extras
                         VStack(alignment: .leading, spacing: 10) {
-                            Text("Extras")
-                                .font(.custom("Livvic-SemiBold", size: 15))
-                                .foregroundColor(AppColors.textBlack1)
+                            
+                            ReusableText(title: "extras_title", fontSize: 15, fontName: "Livvic-SemiBold", fontColor: AppColors.textBlack1)
 
                             VStack(alignment: .leading, spacing: 8) {
                                 let extras = order.extras
@@ -145,9 +143,10 @@ struct OrderDetailView: View {
 
                         // Company Offer
                         if let offer = order.companyOffer {
-                            Text("Company Offers")
-                                .font(.custom("Livvic-SemiBold", size: 16))
-                                .foregroundColor(AppColors.textBlack1)
+                    
+                            
+                            ReusableText(title: "company_offers_title", fontSize: 15, fontName: "Livvic-SemiBold", fontColor: AppColors.textBlack1)
+                            
                             VStack(alignment: .leading, spacing: 12){
                               
                                 
@@ -242,9 +241,10 @@ struct OrderDetailView: View {
             HStack(spacing: 12) {
                 Button { viewModel.rejectTapped() } label: {
                     HStack(spacing: 6) {
+                        
                         Image(systemName: "xmark")
-                        Text("Reject")
-                            .font(.custom("Livvic-SemiBold", size: 16))
+                    
+                        ReusableText(title: "reject_title", fontSize: 16, fontName: "Livvic-SemiBold", fontColor: .white)
                     }
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -256,8 +256,7 @@ struct OrderDetailView: View {
                 Button { viewModel.acceptTapped() } label: {
                     HStack(spacing: 6) {
                         Image(systemName: "checkmark")
-                        Text("Accept")
-                            .font(.custom("Livvic-SemiBold", size: 16))
+                        ReusableText(title: "accept_title", fontSize: 16, fontName: "Livvic-SemiBold", fontColor: .white)
                     }
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)

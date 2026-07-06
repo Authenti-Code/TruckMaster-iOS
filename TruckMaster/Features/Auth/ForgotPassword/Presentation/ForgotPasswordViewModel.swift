@@ -50,7 +50,7 @@ final class ForgotPasswordViewModel: ObservableObject {
         do {
             let (data, message) = try await forgotPasswordUseCase.execute(request: request)
             triggerSuccess(message)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.router.navigate(to: .verifyCode(resetToken: data.resetToken))
             }
         } catch {

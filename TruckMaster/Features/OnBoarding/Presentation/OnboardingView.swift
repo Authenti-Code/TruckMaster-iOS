@@ -6,16 +6,13 @@
 //
 
 internal import SwiftUI
-
 @available(iOS 16.0, *)
 struct OnboardingView: View {
 
     @StateObject private var viewModel: OnboardingViewModel
 
     init(viewModel: OnboardingViewModel) {
-        _viewModel = StateObject(
-            wrappedValue: viewModel
-        )
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {
@@ -24,6 +21,7 @@ struct OnboardingView: View {
             Image(ImageConstants.onboardingImage)
                 .resizable()
                 .scaledToFill()
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 .ignoresSafeArea()
 
             // Gradient at bottom only
@@ -39,7 +37,7 @@ struct OnboardingView: View {
             }
             .ignoresSafeArea()
 
-            // Main Content
+            // Main Content — NOT ignoring safe area, matches PreferredLanguageView
             VStack(alignment: .leading) {
 
                 // Title
@@ -52,8 +50,7 @@ struct OnboardingView: View {
                         .font(.custom("Magra-Bold", size: 38))
                         .foregroundColor(AppColors.secondary)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 60)
+                .padding(.top, 30)
 
                 Spacer()
 
@@ -68,11 +65,9 @@ struct OnboardingView: View {
                         viewModel.nextTapped()
                     }
                 }
-                .padding(.horizontal, 20)
-                
-                .padding(.bottom, 34)
             }
-            .ignoresSafeArea(edges: .top)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 40)
         }
         .navigationBarHidden(true)
         .onAppear {

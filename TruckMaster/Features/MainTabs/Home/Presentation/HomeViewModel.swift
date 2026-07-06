@@ -32,6 +32,7 @@ final class HomeViewModel: ObservableObject {
 
     // MARK: - Lifecycle
     func onAppear() {
+        draft.reset()
         loadUserInfo()
         Task { await loadShipments(isRefresh: false) }
     }

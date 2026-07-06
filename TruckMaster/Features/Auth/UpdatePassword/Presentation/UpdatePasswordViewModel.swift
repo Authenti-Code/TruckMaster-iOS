@@ -67,7 +67,7 @@ final class UpdatePasswordViewModel: ObservableObject {
         do {
             let message = try await updatePasswordUseCase.execute(request: request)
             triggerSuccess(message)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.router.navigateToRoot()
                 self.router.navigate(to: .signIn)
             }

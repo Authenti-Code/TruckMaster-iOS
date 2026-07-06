@@ -48,11 +48,7 @@ struct SettingsView: View {
                             cornerRadius: 16,
                             backgroundColor: AppColors.grey3
                         ) {
-                      
-                                  
                             HStack(spacing: 12) {
-                       
-                                
                                 if let profileImage = user.profileImage, !profileImage.isEmpty {
                                     
                                     AsyncImage(url: URL(string: profileImage)) { image in

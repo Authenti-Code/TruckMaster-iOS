@@ -36,19 +36,20 @@ struct ExtrasView: View {
                     )
 
                     // Multi-select toggles
-                    ExtraToggleRow(title: "Fragile Handling", isSelected: viewModel.state.fragileHandling) {
+                    
+                    ExtraToggleRow(title: "fragile_handling_title", isSelected: viewModel.state.fragileHandling) {
                         viewModel.fragileHandlingTapped()
                     }
 
-                    ExtraToggleRow(title: "Stairs Carry", isSelected: viewModel.state.stairsCarry) {
+                    ExtraToggleRow(title: "stairs_carry_title", isSelected: viewModel.state.stairsCarry) {
                         viewModel.stairsCarryTapped()
                     }
 
-                    ExtraToggleRow(title: "Urgent", isSelected: viewModel.state.urgent) {
+                    ExtraToggleRow(title: "urgent_title", isSelected: viewModel.state.urgent) {
                         viewModel.urgentTapped()
                     }
 
-                    ExtraToggleRow(title: "Zip Handler", isSelected: viewModel.state.zipHandler) {
+                    ExtraToggleRow(title: "zip_handler_title", isSelected: viewModel.state.zipHandler) {
                         viewModel.zipHandlerTapped()
                     }
 
@@ -60,9 +61,8 @@ struct ExtrasView: View {
 
                     // Additional info
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Additional info")
-                            .font(.custom("Livvic-Medium", size: 14))
-                            .foregroundColor(AppColors.textBlack1)
+                        
+                        ReusableText(title: "addition_info_title", fontSize: 14, fontName: "Livvic-Medium", fontColor: AppColors.textBlack1)
 
                         TextEditor(text: viewModel.binding(for: \.state.additionalInfo))
                             .font(.custom("Livvic-Regular", size: 14))
@@ -76,9 +76,7 @@ struct ExtrasView: View {
                             )
                             .overlay(alignment: .topLeading) {
                                 if viewModel.state.additionalInfo.isEmpty {
-                                    Text("Type here...")
-                                        .font(.custom("Livvic-Regular", size: 14))
-                                        .foregroundColor(AppColors.grey1)
+                                    ReusableText(title: "type_here_text", fontSize: 14, fontName: "Livvic-Regular", fontColor: AppColors.grey1)
                                         .padding(.horizontal, 13)
                                         .padding(.vertical, 16)
                                         .allowsHitTesting(false)
@@ -116,10 +114,9 @@ private struct HelperCounterRow: View {
 
     var body: some View {
         HStack {
-            Text("Helper")
-                .font(.custom("Livvic-Medium", size: 15))
-                .foregroundColor(AppColors.textBlack1)
-
+            
+            ReusableText(title: "helper_text", fontSize: 15, fontName: "Livvic-Medium", fontColor: AppColors.textBlack1)
+            
             Spacer()
 
             HStack(spacing: 16) {
@@ -149,16 +146,15 @@ private struct HelperCounterRow: View {
 
 @available(iOS 16.0, *)
 private struct ExtraToggleRow: View {
-    let title: String
+    let title: LocalizedStringKey
     let isSelected: Bool
     let onTap: () -> Void
 
     var body: some View {
         Button { onTap() } label: {
             HStack {
-                Text(title)
-                    .font(.custom("Livvic-Medium", size: 15))
-                    .foregroundColor(AppColors.textBlack1)
+       
+                ReusableText(title: title, fontSize: 15, fontName: "Livvic-Medium", fontColor: AppColors.textBlack1)
 
                 Spacer()
             }
@@ -181,14 +177,12 @@ private struct ElevatorRow: View {
 
     var body: some View {
         HStack {
-            Text("Elevator")
-                .font(.custom("Livvic-Medium", size: 15))
-                .foregroundColor(AppColors.textBlack1)
+            ReusableText(title: "elevator_title", fontSize: 15, fontName: "Livvic-Medium", fontColor: AppColors.textBlack1)
 
             Spacer()
 
-            RadioOption(label: "Yes", isSelected: isYes) { onChange(true) }
-            RadioOption(label: "No", isSelected: !isYes) { onChange(false) }
+            RadioOption(label: "yes_title", isSelected: isYes) { onChange(true) }
+            RadioOption(label: "no_title", isSelected: !isYes) { onChange(false) }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
@@ -202,7 +196,7 @@ private struct ElevatorRow: View {
 }
 
 private struct RadioOption: View {
-    let label: String
+    let label: LocalizedStringKey
     let isSelected: Bool
     let onTap: () -> Void
 
@@ -220,10 +214,9 @@ private struct RadioOption: View {
                             .frame(width: 10, height: 10)
                     }
                 }
-
-                Text(label)
-                    .font(.custom("Livvic-Regular", size: 14))
-                    .foregroundColor(AppColors.textBlack1)
+                
+                ReusableText(title: label, fontSize: 14, fontName: "Livvic-Regular", fontColor: AppColors.textBlack1)
+                
             }
             .padding(.trailing, 12)
         }

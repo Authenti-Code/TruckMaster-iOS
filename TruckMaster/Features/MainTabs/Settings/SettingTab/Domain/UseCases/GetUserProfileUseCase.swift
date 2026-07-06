@@ -24,4 +24,8 @@ final class GetUserProfileUseCase {
     func logoutExecute(request: LogoutRequestModel) async throws -> String {
         return try await repository.logout(request: request) ?? ""
     }
+    
+    func executeGetProfile() async throws -> ProfileResponse {
+        try await repository.getUserProfileApi()
+    }
 }

@@ -69,10 +69,9 @@ final class ExtrasViewModel: ObservableObject {
             urgent: state.urgent,
             zipHandler: state.zipHandler,
             elevator: state.elevator,
-            additionalInfo: {
-                let value = state.additionalInfo.trimmingCharacters(in: .whitespacesAndNewlines)
-                return value.isEmpty ? nil : value
-            }()
+            additionalInfo: (state.additionalInfo)
+                  .trimmingCharacters(in: .whitespacesAndNewlines)
+            
         )
         
         print("Address payload : \(draft)")

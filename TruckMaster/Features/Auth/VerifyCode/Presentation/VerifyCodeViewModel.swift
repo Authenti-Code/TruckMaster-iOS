@@ -79,7 +79,7 @@ final class VerifyCodeViewModel: ObservableObject {
         do {
             let message = try await verifyCodeUseCase.execute(request: request)
             triggerSuccess(message)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.router.navigate(to: .updatePassword(resetToken: self.state.resetToken))
             }
         } catch {
