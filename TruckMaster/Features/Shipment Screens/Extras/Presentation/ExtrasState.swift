@@ -12,7 +12,7 @@ struct ExtrasState {
     var urgent: Bool = false
     var zipHandler: Bool = false
     var elevator: Bool = false
-    var additionalInfo: String = ""
+    var additionalInfo: String? = nil
 
     var showSnackbar: Bool = false
     var snackbarMessage: String = ""

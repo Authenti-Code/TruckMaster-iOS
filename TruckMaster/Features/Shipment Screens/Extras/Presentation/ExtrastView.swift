@@ -64,7 +64,16 @@ struct ExtrasView: View {
                         
                         ReusableText(title: "addition_info_title", fontSize: 14, fontName: "Livvic-Medium", fontColor: AppColors.textBlack1)
 
-                        TextEditor(text: viewModel.binding(for: \.state.additionalInfo))
+                        TextEditor(
+                            text: Binding(
+                                get: {
+                                    viewModel.state.additionalInfo ?? ""
+                                },
+                                set: {
+                                    viewModel.state.additionalInfo = $0
+                                }
+                            )
+                        )
                             .font(.custom("Livvic-Regular", size: 14))
                             .frame(height: 120)
                             .padding(8)
@@ -75,7 +84,7 @@ struct ExtrasView: View {
                                     .stroke(Color.gray.opacity(0.15), lineWidth: 1)
                             )
                             .overlay(alignment: .topLeading) {
-                                if viewModel.state.additionalInfo.isEmpty {
+                                if viewModel.state.additionalInfo?.isEmpty ?? true {
                                     ReusableText(title: "type_here_text", fontSize: 14, fontName: "Livvic-Regular", fontColor: AppColors.grey1)
                                         .padding(.horizontal, 13)
                                         .padding(.vertical, 16)

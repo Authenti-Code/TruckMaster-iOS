@@ -48,6 +48,7 @@ struct ItemRequest: Encodable {
     }
 }
 
+
 struct ExtrasRequest: Encodable {
     var helpers: Int = 0
     var fragileHandling: Bool = false
@@ -55,7 +56,7 @@ struct ExtrasRequest: Encodable {
     var urgent: Bool = false
     var zipHandler: Bool = false
     var elevator: Bool = false
-    var additionalInfo: String = ""
+    var additionalInfo: String? = nil
 
     enum CodingKeys: String, CodingKey {
         case helpers
@@ -65,6 +66,18 @@ struct ExtrasRequest: Encodable {
         case zipHandler = "zip_handler"
         case elevator
         case additionalInfo = "additional_info"
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(helpers, forKey: .helpers)
+        try container.encode(fragileHandling, forKey: .fragileHandling)
+        try container.encode(stairsCarry, forKey: .stairsCarry)
+        try container.encode(urgent, forKey: .urgent)
+        try container.encode(zipHandler, forKey: .zipHandler)
+        try container.encode(elevator, forKey: .elevator)
+        try container.encode(additionalInfo, forKey: .additionalInfo)
     }
 }
 

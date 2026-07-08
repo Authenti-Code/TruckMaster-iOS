@@ -109,8 +109,9 @@ final class ReviewBookingViewModel: ObservableObject {
         if draft.extras.urgent          { lines.append("Urgent") }
         if draft.extras.zipHandler      { lines.append("Zip Handler") }
         lines.append(draft.extras.elevator ? "Elevator: Yes" : "Elevator: No")
-        if !draft.extras.additionalInfo.isEmpty {
-            lines.append(draft.extras.additionalInfo)
+        if let additionalInfo = draft.extras.additionalInfo,
+           !additionalInfo.isEmpty {
+            lines.append(additionalInfo)
         }
         state.extrasLines = lines
     }

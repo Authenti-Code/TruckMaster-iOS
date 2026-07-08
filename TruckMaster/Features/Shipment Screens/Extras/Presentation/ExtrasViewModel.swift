@@ -69,8 +69,11 @@ final class ExtrasViewModel: ObservableObject {
             urgent: state.urgent,
             zipHandler: state.zipHandler,
             elevator: state.elevator,
-            additionalInfo: (state.additionalInfo)
-                  .trimmingCharacters(in: .whitespacesAndNewlines)
+            additionalInfo: {
+                let trimmed = state.additionalInfo?
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                return trimmed?.isEmpty == true ? nil : trimmed
+            }()
             
         )
         
