@@ -48,7 +48,6 @@ final class SizesViewModel: ObservableObject {
     func displayValue(forCm cmString: String) -> String {
         guard let cm = Double(cmString), cm > 0 else { return "" }
         switch state.selectedUnit {
-        case .cm:   return String(format: "%.1f", cm)
         case .m:    return String(format: "%.2f", cm / 100)
         case .inch: return String(format: "%.1f", cm / 2.54)
         }
@@ -58,7 +57,6 @@ final class SizesViewModel: ObservableObject {
     private func convertToCm(_ input: String) -> String {
         guard let value = Double(input) else { return "" }
         switch state.selectedUnit {
-        case .cm:   return String(value)
         case .m:    return String(value * 100)
         case .inch: return String(value * 2.54)
         }
@@ -101,6 +99,14 @@ final class SizesViewModel: ObservableObject {
         state.applySameDimensions = isOn
         if isOn {
             applyFirstDimensionToAll()
+        } else {
+            clearAllDimensions()
+        }
+    }
+
+    private func clearAllDimensions() {
+        for index in state.dimensions.indices {
+            state.dimensions[index] = SizeDimension()
         }
     }
 

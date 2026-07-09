@@ -13,6 +13,8 @@ struct SizesSheet: View {
     @ObservedObject var viewModel: SizesViewModel
     @Environment(\.dismiss) private var dismiss
     var body: some View {
+        
+        //menu popup
         VStack(alignment: .leading) {
             HStack {
                 ReusableText(title: "dimensions_title", fontSize: 16, fontName: "Livvic-SemiBold", fontColor: AppColors.textBlack1)
@@ -41,6 +43,7 @@ struct SizesSheet: View {
                 }
             }
             
+            //sizes options
             ScrollView {
                 VStack(spacing: 8) {
                     ForEach(viewModel.state.dimensions.indices, id: \.self) { index in
@@ -60,20 +63,25 @@ struct SizesSheet: View {
             }
             .scrollIndicators(.hidden)
 
-            Button {
-                viewModel.sameDimensionsToggled(!viewModel.state.applySameDimensions)
-            } label: {
-                HStack(spacing: 8) {
-                    Image(systemName: viewModel.state.applySameDimensions ? "checkmark.square.fill" : "square")
-                        .foregroundColor(viewModel.state.applySameDimensions ? AppColors.primary : AppColors.grey1)
+            //checkbox
+            if viewModel.state.itemCount > 1 {
+                Button {
+                    viewModel.sameDimensionsToggled(!viewModel.state.applySameDimensions)
+                } label: {
+                    HStack(spacing: 8) {
+                        Image(systemName: viewModel.state.applySameDimensions ? "checkmark.square.fill" : "square")
+                            .foregroundColor(viewModel.state.applySameDimensions ? AppColors.primary : AppColors.grey1)
 
-                    Text("All are of same size.")
-                        .font(.custom("Rubik-Regular", size: 15))
-                        .foregroundColor(AppColors.textBlack1)
+                        Text("All are of same size.")
+                            .font(.custom("Rubik-Regular", size: 15))
+                            .foregroundColor(AppColors.textBlack1)
+                    }
                 }
+                .padding(.bottom, 12)
             }
-            .padding(.bottom, 12)
+           
 
+            //save button
             PrimaryButton(title: "save_title") {
                 if viewModel.saveTapped() {
                     dismiss()

@@ -127,14 +127,11 @@ enum ComingFrom: String {
 }
 
 enum MeasurementUnit: String, CaseIterable {
-    case cm = "Centimeter (cm)"
     case m = "Meter (m)"
     case inch = "Inch (in)"
 
     var apiValue: String {
         switch self {
-        case .cm:
-            return "cm"
         case .m:
             return "m"
         case .inch:
