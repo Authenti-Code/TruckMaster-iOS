@@ -50,7 +50,7 @@ struct AddAddressView: View {
                         label: "name_required",
                         hint: "enter_receiver_name",
                         isRequired: true,
-                        text: viewModel.binding(for: \.state.name)
+                        text: viewModel.nameBinding
                     )
 
                     // Contact
@@ -59,7 +59,7 @@ struct AddAddressView: View {
                         hint: "enter_contact",
                         isRequired: true,
                         keyboardType: .numberPad,
-                        text: viewModel.binding(for: \.state.phone)
+                        text: viewModel.phoneBinding
                     )
 
                     // Save as

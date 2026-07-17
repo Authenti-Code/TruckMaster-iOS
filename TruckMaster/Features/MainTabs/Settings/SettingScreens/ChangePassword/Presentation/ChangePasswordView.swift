@@ -88,5 +88,6 @@ struct ChangePasswordView: View {
                 ProgressView().tint(.white).scaleEffect(1.5)
             }
         }
+        .dismissKeyboardOnTap()
     }
 }

@@ -5,6 +5,7 @@
 //  Created by AuthentiCode on 16/06/26.
 //
 import Foundation
+internal import SwiftUI
 internal import Combine
 
 @available(iOS 16.0, *)
@@ -15,6 +16,8 @@ final class AddAddressViewModel: ObservableObject {
     private let router: AppRouter
     private let addAddressUseCase: AddAddressUseCase
     private let editingAddress: SavedAddressModel?
+
+    private static let allowedDigits = Set("0123456789")
 
     var isEditMode: Bool { editingAddress != nil }
 
@@ -47,6 +50,25 @@ final class AddAddressViewModel: ObservableObject {
         state.selectedAddress = updated.address
         state.selectedSubAddress = updated.subAddress
         router.pendingLocationUpdate = nil
+    }
+
+    var nameBinding: Binding<String> {
+        Binding(
+            get: { self.state.name },
+            set: { newValue in
+                guard !newValue.hasPrefix(" ") else { return }
+                self.state.name = newValue
+            }
+        )
+    }
+
+    var phoneBinding: Binding<String> {
+        Binding(
+            get: { self.state.phone },
+            set: { newValue in
+                self.state.phone = newValue.filter { Self.allowedDigits.contains($0) }
+            }
+        )
     }
 
     func backTapped() {
@@ -93,9 +115,8 @@ final class AddAddressViewModel: ObservableObject {
 //                triggerSuccess("Address added successfully")
             }
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.router.navigateBack()
-            }
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
+            router.navigateBack()
         } catch {
             triggerError(error.localizedDescription)
         }
