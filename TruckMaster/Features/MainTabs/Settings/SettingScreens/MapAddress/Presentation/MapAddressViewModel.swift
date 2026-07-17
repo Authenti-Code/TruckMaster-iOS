@@ -6,6 +6,7 @@
 import Foundation
 import GoogleMaps
 import CoreLocation
+internal import SwiftUI
 internal import Combine
 
 @available(iOS 16.0, *)
@@ -21,6 +22,7 @@ final class MapAddressViewModel: NSObject, ObservableObject {
     private var didCenterOnUser = false
     private var isUserDrag = false
 
+    private static let allowedDigits = Set("0123456789")
 
     init(router: AppRouter, isUpdatingLocation: Bool, comingFrom: ComingFrom, draft: ShipmentDraft) {
         self.router = router
@@ -37,6 +39,25 @@ final class MapAddressViewModel: NSObject, ObservableObject {
         print("Coming from", comingFrom)
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+    }
+
+    var nameBinding: Binding<String> {
+        Binding(
+            get: { self.state.name },
+            set: { newValue in
+                guard !newValue.hasPrefix(" ") else { return }
+                self.state.name = newValue
+            }
+        )
+    }
+
+    var contactBinding: Binding<String> {
+        Binding(
+            get: { self.state.contact },
+            set: { newValue in
+                self.state.contact = newValue.filter { Self.allowedDigits.contains($0) }
+            }
+        )
     }
 
     func backTapped() {
@@ -72,7 +93,17 @@ final class MapAddressViewModel: NSObject, ObservableObject {
             return
         }
 
-        
+        if comingFrom == .shipmentPickup || comingFrom == .shipmentDrop {
+            guard isFormValid else {
+                triggerError(
+                    state.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                        ? "Name is required"
+                        : "Enter a valid 10-digit contact number"
+                )
+                return
+            }
+        }
+
         var payload = AddressPayload(
             address: state.selectedSubAddress.isEmpty ? state.selectedAddress : state.selectedSubAddress,
             latitude: String(state.selectedLatitude),

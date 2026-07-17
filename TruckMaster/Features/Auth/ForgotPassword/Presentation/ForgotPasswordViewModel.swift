@@ -24,6 +24,16 @@ final class ForgotPasswordViewModel: ObservableObject {
 
     func onAppear() { }
 
+    var emailBinding: Binding<String> {
+        Binding(
+            get: { self.state.email },
+            set: { newValue in
+                guard !newValue.hasPrefix(" ") else { return }
+                self.state.email = newValue
+            }
+        )
+    }
+
     func backTapped() {
         router.navigateBack()
     }
@@ -50,9 +60,8 @@ final class ForgotPasswordViewModel: ObservableObject {
         do {
             let (data, message) = try await forgotPasswordUseCase.execute(request: request)
             triggerSuccess(message)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.router.navigate(to: .verifyCode(resetToken: data.resetToken))
-            }
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
+            router.navigate(to: .verifyCode(resetToken: data.resetToken))
         } catch {
             triggerError(error.localizedDescription)
         }

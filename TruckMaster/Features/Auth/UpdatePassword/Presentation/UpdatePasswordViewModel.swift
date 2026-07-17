@@ -24,6 +24,26 @@ final class UpdatePasswordViewModel: ObservableObject {
 
     func onAppear() { }
 
+    var passwordBinding: Binding<String> {
+        Binding(
+            get: { self.state.password },
+            set: { newValue in
+                guard !newValue.hasPrefix(" ") else { return }
+                self.state.password = newValue
+            }
+        )
+    }
+
+    var confirmPasswordBinding: Binding<String> {
+        Binding(
+            get: { self.state.confirmPassword },
+            set: { newValue in
+                guard !newValue.hasPrefix(" ") else { return }
+                self.state.confirmPassword = newValue
+            }
+        )
+    }
+
     func backTapped() {
         router.navigateBack()
     }
@@ -67,10 +87,9 @@ final class UpdatePasswordViewModel: ObservableObject {
         do {
             let message = try await updatePasswordUseCase.execute(request: request)
             triggerSuccess(message)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.router.navigateToRoot()
-                self.router.navigate(to: .signIn)
-            }
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
+            router.navigateToRoot()
+            router.navigate(to: .signIn)
         } catch {
             triggerError(error.localizedDescription)
         }

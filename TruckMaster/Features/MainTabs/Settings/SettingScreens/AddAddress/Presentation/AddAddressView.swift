@@ -58,7 +58,7 @@ struct AddAddressView: View {
                         label: "contact_required",
                         hint: "enter_contact",
                         isRequired: true,
-                        keyboardType: .phonePad,
+                        keyboardType: .numberPad,
                         text: viewModel.binding(for: \.state.phone)
                     )
 

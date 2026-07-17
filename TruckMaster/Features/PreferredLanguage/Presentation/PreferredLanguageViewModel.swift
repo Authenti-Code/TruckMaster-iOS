@@ -30,6 +30,12 @@ final class PreferredLanguageViewModel: ObservableObject {
 
     func onAppear() {
         languages = getPreferredLanguageUseCase.execute()
+
+        if selectedLanguage.isEmpty {
+            selectedLanguage = AppLanguage.allCases.first { $0.code == "en" }?.rawValue
+                ?? languages.first
+                ?? ""
+        }
     }
 
     func continueTapped() {

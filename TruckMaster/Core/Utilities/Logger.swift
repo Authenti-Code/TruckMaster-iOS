@@ -35,10 +35,9 @@ enum Logger {
         #if DEBUG
         print("")
         print("┌─────────────────────────────────────────")
-        print("│ [ REQUEST ]")
-        print("│ \(method) \(url)")
+        print("│ REQUEST: \(method) \(url)")
         if let body = body {
-            print("│ BODY: \(body)")
+            printBody(body)
         }
         print("└─────────────────────────────────────────")
         #endif
@@ -47,9 +46,9 @@ enum Logger {
     static func logResponse(statusCode: Int, body: String?) {
         #if DEBUG
         print("┌─────────────────────────────────────────")
-        print("│ [ RESPONSE ] STATUS: \(statusCode)")
+        print("│ RESPONSE STATUS: \(statusCode)")
         if let body = body {
-            print("│ BODY: \(body)")
+            printBody(body)
         }
         print("└─────────────────────────────────────────")
         print("")
@@ -59,11 +58,33 @@ enum Logger {
     static func logError(_ error: Error) {
         #if DEBUG
         print("┌─────────────────────────────────────────")
-        print("│ [ ERROR ]")
+        print("│ ERROR")
         print("│ \(error.localizedDescription)")
         print("└─────────────────────────────────────────")
         print("")
         #endif
+    }
+
+    // MARK: - Body formatting
+
+    private static func printBody(_ body: String) {
+        #if DEBUG
+        print("│ BODY:")
+        for line in prettyPrinted(body).split(separator: "\n", omittingEmptySubsequences: false) {
+            print("│   \(line)")
+        }
+        #endif
+    }
+
+    private static func prettyPrinted(_ raw: String) -> String {
+        guard let data = raw.data(using: .utf8),
+              let object = try? JSONSerialization.jsonObject(with: data),
+              let prettyData = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted, .sortedKeys]),
+              let prettyString = String(data: prettyData, encoding: .utf8)
+        else {
+            return raw
+        }
+        return prettyString
     }
 }
 

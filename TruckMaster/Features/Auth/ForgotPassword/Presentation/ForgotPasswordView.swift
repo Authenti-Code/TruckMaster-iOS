@@ -26,7 +26,7 @@ struct ForgotPasswordView: View {
                         .resizable()
                         .scaledToFill()
                         .frame(width: geo.size.width, height: 250)
-  	                      .clipped()
+                            .clipped()
 
                     Image(ImageConstants.lineGradient)
                         .resizable()
@@ -74,7 +74,7 @@ struct ForgotPasswordView: View {
                         label: "email_address_required",
                         hint: "enter_email",
                         isRequired: true,
-                        text: viewModel.binding(for: \.state.email)
+                        text: viewModel.emailBinding
                     )
                     .padding(.bottom, 20)
 

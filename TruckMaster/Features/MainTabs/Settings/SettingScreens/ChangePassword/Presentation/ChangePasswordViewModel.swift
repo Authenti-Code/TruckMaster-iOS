@@ -7,6 +7,7 @@
 
 
 import Foundation
+internal import SwiftUI
 internal import Combine
 
 @available(iOS 16.0, *)
@@ -21,6 +22,36 @@ final class ChangePasswordViewModel: ObservableObject {
     init(changePasswordUseCase: ChangePasswordUseCase, router: AppRouter) {
         self.changePasswordUseCase = changePasswordUseCase
         self.router = router
+    }
+
+    var oldPasswordBinding: Binding<String> {
+        Binding(
+            get: { self.state.oldPassword },
+            set: { newValue in
+                guard !newValue.hasPrefix(" ") else { return }
+                self.state.oldPassword = newValue
+            }
+        )
+    }
+
+    var newPasswordBinding: Binding<String> {
+        Binding(
+            get: { self.state.newPassword },
+            set: { newValue in
+                guard !newValue.hasPrefix(" ") else { return }
+                self.state.newPassword = newValue
+            }
+        )
+    }
+
+    var confirmPasswordBinding: Binding<String> {
+        Binding(
+            get: { self.state.confirmPassword },
+            set: { newValue in
+                guard !newValue.hasPrefix(" ") else { return }
+                self.state.confirmPassword = newValue
+            }
+        )
     }
 
     func backTapped() {
@@ -68,9 +99,8 @@ final class ChangePasswordViewModel: ObservableObject {
         do {
             _ = try await changePasswordUseCase.execute(request: request)
             triggerSuccess("Password updated successfully")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.router.navigateBack()
-            }
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
+            router.navigateBack()
         } catch {
             triggerError(error.localizedDescription)
         }

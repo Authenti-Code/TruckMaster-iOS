@@ -64,29 +64,45 @@ struct SignUpView: View {
                             .padding(.bottom, 2)
 
                             // Name
-                            LabeledInputField(
-                                label: "name_required",
-                                hint: "enter_name",
-                                isRequired: true,
-                                text: viewModel.binding(for: \.state.name)
-                            )
+                            VStack(alignment: .leading, spacing: 4) {
+                                LabeledInputField(
+                                    label: "name_required",
+                                    hint: "enter_name",
+                                    isRequired: true,
+                                    text: viewModel.nameBinding
+                                )
+
+//                                if let nameError = viewModel.nameError {
+//                                    Text(nameError)
+//                                        .font(.custom("Livvic-Regular", size: 12))
+//                                        .foregroundColor(.red)
+//                                }
+                            }
 
                             // Email
                             LabeledInputField(
                                 label: "email_address_required",
                                 hint: "enter_email",
                                 isRequired: true,
-                                text: viewModel.binding(for: \.state.email)
+                                text: viewModel.emailBinding
                             )
 
                             // Contact
-                            LabeledInputField(
-                                label: "contact_required",
-                                hint: "enter_contact",
-                                isRequired: true,
-                                keyboardType: .phonePad,
-                                text: viewModel.binding(for: \.state.phone)
-                            )
+                            VStack(alignment: .leading, spacing: 4) {
+                                LabeledInputField(
+                                    label: "contact_required",
+                                    hint: "enter_contact",
+                                    isRequired: true,
+                                    keyboardType: .numberPad,
+                                    text: viewModel.phoneBinding
+                                )
+
+                                if let contactError = viewModel.contactError {
+                                    Text(contactError)
+                                        .font(.custom("Livvic-Regular", size: 12))
+                                        .foregroundColor(.red)
+                                }
+                            }
 
                             // Password
                             LabeledInputField(
@@ -94,7 +110,7 @@ struct SignUpView: View {
                                 hint: "enter_password",
                                 isRequired: true,
                                 isSecure: true,
-                                text: viewModel.binding(for: \.state.password)
+                                text: viewModel.passwordBinding
                             )
 
                             // Confirm password
@@ -103,7 +119,7 @@ struct SignUpView: View {
                                 hint: "enter_confirm_password",
                                 isRequired: true,
                                 isSecure: true,
-                                text: viewModel.binding(for: \.state.confirmPassword)
+                                text: viewModel.confirmPasswordBinding
                             )
 
                             HStack {

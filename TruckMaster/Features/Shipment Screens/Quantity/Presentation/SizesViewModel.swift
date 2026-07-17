@@ -62,6 +62,17 @@ final class SizesViewModel: ObservableObject {
         }
     }
 
+    // Converts an internally-stored cm value back into whichever unit
+    // is currently selected, so the outgoing request's value and its
+    // unit tag always match.
+    private func convertFromCm(_ cmString: String) -> String {
+        guard let cm = Double(cmString) else { return cmString }
+        switch state.selectedUnit {
+        case .m:    return String(format: "%.4f", cm / 100)
+        case .inch: return String(format: "%.4f", cm / 2.54)
+        }
+    }
+
     var isDoneEnabled: Bool {
         state.dimensions.allSatisfy { !$0.widthInCm.isEmpty && !$0.lengthInCm.isEmpty }
     }
@@ -73,7 +84,10 @@ final class SizesViewModel: ObservableObject {
         }
 
         let dimensionRequests: [DimensionRequest] = state.dimensions.map {
-            DimensionRequest(width: $0.widthInCm, length: $0.lengthInCm)
+            DimensionRequest(
+                width: convertFromCm($0.widthInCm),
+                length: convertFromCm($0.lengthInCm)
+            )
         }
 
         let item = ItemRequest(

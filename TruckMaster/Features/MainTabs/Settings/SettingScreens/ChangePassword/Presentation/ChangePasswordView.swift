@@ -45,7 +45,7 @@ struct ChangePasswordView: View {
                         hint: "enter_old_password",
                         isRequired: true,
                         isSecure: true,
-                        text: viewModel.binding(for: \.state.oldPassword)
+                        text: viewModel.oldPasswordBinding
                     )
 
                     LabeledInputField(
@@ -53,7 +53,7 @@ struct ChangePasswordView: View {
                         hint: "enter_new_password",
                         isRequired: true,
                         isSecure: true,
-                        text: viewModel.binding(for: \.state.newPassword)
+                        text: viewModel.newPasswordBinding
                     )
 
                     LabeledInputField(
@@ -61,7 +61,7 @@ struct ChangePasswordView: View {
                         hint: "enter_confirm_password",
                         isRequired: true,
                         isSecure: true,
-                        text: viewModel.binding(for: \.state.confirmPassword)
+                        text: viewModel.confirmPasswordBinding
                     )
                 }
                 .padding(.horizontal, 20)

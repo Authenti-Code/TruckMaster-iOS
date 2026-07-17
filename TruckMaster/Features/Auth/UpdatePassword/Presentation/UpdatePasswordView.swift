@@ -75,7 +75,7 @@ struct UpdatePasswordView: View {
                         hint: "enter_new_password",
                         isRequired: true,
                         isSecure: true,
-                        text: viewModel.binding(for: \.state.password)
+                        text: viewModel.passwordBinding
                     )
 
                     // Confirm password
@@ -84,7 +84,7 @@ struct UpdatePasswordView: View {
                         hint: "enter_confirm_password",
                         isRequired: true,
                         isSecure: true,
-                        text: viewModel.binding(for: \.state.confirmPassword)
+                        text: viewModel.confirmPasswordBinding
                     )
                     
                     //Button

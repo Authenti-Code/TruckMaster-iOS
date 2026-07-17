@@ -76,7 +76,7 @@ struct MapAddressView: View {
                                                 label: viewModel.comingFrom == .shipmentDrop ? "receiver_name_required" : "sender_name_required",
                                                            hint: viewModel.comingFrom == .shipmentDrop ? "enter_receiver_name" : "enter_sender_name",
                                                            isRequired: true,
-                                                text: viewModel.binding(for: \.state.name)
+                                                text: viewModel.nameBinding
                                             )
 
                                             // Contact
@@ -84,8 +84,8 @@ struct MapAddressView: View {
                                                 label: "contact_required",
                                                 hint: "enter_contact",
                                                 isRequired: true,
-                                                keyboardType: .phonePad,
-                                                text: viewModel.binding(for: \.state.contact)
+                                                keyboardType: .numberPad,
+                                                text: viewModel.contactBinding
                                             )
                                             // Save as
                                             SaveAsSelector(selected: viewModel.binding(for: \.state.selectedLabel))

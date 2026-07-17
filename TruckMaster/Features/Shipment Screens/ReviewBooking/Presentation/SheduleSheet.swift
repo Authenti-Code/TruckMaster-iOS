@@ -47,14 +47,16 @@ struct SheduleSheet: View {
                             placeholder: "date_title",
                             iconSystemName: "calendar",
                             date: viewModel.binding(for: \.state.selectedDate),
-                            displayedComponents: .date
+                            displayedComponents: .date,
+                            isInitiallySelected: viewModel.draft.scheduledAt != nil
                         )
 
                         DateField(
                             placeholder: "time_title",
                             iconSystemName: "clock",
                             date: viewModel.binding(for: \.state.selectedTime),
-                            displayedComponents: .hourAndMinute
+                            displayedComponents: .hourAndMinute,
+                            isInitiallySelected: viewModel.draft.scheduledAt != nil
                         )
                     }
                 }
@@ -85,7 +87,21 @@ private struct DateField: View {
     let displayedComponents: DatePickerComponents
 
     @State private var showPicker = false
-    @State private var hasSelected = false
+    @State private var hasSelected: Bool
+
+    init(
+        placeholder: LocalizedStringKey,
+        iconSystemName: String,
+        date: Binding<Date>,
+        displayedComponents: DatePickerComponents,
+        isInitiallySelected: Bool = false
+    ) {
+        self.placeholder = placeholder
+        self.iconSystemName = iconSystemName
+        self._date = date
+        self.displayedComponents = displayedComponents
+        self._hasSelected = State(initialValue: isInitiallySelected)
+    }
 
     var body: some View {
         Button {
@@ -93,7 +109,12 @@ private struct DateField: View {
         } label: {
             HStack {
 
-                ReusableText(title: placeholder, fontSize: 14, fontName: "Livvic-Regular", fontColor: hasSelected ? AppColors.textBlack1 : .gray)
+                ReusableText(
+                    title: hasSelected ? LocalizedStringKey(formattedValue) : placeholder,
+                    fontSize: 14,
+                    fontName: "Livvic-Regular",
+                    fontColor: hasSelected ? AppColors.textBlack1 : .gray
+                )
 
                 Spacer()
 

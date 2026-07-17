@@ -24,6 +24,26 @@ final class SignInViewModel: ObservableObject {
 
     func onAppear() { }
 
+    var emailBinding: Binding<String> {
+        Binding(
+            get: { self.state.email },
+            set: { newValue in
+                guard !newValue.hasPrefix(" ") else { return }
+                self.state.email = newValue
+            }
+        )
+    }
+
+    var passwordBinding: Binding<String> {
+        Binding(
+            get: { self.state.password },
+            set: { newValue in
+                guard !newValue.hasPrefix(" ") else { return }
+                self.state.password = newValue
+            }
+        )
+    }
+
     func loginTapped() {
         guard validate() else { return }
         UserPreferences.shared.hasSeenOnboarding = true
@@ -72,7 +92,8 @@ final class SignInViewModel: ObservableObject {
 
         do {
             let user = try await loginUseCase.execute(request: request)
-            triggerSuccess("Login successfully")
+            state.email = ""
+            state.password = ""
                 self.router.navigate(to: .home)
         }
         catch {

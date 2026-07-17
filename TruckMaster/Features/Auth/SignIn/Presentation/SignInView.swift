@@ -69,7 +69,7 @@ struct SignInView: View {
                                 label: "email_address_required",
                                 hint: "enter_email",
                                 isRequired: true,
-                                text: viewModel.binding(for: \.state.email)
+                                text: viewModel.emailBinding
                             )
 
                             // Password
@@ -78,7 +78,7 @@ struct SignInView: View {
                                 hint: "enter_password",
                                 isRequired: true,
                                 isSecure: true,
-                                text: viewModel.binding(for: \.state.password)
+                                text: viewModel.passwordBinding
                             )
 
                             //Forgot password text
