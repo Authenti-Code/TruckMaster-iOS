@@ -1,0 +1,51 @@
+internal import SwiftUI
+
+struct SpaceGuardedTextField: UIViewRepresentable {
+    @Binding var text: String
+    var placeholder: String = ""
+    var isSecure: Bool = false
+    var keyboardType: UIKeyboardType = .default
+    var isEditable: Bool = true
+    var font: UIFont = UIFont(name: "Livvic-Medium", size: 15) ?? UIFont.systemFont(ofSize: 15)
+
+    func makeUIView(context: Context) -> UITextField {
+        let tf = UITextField()
+        tf.delegate = context.coordinator
+        return tf
+    }
+
+    func updateUIView(_ uiView: UITextField, context: Context) {
+        if uiView.text != text {
+            uiView.text = text
+        }
+        uiView.placeholder = placeholder
+        uiView.isSecureTextEntry = isSecure
+        uiView.keyboardType = keyboardType
+        uiView.isEnabled = isEditable
+        uiView.font = font
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(text: $text)
+    }
+
+    class Coordinator: NSObject, UITextFieldDelegate {
+        @Binding var text: String
+
+        init(text: Binding<String>) {
+            self._text = text
+        }
+
+        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            if textField.isLeadingSpace(range: range, replacementString: string) {
+                return false
+            }
+
+            let currentText = textField.text ?? ""
+            if let swiftRange = Range(range, in: currentText) {
+                text = currentText.replacingCharacters(in: swiftRange, with: string)
+            }
+            return true
+        }
+    }
+}

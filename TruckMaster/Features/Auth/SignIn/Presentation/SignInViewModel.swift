@@ -28,7 +28,6 @@ final class SignInViewModel: ObservableObject {
         Binding(
             get: { self.state.email },
             set: { newValue in
-                guard !newValue.hasPrefix(" ") else { return }
                 self.state.email = newValue
             }
         )
@@ -38,11 +37,12 @@ final class SignInViewModel: ObservableObject {
         Binding(
             get: { self.state.password },
             set: { newValue in
-                guard !newValue.hasPrefix(" ") else { return }
                 self.state.password = newValue
             }
         )
     }
+    
+
 
     func loginTapped() {
         guard validate() else { return }

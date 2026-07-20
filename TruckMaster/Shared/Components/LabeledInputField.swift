@@ -10,7 +10,7 @@ internal import SwiftUI
 struct LabeledInputField: View {
 
     let label: LocalizedStringKey
-    let hint: LocalizedStringKey
+    let hint: String
     var icon: Image? = nil
     var isRequired: Bool = false
     var isEditable: Bool = true
@@ -43,16 +43,13 @@ struct LabeledInputField: View {
                         .foregroundColor(.gray)
                 }
 
-                if isSecure && !isPasswordVisible {
-                    SecureField(hint, text: $text)
-                        .font(.custom("Livvic-Medium", size: 15))
-                        .disabled(!isEditable)
-                } else {
-                    TextField(hint, text: $text)
-                        .font(.custom("Livvic-Medium", size: 15))
-                        .keyboardType(keyboardType)
-                        .disabled(!isEditable)
-                }
+                SpaceGuardedTextField(
+                    text: $text,
+                    placeholder: NSLocalizedString(hint, comment: ""),
+                    isSecure: isSecure && !isPasswordVisible,
+                    keyboardType: keyboardType,
+                    isEditable: isEditable
+                )
 
                 // Eye icon for password
                 if isSecure {

@@ -17,6 +17,10 @@ extension View {
             .cornerRadius(12)
             .shadow(radius: 4)
     }
+    
+    func dismissKeyboardOnTap() -> some View {
+        modifier(DismissKeyboardOnTap())
+    }
 }
 
 extension ObservableObject where Self: AnyObject {
@@ -68,15 +72,18 @@ struct DismissKeyboardOnTap: ViewModifier {
     }
 }
 
-extension View {
-    func dismissKeyboardOnTap() -> some View {
-        modifier(DismissKeyboardOnTap())
-    }
-}
 
 extension String {
     var trimmedOrNil: String? {
         let trimmed = trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmed.isEmpty ? nil : trimmed
+    }
+}
+
+
+extension UITextField {
+    func isLeadingSpace(range: NSRange, replacementString string: String) -> Bool {
+        let currentText = self.text ?? ""
+        return string == " " && currentText.isEmpty && range.location == 0
     }
 }

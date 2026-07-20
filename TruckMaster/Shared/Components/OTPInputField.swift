@@ -55,10 +55,7 @@ struct OTPInputField: View {
     private func handleBackspaceOnEmpty(at index: Int) {
         guard index > 0 else { return }
 
-      
-        digits[index - 1] = ""
         focusedIndex = index - 1
-        otp = digits.joined()
     }
 }
 
@@ -142,10 +139,10 @@ private final class BackspaceCapturingUITextField: UITextField {
     var onDeleteBackwardWhenEmpty: (() -> Void)?
 
     override func deleteBackward() {
-        let wasEmpty = (text ?? "").isEmpty
-        super.deleteBackward()
-        if wasEmpty {
+        if (text ?? "").isEmpty {
             onDeleteBackwardWhenEmpty?()
+            return
         }
+        super.deleteBackward()
     }
 }

@@ -29,7 +29,9 @@ final class ForgotPasswordViewModel: ObservableObject {
             get: { self.state.email },
             set: { newValue in
                 guard !newValue.hasPrefix(" ") else { return }
-                self.state.email = newValue
+                DispatchQueue.main.async {
+                    self.state.email = newValue
+                }
             }
         )
     }
