@@ -91,7 +91,7 @@ struct MapAddressView: View {
                                             SaveAsSelector(selected: viewModel.binding(for: \.state.selectedLabel))
                                             PrimaryButton(
                                                 title: "confirm_location_title",
-                                                isEnabled: viewModel.isFormValid
+                                                isEnabled: viewModel.state.name.isEmpty == false && viewModel.state.contact.isEmpty == false
                                             ) {
                                                 viewModel.confirmLocationTapped()
                                             }

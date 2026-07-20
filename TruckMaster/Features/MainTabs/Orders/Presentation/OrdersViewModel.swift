@@ -34,7 +34,7 @@ final class OrdersViewModel: ObservableObject {
 
     func onRefresh() async {
         state.currentPage = "1"
-        state.orders.removeAll()
+        state.hasMoreData = true
         await loadOrders(isRefresh: true)
     }
 

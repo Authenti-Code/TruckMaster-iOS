@@ -180,8 +180,6 @@ private struct SettingsRowItem: View {
         Button(action: action) {
             HStack(spacing: 12) {
                 Image(item.icon)
-                    .font(.system(size: 18))
-                    .foregroundColor(AppColors.textBlack1)
                     .frame(width: 24)
 
                 ReusableText(
@@ -194,23 +192,12 @@ private struct SettingsRowItem: View {
                 Spacer()
 
                 Image(ImageConstants.rightArrowS)
-                    .font(.system(size: 13))
-                    .foregroundColor(AppColors.grey1)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 16)
             .padding(.vertical, 14)
+            .contentShape(Rectangle())   
         }
         .buttonStyle(.plain)
     }
 }
-
-//#Preview {
-//    if #available(iOS 16.0, *) {
-//        let repo     = SettingsRepositoryImpl(apiClient: <#any APIClientProtocol#>)
-//        let useCase  = GetUserProfileUseCase(repository: repo)
-//        SettingsView(viewModel: SettingsViewModel(
-//            getUserProfileUseCase: useCase,
-//            router: AppRouter()
-//        ))
-//    } else { }
-//}

@@ -15,7 +15,7 @@ struct OrderState {
     var isRefreshing:   Bool         = false
     var isLoadingMore:  Bool         = false
     var hasMoreData:    Bool         = true
-    var limit:          String     = "10"
+    var limit:          String     = "20"
     var currentPage:    String     = "1"
     var showSnackbar:   Bool         = false
     var snackbarMessage: String      = ""
