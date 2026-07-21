@@ -19,8 +19,20 @@ struct SpaceGuardedTextField: UIViewRepresentable {
             uiView.text = text
         }
         uiView.placeholder = placeholder
-        uiView.isSecureTextEntry = isSecure
-        uiView.keyboardType = keyboardType
+
+        if uiView.isSecureTextEntry != isSecure {
+            uiView.isSecureTextEntry = isSecure
+        }
+
+        if uiView.keyboardType != keyboardType {
+            uiView.keyboardType = keyboardType
+        }
+
+        let desiredContentType: UITextContentType? = isSecure ? .password : nil
+        if uiView.textContentType != desiredContentType {
+            uiView.textContentType = desiredContentType
+        }
+
         uiView.isEnabled = isEditable
         uiView.font = font
     }

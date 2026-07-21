@@ -65,18 +65,13 @@ struct SignUpView: View {
 
                             // Name
                             VStack(alignment: .leading, spacing: 4) {
-                                LabeledInputField(
+                                NameInputField(
                                     label: "name_required",
                                     hint: "enter_name",
                                     isRequired: true,
                                     text: viewModel.nameBinding
                                 )
 
-//                                if let nameError = viewModel.nameError {
-//                                    Text(nameError)
-//                                        .font(.custom("Livvic-Regular", size: 12))
-//                                        .foregroundColor(.red)
-//                                }
                             }
 
                             // Email

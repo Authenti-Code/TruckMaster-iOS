@@ -78,6 +78,10 @@ extension String {
         let trimmed = trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmed.isEmpty ? nil : trimmed
     }
+    
+    var lettersOnly: String {
+           filter { $0.isLetter || $0 == " " }
+       }
 }
 
 

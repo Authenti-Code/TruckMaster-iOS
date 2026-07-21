@@ -46,7 +46,7 @@ struct AddAddressView: View {
                     )
 
                     // Name
-                    LabeledInputField(
+                    NameInputField(
                         label: "name_required",
                         hint: "enter_receiver_name",
                         isRequired: true,

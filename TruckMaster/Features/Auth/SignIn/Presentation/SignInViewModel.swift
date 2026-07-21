@@ -28,11 +28,12 @@ final class SignInViewModel: ObservableObject {
         Binding(
             get: { self.state.email },
             set: { newValue in
-                self.state.email = newValue
+                Task { @MainActor in
+                    self.state.email = newValue
+                }
             }
         )
     }
-
     var passwordBinding: Binding<String> {
         Binding(
             get: { self.state.password },

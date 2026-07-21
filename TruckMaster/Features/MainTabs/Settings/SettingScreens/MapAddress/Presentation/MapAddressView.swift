@@ -72,10 +72,10 @@ struct MapAddressView: View {
                                             )
 
                                             // Name
-                                            LabeledInputField(
+                                            NameInputField(
                                                 label: viewModel.comingFrom == .shipmentDrop ? "receiver_name_required" : "sender_name_required",
-                                                           hint: viewModel.comingFrom == .shipmentDrop ? "enter_receiver_name" : "enter_sender_name",
-                                                           isRequired: true,
+                                                hint: viewModel.comingFrom == .shipmentDrop ? "enter_receiver_name" : "enter_sender_name",
+                                                isRequired: true,
                                                 text: viewModel.nameBinding
                                             )
 
@@ -145,11 +145,6 @@ struct MapAddressView: View {
             .ignoresSafeArea(edges: .bottom)
         }
         .navigationBarHidden(true)
-        .snackbar(
-            isShowing: viewModel.binding(for: \.state.showSnackbar),
-            message: viewModel.state.snackbarMessage,
-            type: viewModel.state.snackbarType
-        )
         .overlay {
             if viewModel.state.isLoading {
                 Color.black.opacity(0.3)
@@ -159,6 +154,11 @@ struct MapAddressView: View {
                     .scaleEffect(1.5)
             }
         }
+        .snackbar(
+            isShowing: viewModel.binding(for: \.state.showSnackbar),
+            message: viewModel.state.snackbarMessage,
+            type: viewModel.state.snackbarType
+        )
         .onAppear {
             viewModel.onAppear()
         }

@@ -21,6 +21,7 @@ final class MapAddressViewModel: NSObject, ObservableObject {
     private let locationManager = CLLocationManager()
     private var didCenterOnUser = false
     private var isUserDrag = false
+    @Published var nameError: String?
 
     private static let allowedDigits = Set("0123456789")
 
@@ -44,10 +45,7 @@ final class MapAddressViewModel: NSObject, ObservableObject {
     var nameBinding: Binding<String> {
         Binding(
             get: { self.state.name },
-            set: { newValue in
-                guard !newValue.hasPrefix(" ") else { return }
-                self.state.name = newValue
-            }
+            set: { self.handleNameChange($0) }
         )
     }
 
@@ -60,6 +58,30 @@ final class MapAddressViewModel: NSObject, ObservableObject {
         )
     }
 
+    private func handleNameChange(_ newValue: String) {
+        var filtered = newValue
+
+        while let first = filtered.first, first == " " {
+            filtered.removeFirst()
+        }
+
+        Task { @MainActor in
+            self.state.name = filtered
+            self.validateNameRealTime()
+        }
+    }
+
+    private func validateNameRealTime() {
+        let trimmed = state.name.trimmingCharacters(in: .whitespaces)
+        if trimmed.isEmpty {
+            nameError = nil
+        } else if trimmed.count < 3 {
+            nameError = "Name must be at least 3 characters"
+        } else {
+            nameError = nil
+        }
+    }
+
     func backTapped() {
         if state.isDetailsStage {
             state.isDetailsStage = false
@@ -70,7 +92,7 @@ final class MapAddressViewModel: NSObject, ObservableObject {
     }
 
     func confirmLocationTapped() {
-        
+
         let location = SelectedLocation(
             latitude: state.camera.target.latitude,
             longitude: state.camera.target.longitude,
@@ -95,11 +117,21 @@ final class MapAddressViewModel: NSObject, ObservableObject {
 
         if comingFrom == .shipmentPickup || comingFrom == .shipmentDrop {
             guard isFormValid else {
-                triggerError(
-                    state.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                        ? "Name is required"
-                        : "Enter a valid 10-digit contact number"
-                )
+                let trimmedName = state.name.trimmingCharacters(in: .whitespacesAndNewlines)
+
+                let message: String
+                if trimmedName.isEmpty {
+                    nameError = "Name is required"
+                    message = "Name is required"
+                } else if trimmedName.count < 3 {
+                    nameError = "Name must be at least 3 characters"
+                    message = "Name must be at least 3 characters"
+                } else {
+                    nameError = nil
+                    message = "Enter a valid 10-digit contact number"
+                }
+
+                triggerError(message)
                 return
             }
         }
@@ -172,14 +204,14 @@ final class MapAddressViewModel: NSObject, ObservableObject {
         isUserDrag = false
         reverseGeocode(position.target)
     }
-    
+
     var isContactValid: Bool {
         let digits = state.contact.filter(\.isNumber)
         return digits.count == 10
     }
 
     var isFormValid: Bool {
-        !state.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+        state.name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3 &&
         isContactValid
     }
 
@@ -222,6 +254,7 @@ final class MapAddressViewModel: NSObject, ObservableObject {
     }
 
     private func triggerError(_ message: String) {
+        UIApplication.shared.endEditing()
         state.snackbarMessage = message
         state.snackbarType    = .error
         state.showSnackbar    = true
@@ -268,6 +301,7 @@ extension MapAddressViewModel: CLLocationManagerDelegate {
             manager.stopUpdatingLocation()
         }
     }
+
     nonisolated func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         Task { @MainActor in
             self.triggerError("Failed to get location")
