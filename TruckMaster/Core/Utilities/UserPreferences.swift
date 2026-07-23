@@ -17,10 +17,15 @@ final class UserPreferences {
     static let shared  = UserPreferences()
     private let defaults = UserDefaults.standard
 
+    var selectedLanguage: String {
+        get { defaults.string(forKey: Keys.language) ?? "en" }
+        set { defaults.set(newValue, forKey: Keys.language) }
+    }
     private enum Keys {
         static let user  = "saved_user"
         static let token = "saved_token"
         static let hasSeenOnboarding = "has_seen_onboarding"
+        static let language = "selected_language"
     }
 
     func saveUser(_ user: UserModel) {
@@ -29,6 +34,8 @@ final class UserPreferences {
         }
         defaults.set(user.token, forKey: Keys.token)
     }
+    
+   
 
     func getUser() -> UserModel? {
         guard let data = defaults.data(forKey: Keys.user),
@@ -43,6 +50,7 @@ final class UserPreferences {
 
     func clearUser() {
         defaults.removeObject(forKey: Keys.user)
+        defaults.removeObject(forKey: Keys.language)
         defaults.removeObject(forKey: Keys.token)
     }
 

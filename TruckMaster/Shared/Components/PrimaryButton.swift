@@ -130,7 +130,7 @@ struct DropdownField: View {
                 : RoundedRectangle(cornerRadius: 10).inset(by: 0)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: showDropdown ? 0 : 10)
+                RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.gray.opacity(0.3), lineWidth: 1)
             )
             .contentShape(Rectangle())
@@ -176,6 +176,7 @@ struct DropdownField: View {
                         }
                     }
                 }
+               
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .overlay(

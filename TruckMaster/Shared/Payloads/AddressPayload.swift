@@ -35,8 +35,8 @@ struct DimensionRequest: Encodable {
 struct ItemRequest: Encodable {
     let categoryId: String
     let subCategoryId: Int?
-    let quantity: Int?
-    let dimensions: [DimensionRequest]
+    var quantity: Int?
+    var dimensions: [DimensionRequest]
     let dimensionUnit: String?
 
     enum CodingKeys: String, CodingKey {

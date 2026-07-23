@@ -31,11 +31,13 @@ final class PreferredLanguageViewModel: ObservableObject {
     func onAppear() {
         languages = getPreferredLanguageUseCase.execute()
 
-        if selectedLanguage.isEmpty {
-            selectedLanguage = AppLanguage.allCases.first { $0.code == "en" }?.rawValue
-                ?? languages.first
-                ?? ""
-        }
+        let savedCode = UserPreferences.shared.selectedLanguage
+
+        selectedLanguage = AppLanguage.allCases
+            .first { $0.code == savedCode }?
+            .rawValue
+            ?? languages.first
+            ?? ""
     }
 
     func continueTapped() {
@@ -49,6 +51,8 @@ final class PreferredLanguageViewModel: ObservableObject {
     private func changeLanguage(selected: String) {
         let code = AppLanguage.allCases
             .first { $0.rawValue == selected }?.code ?? "en"
+
         LanguageManager.shared.language = code
+        UserPreferences.shared.selectedLanguage = code
     }
 }

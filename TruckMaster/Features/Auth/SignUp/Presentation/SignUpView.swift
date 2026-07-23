@@ -91,12 +91,6 @@ struct SignUpView: View {
                                     keyboardType: .numberPad,
                                     text: viewModel.phoneBinding
                                 )
-
-                                if let contactError = viewModel.contactError {
-                                    Text(contactError)
-                                        .font(.custom("Livvic-Regular", size: 12))
-                                        .foregroundColor(.red)
-                                }
                             }
 
                             // Password

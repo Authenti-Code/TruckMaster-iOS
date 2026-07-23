@@ -115,31 +115,56 @@ final class SignUpViewModel: ObservableObject {
     }
 
     private func validate() -> Bool {
-        let trimmedName = state.name.trimmingCharacters(in: .whitespaces)
 
+        nameError = nil
+        contactError = nil
+
+        let trimmedName = state.name.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedEmail = state.email.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        state.name = trimmedName
+        state.email = trimmedEmail
+
+        // Name
         if trimmedName.isEmpty {
-            nameError = nil
+            nameError = "Name is required"
             triggerError("Name is required")
             return false
         }
+
         if trimmedName.count < 3 {
             nameError = "Name must be at least 3 characters"
             triggerError("Name must be at least 3 characters")
             return false
         }
-        state.name = trimmedName
 
-        if state.email.isEmpty {
+        // Email
+        if trimmedEmail.isEmpty {
             triggerError("Email is required")
             return false
         }
+
+        if !isValidEmail(trimmedEmail) {
+            triggerError("Please enter a valid email address")
+            return false
+        }
+
+        // Contact
         if state.phone.isEmpty {
             contactError = "Contact is required"
             triggerError("Contact is required")
             return false
         }
+
+        if state.phone.count != 10 {
+            contactError = "Contact must be exactly 10 digits"
+            triggerError("Contact must be exactly 10 digits")
+            return false
+        }
+
+        // Password
         if state.password.isEmpty {
-            triggerError("Pasword is required")
+            triggerError("Password is required")
             return false
         }
 
@@ -148,18 +173,23 @@ final class SignUpViewModel: ObservableObject {
             return false
         }
 
+        // Confirm Password
         if state.confirmPassword.isEmpty {
             triggerError("Confirm password is required")
             return false
         }
+
         if state.password != state.confirmPassword {
-            triggerError("Password and confirm password doesn't match")
+            triggerError("Password and confirm password do not match")
             return false
         }
+
+        // Terms
         if !state.isAgreed {
-            triggerError("Terms condition must be accepted")
+            triggerError("Terms & Conditions must be accepted")
             return false
         }
+
         return true
     }
 

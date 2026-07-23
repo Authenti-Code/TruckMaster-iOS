@@ -9,6 +9,7 @@ internal import SwiftUI
 struct SettingsView: View {
 
     @StateObject var viewModel: SettingsViewModel
+    @State private var showLogoutConfirmation = false
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -124,7 +125,7 @@ struct SettingsView: View {
 
                     // MARK: - Logout
                     Button {
-                        Task { await viewModel.logoutTapped() } 
+                        showLogoutConfirmation = true
                     } label: {
                         HStack(spacing: 8) {
                             ReusableText(
@@ -162,7 +163,23 @@ struct SettingsView: View {
                     .ignoresSafeArea(edges: .top)
                 }
             }
+            .overlay {
+                if showLogoutConfirmation {
+                    LogoutConfirmationPopup(
+                        onCancel: {
+                            showLogoutConfirmation = false
+                        },
+                        onLogout: {
+                            showLogoutConfirmation = false
+                            Task { await viewModel.logoutTapped() }
+                        }
+                    )
+                    .transition(.opacity)
+                    .zIndex(1)
+                }
+            }
         }
+        .animation(.easeInOut(duration: 0.2), value: showLogoutConfirmation)
         .onAppear {
             viewModel.onAppear()
         }
@@ -196,7 +213,7 @@ private struct SettingsRowItem: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 16)
             .padding(.vertical, 14)
-            .contentShape(Rectangle())   
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }

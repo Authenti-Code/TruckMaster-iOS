@@ -48,13 +48,21 @@ final class QuantityViewModel: ObservableObject {
     }
 
     func plusTapped(subCategoryId: Int) {
-        guard let index = state.items.firstIndex(where: { $0.id == subCategoryId }) else { return }
-        state.items[index].count += 1
-    }
+        guard let index = state.items.firstIndex(where: { $0.id == subCategoryId }) else {
+            return
+        }
 
+        state.items[index].count += 1
+        updateDraft(for: state.items[index])
+    }
+    
     func minusTapped(subCategoryId: Int) {
-        guard let index = state.items.firstIndex(where: { $0.id == subCategoryId }) else { return }
+        guard let index = state.items.firstIndex(where: { $0.id == subCategoryId }) else {
+            return
+        }
+
         state.items[index].count = max(0, state.items[index].count - 1)
+        updateDraft(for: state.items[index])
     }
 
     func sizesTapped(subCategoryId: Int) {
@@ -77,50 +85,69 @@ final class QuantityViewModel: ObservableObject {
 
     func nextTapped() {
         let selectedItems = state.items.filter { $0.count > 0 }
-//        guard !selectedItems.isEmpty else {
-//            triggerError("Select at least one item")
-//            return
-//        }
-        if state.showSizesSheet{
-            syncToDraft()
+
+        guard !selectedItems.isEmpty else {
+            triggerError("Select at least one item")
+            return
         }
+
+        for item in selectedItems {
+
+            guard let draftItem = draft.items.first(where: {
+                $0.categoryId == String(state.categoryId) &&
+                $0.subCategoryId == item.id
+            }) else {
+                triggerError("Please enter dimensions for all selected items.")
+                return
+            }
+
+            if draftItem.dimensions.count != item.count {
+                triggerError("Please enter dimensions for all selected items.")
+                return
+            }
+        }
+
         router.navigateBack()
     }
 
     // MARK: - Private
-    private func syncToDraft() {
-        let categoryIdString = String(state.categoryId)
+    private func updateDraft(for item: ItemModel) {
 
-        for item in state.items {
-            let existingIndex = draft.items.firstIndex(where: {
-                $0.categoryId == categoryIdString && $0.subCategoryId == item.id
-            })
+        let categoryId = String(state.categoryId)
+
+        if let index = draft.items.firstIndex(where: {
+            $0.categoryId == categoryId &&
+            $0.subCategoryId == item.id
+        }) {
 
             if item.count == 0 {
-                if let existingIndex {
-                    draft.items.remove(at: existingIndex)
+
+                draft.items.remove(at: index)
+
+            } else {
+
+                var existing = draft.items[index]
+                existing.quantity = item.count
+
+
+                if existing.dimensions.count > item.count {
+                    existing.dimensions = Array(existing.dimensions.prefix(item.count))
                 }
-                continue
+
+                draft.items[index] = existing
             }
 
-            if let existingIndex {
-               let existing = draft.items[existingIndex]
-                draft.items[existingIndex] = ItemRequest(
-                    categoryId: existing.categoryId,
-                    subCategoryId: existing.subCategoryId,
-                    quantity: item.count,
-                    dimensions: existing.dimensions,
-                    dimensionUnit: existing.dimensionUnit
-                )
-            } else {
-                 draft.items.append(ItemRequest(
-                    categoryId: categoryIdString,
+        } else if item.count > 0 {
+
+            draft.items.append(
+                ItemRequest(
+                    categoryId: categoryId,
                     subCategoryId: item.id,
                     quantity: item.count,
                     dimensions: [],
                     dimensionUnit: nil
-                ))
-            }
+                )
+            )
         }
     }
 

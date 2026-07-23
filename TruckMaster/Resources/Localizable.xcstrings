@@ -234,6 +234,28 @@
         }
       }
     },
+    "are_you_sure" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure?"
+          }
+        }
+      }
+    },
+    "are_you_sure_desc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to log out? You will need to sign in again to access your account."
+          }
+        }
+      }
+    },
     "back_to_home_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1078,6 +1100,23 @@
         }
       }
     },
+    "enter_old_password" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "نيوجيرسي، الولايات المتحدة الأمريكية"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter old password"
+          }
+        }
+      }
+    },
     "enter_password" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1534,23 +1573,6 @@
         }
       }
     },
-    "location_name_text" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "نيوجيرسي، الولايات المتحدة الأمريكية"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Jersey, USA"
-          }
-        }
-      }
-    },
     "location_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1592,6 +1614,16 @@
             "value" : "تسجيل الخروج"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logout"
+          }
+        }
+      }
+    },
+    "logout_title" : {
+      "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",

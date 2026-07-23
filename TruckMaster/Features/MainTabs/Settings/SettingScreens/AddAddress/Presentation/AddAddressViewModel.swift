@@ -58,10 +58,12 @@ final class AddAddressViewModel: ObservableObject {
             set: { newValue in
                 guard !newValue.hasPrefix(" ") else { return }
                 self.state.name = newValue
+                
             }
         )
     }
 
+   
     var phoneBinding: Binding<String> {
         Binding(
             get: { self.state.phone },
@@ -80,9 +82,39 @@ final class AddAddressViewModel: ObservableObject {
     }
 
     func addBtnTapped() {
-        Task { await saveAddress() }
-    }
+        guard validateFields() else { return }
 
+        Task {
+            await saveAddress()
+        }
+    }
+    private func validateFields() -> Bool {
+
+        let name = state.name.trimmingCharacters(in: .whitespacesAndNewlines)
+        let phone = state.phone.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if name.isEmpty {
+            triggerError("Name is required")
+            return false
+        }
+
+        if name.count < 3 {
+            triggerError("Name must be at least 3 characters")
+            return false
+        }
+
+        if phone.isEmpty {
+            triggerError("Contact is required")
+            return false
+        }
+
+        if phone.count != 10 {
+            triggerError("Contact must be exactly 10 digits")
+            return false
+        }
+
+        return true
+    }
     private func saveAddress() async {
         state.isLoading = true
         defer { state.isLoading = false }
@@ -116,7 +148,7 @@ final class AddAddressViewModel: ObservableObject {
             }
 
             try? await Task.sleep(nanoseconds: 1_000_000_000)
-            router.navigateBack()
+            router.navigateBack(2)
         } catch {
             triggerError(error.localizedDescription)
         }

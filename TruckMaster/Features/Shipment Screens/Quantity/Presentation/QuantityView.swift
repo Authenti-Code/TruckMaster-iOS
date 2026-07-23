@@ -145,6 +145,9 @@ private struct QuantityItemView: View {
             HStack(spacing: 16) {
                 Button { onMinus() } label: {
                     Image(systemName: "minus")
+                        .font(.system(size: 14, weight: .semibold))
+                               .padding(12)
+                               .contentShape(Rectangle())
                 }
 
                 Text("\(count)")
@@ -153,6 +156,9 @@ private struct QuantityItemView: View {
 
                 Button { onPlus() } label: {
                     Image(systemName: "plus")
+                        .font(.system(size: 14, weight: .semibold))
+                               .padding(12)
+                               .contentShape(Rectangle())
                 }
             }
         }

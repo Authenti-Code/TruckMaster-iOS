@@ -69,6 +69,15 @@ final class AppRouter: ObservableObject {
             shouldResetShipmentCache = true
             path.removeLast(path.count)
         }
+    
+    func navigateBack(_ count: Int) {
+        guard path.count >= count else {
+            navigateToRoot()
+            return
+        }
+
+        path.removeLast(count)
+    }
 }
 
 @available(iOS 16.0, *)
