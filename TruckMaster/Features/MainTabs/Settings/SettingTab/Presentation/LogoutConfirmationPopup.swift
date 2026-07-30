@@ -22,23 +22,31 @@ struct LogoutConfirmationPopup: View {
                     VStack(spacing: 20) {
                         ZStack {
                             Circle()
-                                .fill(Color(.systemGray6))
+                                .fill(.white)
                                 .frame(width: 72, height: 72)
+                                .shadow(
+                                    color: Color.black.opacity(0.15),
+                                    radius: 8,
+                                    x: 0,
+                                    y: 4
+                                )
+                                
 
-                            Image(systemName: "rectangle.portrait.and.arrow.right")
-                                                            .font(.system(size: 26, weight: .medium))
-                                                            .foregroundColor(.red)
+                            Image(ImageConstants.logout)
+                            .font(.system(size: 26, weight: .medium))
+                            .foregroundColor(.red)
                                 
                         }
-                        .padding(.top, 8)
+                        .padding(.top, 12)
+                        .padding(.leading, 12)
 
                         VStack(spacing: 10) {
                             
-                            ReusableText(title: "are_you_sure", fontSize: 24, fontName: "Livvic-SemiBold", fontColor: AppColors.textBlack1)
+                            ReusableText(title: "are_you_sure", fontSize: 20, fontName: "Livvic-SemiBold", fontColor: AppColors.textBlack1)
                                 .multilineTextAlignment(.center)
                                 .fixedSize(horizontal: false, vertical: true)
                             
-                             ReusableText(title: "are_you_sure_desc", fontSize: 18, fontName: "Livvic-Regular", fontColor: AppColors.textBlack1)
+                             ReusableText(title: "are_you_sure_desc", fontSize: 15, fontName: "Livvic-Regular", fontColor: AppColors.textBlack1)
                                 .multilineTextAlignment(.center)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
@@ -46,23 +54,20 @@ struct LogoutConfirmationPopup: View {
 
                         HStack(spacing: 12) {
                             Button(action: onCancel) {
-                                Text("cancel_title")
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .foregroundColor(.primary)
+                                
+                                ReusableText(title: "cancel_title", fontSize: 14, fontName: "Livvic-SemiBold", fontColor: AppColors.textBlack1)
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 52)
-                                    .background(Color(.systemGray6))
-                                    .cornerRadius(26)
+                                    .background(AppColors.grey6)
+                                    .cornerRadius(28)
                             }
 
                             Button(action: onLogout) {
-                                Text("logout_title")
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .foregroundColor(.white)
+                                ReusableText(title: "logout_title", fontSize: 14, fontName: "Livvic-SemiBold", fontColor: .white)
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 52)
-                                    .background(Color.red)
-                                    .cornerRadius(26)
+                                    .background(AppColors.red3)
+                                    .cornerRadius(28)
                             }
                         }
                     }

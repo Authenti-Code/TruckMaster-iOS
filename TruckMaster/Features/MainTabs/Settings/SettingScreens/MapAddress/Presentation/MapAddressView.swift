@@ -58,6 +58,7 @@ struct MapAddressView: View {
                 
                             VStack(alignment: .leading, spacing: 16) {
                                 if viewModel.state.isDetailsStage {
+                                    ScrollView {
                                         VStack(alignment: .leading, spacing: 16) {
 
                                             // Address row
@@ -67,7 +68,7 @@ struct MapAddressView: View {
                                                     : viewModel.state.selectedAddress,
                                                 subAddress: viewModel.state.selectedSubAddress,
                                                 onChangeTapped: {
-//                                                    viewModel.changeTapped()
+                                //                    viewModel.changeTapped()
                                                 }
                                             )
 
@@ -99,7 +100,10 @@ struct MapAddressView: View {
                                         .padding(.horizontal, 20)
                                         .padding(.top, 8)
                                         .padding(.bottom, 10)
-                                  
+                                    }
+                                    .scrollDismissesKeyboard(.interactively)
+                                    .scrollIndicators(.hidden)
+                                    .frame(maxHeight: 400)
                                 }
                                 else {
                                     HStack(spacing: 12) {

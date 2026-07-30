@@ -19,40 +19,42 @@ struct SignUpView: View {
 
     var body: some View {
         GeometryReader { geo in
-            VStack(spacing: 0) {
+            ScrollView {
+                VStack(spacing: 0) {
 
-                // Header
-                ZStack(alignment: .topLeading) {
-                    Image(ImageConstants.gradient1)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: geo.size.width, height: 250)
-                        .clipped()
+                    // Header
+                    ZStack(alignment: .topLeading) {
+                        Image(ImageConstants.gradient1)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: geo.size.width, height: 250)
+                            .clipped()
 
-                    Image(ImageConstants.lineGradient)
-                        .resizable()
-                        .frame(width: geo.size.width, height: 250)
-                        .clipped()
+                        Image(ImageConstants.lineGradient)
+                            .resizable()
+                            .frame(width: geo.size.width, height: 250)
+                            .clipped()
 
-                    HStack(alignment: .top) {
-                        ReusableText(
-                            title: "sign_up_title",
-                            fontSize: 24,
-                            fontName: "Magra-Bold",
-                            fontColor: AppColors.textBlack1
-                        )
-                        Spacer()
-                        Image(ImageConstants.truckBanner)
+                        HStack(alignment: .top) {
+                            ReusableText(
+                                title: "sign_up_title",
+                                fontSize: 24,
+                                fontName: "Magra-Bold",
+                                fontColor: AppColors.textBlack1
+                            )
+                            Spacer()
+                            Image(ImageConstants.truckBanner)
+                                .frame(height: 130)
+                                .frame(maxWidth: 210)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 20)
+                        .padding(.top, geo.safeAreaInsets.top + 30)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 20)
-                    .padding(.top, geo.safeAreaInsets.top + 30)
-                }
-                .frame(height: 250)
+                    .frame(height: 250)
 
-                // Card
-                if #available(iOS 16.0, *) {
-                    ScrollView {
+                    // Card
+                    if #available(iOS 16.0, *) {
                         VStack(alignment: .leading, spacing: 16) {
 
                             ReusableText(
@@ -235,24 +237,25 @@ struct SignUpView: View {
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(minHeight: geo.size.height - 250, alignment: .top)
                         .padding(.vertical, 30)
                         .padding(.horizontal, 30)
+                        .safeAreaInset(edge: .bottom) {
+                            Color.clear.frame(height: 10)
+                        }
+                        .background(Color.white)
+                        .clipShape(RoundedCorner(radius: 24, corners: [.topLeft, .topRight]))
+                        .overlay(
+                            RoundedCorner(radius: 24, corners: [.topLeft, .topRight])
+                                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                        )
+                    } else {
+                        // Fallback on earlier versions
                     }
-                    .scrollIndicators(.hidden)
-                    .scrollDismissesKeyboard(.interactively)
-                    .safeAreaInset(edge: .bottom) {
-                        Color.clear.frame(height: 10)
-                    }
-                    .background(Color.white)
-                    .clipShape(RoundedCorner(radius: 24, corners: [.topLeft, .topRight]))
-                    .overlay(
-                        RoundedCorner(radius: 24, corners: [.topLeft, .topRight])
-                            .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-                    )
-                } else {
-                    // Fallback on earlier versions
                 }
             }
+            .scrollIndicators(.hidden)
+            .scrollDismissesKeyboard(.interactively)
             .ignoresSafeArea(edges: .top)
             .ignoresSafeArea(edges: .bottom)
         }

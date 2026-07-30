@@ -78,7 +78,6 @@ struct ReusableText: View {
     }
 }
 
-
 struct DropdownField: View {
 
     let hint: LocalizedStringKey
@@ -89,7 +88,7 @@ struct DropdownField: View {
     @State private var showDropdown = false
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 6) {
 
             // Field
             HStack(spacing: 12) {
@@ -136,9 +135,9 @@ struct DropdownField: View {
             .contentShape(Rectangle())
             .onTapGesture {
                 guard isEditable else { return }
-                withAnimation(.easeInOut(duration: 0.2)) {
+//                withAnimation(.easeInOut(duration: 0.2)) {
                     showDropdown.toggle()
-                }
+//                }
             }
 
             // Dropdown List
@@ -158,16 +157,14 @@ struct DropdownField: View {
                                     .font(.system(size: 14, weight: .semibold))
                             }
                         }
-                        .padding(.vertical,10)
+                        .padding(.vertical, 10)
                         .padding(.horizontal, 16)
                         .frame(height: 48)
                         .background(selected == option ? AppColors.primary.opacity(0.05) : Color.white)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                selected = option
-                                showDropdown = false
-                            }
+                            selected = option
+                            showDropdown = false
                         }
 
                         if option != options.last {
@@ -176,7 +173,6 @@ struct DropdownField: View {
                         }
                     }
                 }
-               
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .overlay(

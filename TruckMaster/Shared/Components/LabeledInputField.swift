@@ -45,7 +45,7 @@ struct LabeledInputField: View {
 
                 SpaceGuardedTextField(
                     text: $text,
-                    placeholder: NSLocalizedString(hint, comment: ""),
+                    placeholder: hint,
                     isSecure: isSecure && !isPasswordVisible,
                     keyboardType: keyboardType,
                     isEditable: isEditable

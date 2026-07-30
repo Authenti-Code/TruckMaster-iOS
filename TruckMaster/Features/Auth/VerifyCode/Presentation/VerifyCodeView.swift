@@ -50,6 +50,8 @@ struct VerifyCodeView: View {
                             )
                             Spacer()
                             Image(ImageConstants.truckBanner)
+                                .frame(height: 130)
+                                .frame(maxWidth: 210)
                         }
                         .frame(maxWidth: .infinity)
                     }

@@ -27,4 +27,13 @@ final class LanguageManager: ObservableObject {
     var layoutDirection: LayoutDirection {
         isArabic ? .rightToLeft : .leftToRight
     }
+
+    func localizedString(for key: String) -> String {
+        guard let path = Bundle.main.path(forResource: language, ofType: "lproj"),
+              let bundle = Bundle(path: path) else {
+            return NSLocalizedString(key, comment: "")
+        }
+
+        return bundle.localizedString(forKey: key, value: nil, table: nil)
+    }
 }

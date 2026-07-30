@@ -72,14 +72,14 @@ final class SettingsViewModel: ObservableObject {
             deviceId: UIDevice.current.identifierForVendor?.uuidString ?? ""
         )
         do {
-//            let message = try await settingUseCase.logoutExecute(request: request)
+            let message = try await settingUseCase.logoutExecute(request: request)
             UserPreferences.shared.clearUser()
             router.navigateToRoot()
             router.navigate(to: .signIn)
         }
-//        catch {
-//            triggerError(error.localizedDescription)
-//        }
+        catch {
+            triggerError(error.localizedDescription)
+        }
     }
 
     // MARK: - Private

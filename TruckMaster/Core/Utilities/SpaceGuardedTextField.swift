@@ -1,26 +1,35 @@
+//
+//  SpaceGuardedTextField.swift
+//  TruckMaster
+//
+
 internal import SwiftUI
 
 struct SpaceGuardedTextField: UIViewRepresentable {
+
     @Binding var text: String
-    var placeholder: String = ""
+
+    var placeholder: String
     var isSecure: Bool = false
     var keyboardType: UIKeyboardType = .default
     var isEditable: Bool = true
     var font: UIFont = UIFont(name: "Livvic-Medium", size: 15) ?? UIFont.systemFont(ofSize: 15)
-    var returnKeyType: UIReturnKeyType = .default   // back to plain "return" key, no blue Done
+    var returnKeyType: UIReturnKeyType = .default
 
     func makeUIView(context: Context) -> UITextField {
-        let tf = UITextField()
-        tf.delegate = context.coordinator
-        tf.returnKeyType = returnKeyType
-        return tf
+        let textField = UITextField()
+        textField.delegate = context.coordinator
+        textField.returnKeyType = returnKeyType
+        return textField
     }
 
     func updateUIView(_ uiView: UITextField, context: Context) {
+
         if uiView.text != text && !uiView.isFirstResponder {
             uiView.text = text
         }
-        uiView.placeholder = placeholder
+
+        uiView.placeholder = LanguageManager.shared.localizedString(for: placeholder)
 
         if uiView.isSecureTextEntry != isSecure {
             uiView.isSecureTextEntry = isSecure
@@ -44,13 +53,19 @@ struct SpaceGuardedTextField: UIViewRepresentable {
     }
 
     class Coordinator: NSObject, UITextFieldDelegate {
+
         @Binding var text: String
 
         init(text: Binding<String>) {
             self._text = text
         }
 
-        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        func textField(
+            _ textField: UITextField,
+            shouldChangeCharactersIn range: NSRange,
+            replacementString string: String
+        ) -> Bool {
+
             if string == "\n" {
                 return false
             }
@@ -60,9 +75,11 @@ struct SpaceGuardedTextField: UIViewRepresentable {
             }
 
             let currentText = textField.text ?? ""
+
             if let swiftRange = Range(range, in: currentText) {
                 text = currentText.replacingCharacters(in: swiftRange, with: string)
             }
+
             return true
         }
 

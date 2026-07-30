@@ -64,29 +64,33 @@ final class ChangePasswordViewModel: ObservableObject {
     }
 
     private func validate() -> Bool {
-        if state.oldPassword.isEmpty {
+        if state.oldPassword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             triggerError("Old password is required")
             return false
         }
-        if state.newPassword.isEmpty {
+
+        if state.newPassword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             triggerError("New password is required")
             return false
         }
-        if state.confirmPassword.isEmpty {
-            triggerError("Confirm password is required")
-            return false
-        }
+
         if state.newPassword.count < 8 {
             triggerError("New password must be at least 8 characters")
             return false
         }
+
+        if state.confirmPassword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            triggerError("Confirm password is required")
+            return false
+        }
+
         if state.newPassword != state.confirmPassword {
             triggerError("Passwords do not match")
             return false
         }
+
         return true
     }
-
     private func updatePassword() async {
         state.isLoading = true
         defer { state.isLoading = false }

@@ -15,6 +15,11 @@ final class EditProfileViewModel: ObservableObject {
 
     @Published var state = EditProfileState()
 
+    @Published var nameError: String?
+    @Published var contactError: String?
+
+    private static let allowedDigits = Set("0123456789")
+
     private let editProfileUseCase: EditProfileUseCase
     private let router: AppRouter
 
@@ -26,11 +31,57 @@ final class EditProfileViewModel: ObservableObject {
         self.router               = router
     }
 
-  
     func onAppear() {
         loadUserInfo()
     }
 
+    var nameBinding: Binding<String> {
+        Binding(
+            get: { self.state.name },
+            set: { self.handleNameChange($0) }
+        )
+    }
+
+    var emailBinding: Binding<String> {
+        Binding(
+            get: { self.state.email },
+            set: { newValue in
+                guard !newValue.hasPrefix(" ") else { return }
+                self.state.email = newValue
+            }
+        )
+    }
+
+    var contactBinding: Binding<String> {
+        Binding(
+            get: { self.state.contact },
+            set: { self.handleContactChange($0) }
+        )
+    }
+
+    private func handleNameChange(_ newValue: String) {
+        guard !newValue.hasPrefix(" ") else { return }
+        state.name = newValue
+        validateNameRealTime()
+    }
+
+    private func handleContactChange(_ newValue: String) {
+        state.contact = newValue.filter { Self.allowedDigits.contains($0) }
+        if !state.contact.isEmpty {
+            contactError = nil
+        }
+    }
+
+    private func validateNameRealTime() {
+        let trimmed = state.name.trimmingCharacters(in: .whitespaces)
+        if trimmed.isEmpty {
+            nameError = nil
+        } else if trimmed.count < 3 {
+            nameError = "Name must be at least 3 characters"
+        } else {
+            nameError = nil
+        }
+    }
 
     func backTapped() {
         router.navigateBack()
@@ -40,21 +91,55 @@ final class EditProfileViewModel: ObservableObject {
         guard validate() else { return }
         Task { await updateProfile() }
     }
-    
+
     private func validate() -> Bool {
-        
-        if state.name.isEmpty {
+
+        nameError = nil
+        contactError = nil
+
+        let trimmedName  = state.name.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedEmail = state.email.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        state.name  = trimmedName
+        state.email = trimmedEmail
+
+        // Name
+        if trimmedName.isEmpty {
+            nameError = "Name is required"
             triggerError("Name is required")
             return false
         }
-        if state.email.isEmpty {
+
+        if trimmedName.count < 3 {
+            nameError = "Name must be at least 3 characters"
+            triggerError("Name must be at least 3 characters")
+            return false
+        }
+
+        // Email
+        if trimmedEmail.isEmpty {
             triggerError("Email is required")
             return false
         }
+
+        if !isValidEmail(trimmedEmail) {
+            triggerError("Please enter a valid email address")
+            return false
+        }
+
+        // Contact
         if state.contact.isEmpty {
+            contactError = "Contact is required"
             triggerError("Contact is required")
             return false
         }
+
+        if state.contact.count != 10 {
+            contactError = "Contact must be exactly 10 digits"
+            triggerError("Contact must be exactly 10 digits")
+            return false
+        }
+
         return true
     }
 
@@ -64,14 +149,12 @@ final class EditProfileViewModel: ObservableObject {
 
     // MARK: - Private
     private func loadUserInfo() {
-        let user        = UserPreferences.shared.getUser()
-        state.name      = user?.name      ?? ""
-        state.email     = user?.email     ?? ""
-        state.contact   = user?.phoneNumber   ?? ""
+        let user         = UserPreferences.shared.getUser()
+        state.name       = user?.name      ?? ""
+        state.email      = user?.email     ?? ""
+        state.contact    = user?.phoneNumber   ?? ""
         state.profileImg = user?.profileImage ?? ""
     }
-
-
 
     private func updateProfile() async {
         state.isLoading = true

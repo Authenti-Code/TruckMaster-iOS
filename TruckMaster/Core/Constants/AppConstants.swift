@@ -49,6 +49,7 @@ enum ImageConstants {
     static let line1 = "line1"
     static let date = "ic_date"
     static let time = "ic_time"
+    static let logout = "ic_logout"
     
     //Home icons
     static let homeUnSelected = "ic_home_unselected"
@@ -125,6 +126,7 @@ enum ComingFrom: String {
     case addAddress = "add_address"
     case addressChangeAddress = "address_change_address"
 }
+
 
 enum MeasurementUnit: String, CaseIterable {
     case m = "Meter (m)"
