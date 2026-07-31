@@ -5,9 +5,9 @@
 //  Created by AuthentiCode on 11/06/26.
 //
 
-import Foundation
+internal import Foundation
 internal import Combine
-import UIKit
+internal import UIKit
 internal import SwiftUI
 
 @available(iOS 16.0, *)

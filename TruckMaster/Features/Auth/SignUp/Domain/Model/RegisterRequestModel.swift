@@ -6,7 +6,7 @@
 //
 
 
-import Foundation
+internal import Foundation
 
 struct RegisterRequestModel: Codable {
     let name: String

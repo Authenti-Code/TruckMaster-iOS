@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 03/06/26.
 //
 
-import Foundation
+internal import Foundation
 
 enum Logger {
 
@@ -65,6 +65,34 @@ enum Logger {
         #endif
     }
 
+    // MARK: - Socket logging
+
+    static func logSocketEmit(event: String, payload: [String: Any]) {
+        #if DEBUG
+        print("")
+        print("┌─────────────────────────────────────────")
+        print("│ SOCKET EMIT: \(event)")
+        printBody(jsonString(from: payload))
+        print("└─────────────────────────────────────────")
+        #endif
+    }
+
+    static func logSocketResponse(event: String, payload: Any) {
+        #if DEBUG
+        print("┌─────────────────────────────────────────")
+        print("│ SOCKET RESPONSE: \(event)")
+        printBody(jsonString(from: payload))
+        print("└─────────────────────────────────────────")
+        print("")
+        #endif
+    }
+
+    static func logSocketEvent(name: String, items: [Any]) {
+        #if DEBUG
+        print("[ SOCKET   ] \(name) — \(items)")
+        #endif
+    }
+
     // MARK: - Body formatting
 
     private static func printBody(_ body: String) {
@@ -86,6 +114,16 @@ enum Logger {
         }
         return prettyString
     }
+
+    private static func jsonString(from object: Any) -> String {
+        guard JSONSerialization.isValidJSONObject(object),
+              let data = try? JSONSerialization.data(withJSONObject: object),
+              let string = String(data: data, encoding: .utf8)
+        else {
+            return "\(object)"
+        }
+        return string
+    }
 }
 
 // Usage
@@ -94,3 +132,5 @@ enum Logger {
 // Logger.logRequest(url: "...", method: "POST", body: "...")
 // Logger.logResponse(statusCode: 200, body: "...")
 // Logger.logError(error)
+// Logger.logSocketEmit(event: "join_room", payload: [...])
+// Logger.logSocketResponse(event: "join_room", payload: [...])

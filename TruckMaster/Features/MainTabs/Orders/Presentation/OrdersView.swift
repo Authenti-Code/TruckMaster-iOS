@@ -4,10 +4,6 @@
 //
 //  Created by AuthentiCode on 10/06/26.
 //
-//
-//  OrdersView.swift
-//  TruckMaster
-//
 
 internal import SwiftUI
 
@@ -17,31 +13,32 @@ struct OrdersView: View {
     @StateObject var viewModel: OrdersViewModel
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        VStack(spacing: 0) {
 
+        
+            HStack {
+                ReusableText(
+                    title: "orders_heading",
+                    fontSize: 18,
+                    fontName: "Livvic-SemiBold",
+                    fontColor: AppColors.textBlack1
+                )
+
+                Spacer()
+
+                Button {
+                    viewModel.notificationTapped()
+                } label: {
+                    Image(ImageConstants.icNotification)
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+            .padding(.bottom, 20)
+
+            // MARK: - Scrollable content
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
-
-                    // MARK: - Header
-                    HStack {
-                        ReusableText(
-                            title: "orders_heading",
-                            fontSize: 18,
-                            fontName: "Livvic-SemiBold",
-                            fontColor: AppColors.textBlack1
-                        )
-
-                        Spacer()
-
-                        Button {
-                            viewModel.notificationTapped()
-                        } label: {
-                            Image(ImageConstants.icNotification)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 20)
-                    .padding(.bottom, 20)
 
                     // MARK: - Orders List
                     if viewModel.state.isLoading {
@@ -50,7 +47,7 @@ struct OrdersView: View {
                             .padding(.top, 40)
 
                     }  else if viewModel.state.orders.isEmpty {
-                        
+
                         VStack {
                             Spacer()
 
@@ -65,11 +62,11 @@ struct OrdersView: View {
                         }
                         .frame(
                             maxWidth: .infinity,
-                            minHeight: UIScreen.main.bounds.height * 0.6
+                            minHeight: UIScreen.main.bounds.height * 0.5
                         )
                     } else {
                         LazyVStack(spacing: 12) {
-                            ForEach(viewModel.state.orders) { order in
+                            ForEach(viewModel.state.orders, id: \.id) { order in
                                 OrderCard(order: order)
                                     .padding(.horizontal, 20)
                                     .onAppear {
@@ -93,9 +90,9 @@ struct OrdersView: View {
             .refreshable {
                 await viewModel.onRefresh()
             }
-            .navigationBarHidden(true)
             .scrollIndicators(.hidden)
         }
+        .navigationBarHidden(true)
         .onAppear {
             viewModel.onAppear()
         }
@@ -133,10 +130,8 @@ private struct OrderCard: View {
 
                     Text(order.status)
                         .font(.custom("Livvic-SemiBold", size: 11))
-//                        .foregroundColor(order.status.textColor)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
-//                        .background(order.status.backgroundColor)
                         .cornerRadius(5)
                 }
                 .padding(.bottom, 10)
@@ -188,15 +183,4 @@ private struct OrderCard: View {
             .padding(16)
         }
     }
-}
-
-#Preview {
-    if #available(iOS 16.0, *) {
-        let repo    = OrdersRepositoryImpl(apiClient: APIClient())
-        let useCase = GetOrdersUseCase(repository: repo)
-        OrdersView(viewModel: OrdersViewModel(
-            getOrdersUseCase: useCase,
-            router: AppRouter()
-        ))
-    } else { }
 }

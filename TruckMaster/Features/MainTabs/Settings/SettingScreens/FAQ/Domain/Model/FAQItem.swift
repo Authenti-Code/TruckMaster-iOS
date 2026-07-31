@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 18/06/26.
 //
 
-import Foundation
+internal import Foundation
 
 struct FAQItem: Identifiable {
     let id = UUID()

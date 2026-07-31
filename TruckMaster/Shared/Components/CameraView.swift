@@ -6,7 +6,7 @@
 //
 
 internal import SwiftUI
-import UIKit
+internal import UIKit
 
 struct CameraView: UIViewControllerRepresentable {
 

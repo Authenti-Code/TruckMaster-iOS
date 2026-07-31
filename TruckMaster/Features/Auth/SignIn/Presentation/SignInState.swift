@@ -6,7 +6,7 @@
 //
 
 
-import Foundation
+internal import Foundation
 
 struct SignInState {
     var email:          String       = ""

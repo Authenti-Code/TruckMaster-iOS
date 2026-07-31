@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 03/06/26.
 //
 
-import Foundation
+internal import Foundation
 
 enum EndPoints {
 
@@ -30,6 +30,7 @@ enum EndPoints {
     //shimpent
     case category
     case createOrder
+    case activeOrders
     case getOrders
 
     var path: String {
@@ -56,6 +57,8 @@ enum EndPoints {
         
         case .updatePassword:
             return "/set-new-password"
+            
+            
             
             
         //Setting screen api
@@ -87,6 +90,8 @@ enum EndPoints {
             return "/account/delete"
             
             
+            
+            
         
         //Shipment
         case .profile:
@@ -100,6 +105,8 @@ enum EndPoints {
             
         case .getOrders:
             return "/orders"
+        case .activeOrders:
+            return "/active-orders"
         }
     }
 

@@ -10,7 +10,7 @@
 //  TruckMaster
 //
 
-import Foundation
+internal import Foundation
 
 
 final class SignUpRepositoryImpl: SignUpRepository {

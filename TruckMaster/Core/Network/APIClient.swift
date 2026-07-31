@@ -5,8 +5,8 @@
 //  Created by AuthentiCode on 03/06/26.
 //
 
-import Foundation
-import UIKit
+internal import Foundation
+internal import UIKit
 
 protocol APIClientProtocol {
 

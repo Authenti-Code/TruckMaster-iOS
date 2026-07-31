@@ -6,42 +6,42 @@ struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        VStack(spacing: 0) {
 
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    ReusableText(
+                        title: "location_title",
+                        fontSize: 16,
+                        fontName: "Livvic-SemiBold",
+                        fontColor: AppColors.textBlack1
+                    )
+                    .padding(.bottom, 2)
+
+                    HStack(spacing: 4) {
+                        Image(ImageConstants.icLocation)
+
+                        Text(viewModel.state.locationName)
+                            .font(.custom("Rubik-Regular", size: 14))
+                            .foregroundColor(AppColors.grey1)
+                    }
+                }
+
+                Spacer()
+
+                Button {
+                    viewModel.notificationTapped()
+                } label: {
+                    Image(ImageConstants.icNotification)
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+            .padding(.bottom, 20)
+
+            // MARK: - Scrollable content
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
-
-                    // MARK: - Header
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            ReusableText(
-                                title: "location_title",
-                                fontSize: 16,
-                                fontName: "Livvic-SemiBold",
-                                fontColor: AppColors.textBlack1
-                            )
-                            .padding(.bottom, 2)
-
-                            HStack(spacing: 4) {
-                                Image(ImageConstants.icLocation)
-
-                                Text(viewModel.state.locationName)
-                                    .font(.custom("Rubik-Regular", size: 14))
-                                    .foregroundColor(AppColors.grey1)
-                            }
-                        }
-
-                        Spacer()
-
-                        Button {
-                            viewModel.notificationTapped()
-                        } label: {
-                            Image(ImageConstants.icNotification)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 20)
-                    .padding(.bottom, 20)
 
                     // MARK: - Banners
                     VStack(spacing: 12) {
@@ -94,7 +94,7 @@ struct HomeView: View {
                         .padding(.bottom, 8)
 
                         VStack(spacing: 12) {
-                            ForEach(viewModel.state.shipments) { shipment in
+                            ForEach(viewModel.state.shipments, id: \.id) { shipment in
                                 CardContainer(
                                     cornerRadius: 16,
                                     backgroundColor: AppColors.grey3
@@ -112,9 +112,9 @@ struct HomeView: View {
             .refreshable {
                 await viewModel.onRefresh()
             }
-            .navigationBarHidden(true)
             .scrollIndicators(.hidden)
         }
+        .navigationBarHidden(true)
         .onAppear {
             viewModel.onAppear()
         }

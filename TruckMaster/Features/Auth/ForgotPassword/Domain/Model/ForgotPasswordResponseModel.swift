@@ -6,7 +6,7 @@
 //
 
 
-import Foundation
+internal import Foundation
 
 struct ForgotPasswordResponseModel: Codable {
     let resetToken: String

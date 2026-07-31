@@ -4,7 +4,7 @@
 //
 //  Created by AuthentiCode on 01/07/26.
 //
-import Foundation
+internal import Foundation
 
 final class EnRouteUseCase {
     private let repository: EnRouteRepository

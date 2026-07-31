@@ -2,9 +2,9 @@
 //  PickupLocationViewModel.swift
 //  TruckMaster
 
-import Foundation
-import CoreLocation
-import UIKit
+internal import Foundation
+internal import CoreLocation
+internal import UIKit
 internal import Combine
 
 @available(iOS 16.0, *)
@@ -34,26 +34,26 @@ final class PickupLocationViewModel: ObservableObject {
         router.navigateBack()
     }
 
-    func companyTapped(_ company: CompanyModel) {
+    func companyTapped(_ offer: ActiveOrderOffer) {
         router.navigate(to: .orderDetails)
     }
-    
+
     private func searchForCompany() async {
         state.isSearching = true
         state.visibleCount = 0
 
         do {
-            let results = try await repository.fetchCompany()
+            let activeOrder = try await repository.fetchActiveOrder()
             state.isSearching = false
-            state.companies = results
+            state.offers = activeOrder.offers
 
-            for i in 1...max(1, results.count) {
-                try? await Task.sleep(for: .milliseconds(1200))
+            for i in 1...max(1, activeOrder.offers.count) {
+                try? await Task.sleep(for: .milliseconds(1000))
                 state.visibleCount = i
             }
 
         } catch {
-          
+
         }
     }
 }

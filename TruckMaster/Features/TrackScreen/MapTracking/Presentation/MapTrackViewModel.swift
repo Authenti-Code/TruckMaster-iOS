@@ -5,9 +5,9 @@
 //  Created by AuthentiCode on 02/07/26.
 //
 
-import Foundation
-import CoreLocation
-import UIKit
+internal import Foundation
+internal import CoreLocation
+internal import UIKit
 internal import Combine
 
 @available(iOS 16.0, *)

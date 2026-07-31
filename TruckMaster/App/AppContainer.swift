@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 03/06/26.
 //
 internal import SwiftUI
-import CoreLocation
+internal import CoreLocation
 
 @available(iOS 16.0, *)
 final class AppContainer {

@@ -6,7 +6,7 @@
 //
 
 
-import Foundation
+internal import Foundation
 
 struct SignUpState {
     var name:            String       = ""

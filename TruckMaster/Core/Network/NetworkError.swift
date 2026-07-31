@@ -3,7 +3,7 @@
 //  TruckMaster
 //
 
-import Foundation
+internal import Foundation
 
 enum NetworkError: LocalizedError {
     case invalidResponse

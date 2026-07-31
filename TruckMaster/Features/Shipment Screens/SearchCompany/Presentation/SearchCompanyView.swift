@@ -62,7 +62,7 @@ struct SearchCompanyView: View {
                                 )
                                 .frame(maxWidth: .infinity, alignment: .center)
 
-                            } else if viewModel.state.companies.isEmpty {
+                            } else if viewModel.state.offers.isEmpty {
                                 HStack {
                                     Spacer()
                                     Image(ImageConstants.truckImage2)
@@ -83,14 +83,15 @@ struct SearchCompanyView: View {
                             } else {
                                 ScrollView {
                                     VStack(spacing: 12) {
-                                        ForEach(viewModel.state.companies.prefix(viewModel.state.visibleCount)) { company in
-                                            CompanyCardView(company: company) {
-                                                viewModel.companyTapped(company)
+                                        VStack(spacing: 12) {
+                                            ForEach(
+                                                Array(viewModel.state.offers.prefix(viewModel.state.visibleCount)),
+                                                id: \.company.id
+                                            ) { company in
+                                                CompanyCardView(offer: company) {
+                                                    viewModel.companyTapped(company)
+                                                }
                                             }
-                                            .transition(.asymmetric(
-                                                insertion: .move(edge: .bottom).combined(with: .opacity),
-                                                removal: .opacity
-                                            ))
                                         }
                                     }
                                     .animation(.easeOut(duration: 0.3), value: viewModel.state.visibleCount)
@@ -126,7 +127,7 @@ struct SearchCompanyView: View {
 }
 
 private struct CompanyCardView: View {
-    let company: CompanyModel
+    let offer: ActiveOrderOffer
     let onTap: () -> Void
     var body: some View {
         VStack(alignment: .leading, spacing: 12){
@@ -138,12 +139,13 @@ private struct CompanyCardView: View {
                     .frame(width: 48, height: 48)
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(company.companyName)
+                    Text(offer.company.companyName)
                         .font(.custom("Livvic-Medium", size: 14))
                         .foregroundColor(AppColors.textBlack1)
                     
                     HStack(spacing: 8) {
-                        if let rating = company.rating {
+                        if let rating = offer.company.id.isMultiple(of: 2) ? nil : "4.8" {
+                      
                             HStack(spacing: 2) {
                                 Image(systemName: "star.fill")
                                     .font(.system(size: 11))
@@ -153,15 +155,7 @@ private struct CompanyCardView: View {
                                     .foregroundColor(AppColors.grey1)
                             }
                         }
-                        Divider()
-                            .frame(width: 2)
-                            .frame(maxHeight: 20)
-                        
-                        if let truckType = company.truckType {
-                            Text(truckType)
-                                .font(.custom("Livvic-Medium", size: 13))
-                                .foregroundColor(AppColors.grey1)
-                        }
+                    
                       
                     }
                 }
@@ -169,11 +163,11 @@ private struct CompanyCardView: View {
                 Spacer()
                 
                 VStack(alignment: .trailing, spacing: 4) {
-                    Text("$\(company.price)")
+                    Text("$\(offer.price)")
                         .font(.custom("Livvic-SemiBold", size: 16))
                         .foregroundColor(AppColors.textBlack1)
                     
-                    if let time = company.time {
+                    if let time = offer.respondedAt {
                         Text("\(time)")
                             .font(.custom("Livvic-Medium", size: 13))
                             .foregroundColor(AppColors.grey1)

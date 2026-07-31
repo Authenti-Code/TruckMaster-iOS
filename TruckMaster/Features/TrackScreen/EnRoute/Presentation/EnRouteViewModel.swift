@@ -4,7 +4,7 @@
 //
 //  Created by AuthentiCode on 01/07/26.
 //
-import Foundation
+internal import Foundation
 internal import Combine
 
 @available(iOS 16.0, *)

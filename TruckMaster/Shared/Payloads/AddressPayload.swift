@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 19/06/26.
 //
 
-import Foundation
+internal import Foundation
 
 // MARK: - AddressPayload
 struct AddressPayload: Encodable {

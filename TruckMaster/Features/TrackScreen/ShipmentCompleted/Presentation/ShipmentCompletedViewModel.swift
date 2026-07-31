@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 19/06/26.
 //
 
-import Foundation
+internal import Foundation
 
 @available(iOS 16.0, *)
 @MainActor

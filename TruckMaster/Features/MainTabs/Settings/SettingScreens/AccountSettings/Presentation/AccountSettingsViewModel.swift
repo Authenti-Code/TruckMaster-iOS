@@ -6,7 +6,7 @@
 //
 
 
-import Foundation
+internal import Foundation
 @available(iOS 16.0, *)
 @MainActor
 final class AccountSettingsViewModel {

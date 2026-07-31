@@ -6,7 +6,7 @@
 //
 
 internal import SwiftUI
-import GoogleMaps
+internal import GoogleMaps
 
 struct PickupLocationMapView: UIViewRepresentable {
 

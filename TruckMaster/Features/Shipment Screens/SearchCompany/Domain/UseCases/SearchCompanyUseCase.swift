@@ -12,7 +12,7 @@ final class SearchCompanyUseCase {
         self.repository = repository
     }
 
-    func execute() async throws -> [CompanyModel] {
-        try await repository.fetchCompany()
+    func execute() async throws -> ActiveOrderData {
+        try await repository.fetchActiveOrder()
     }
 }

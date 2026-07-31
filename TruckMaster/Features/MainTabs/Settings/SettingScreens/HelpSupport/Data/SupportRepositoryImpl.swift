@@ -6,7 +6,7 @@
 //
 
 
-import Foundation
+internal import Foundation
 
 protocol GetAutoReplyUseCase {
     func execute() async throws -> ChatMessageModel

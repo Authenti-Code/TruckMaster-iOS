@@ -6,7 +6,7 @@
 //
 
 
-import Foundation
+internal import Foundation
 internal import SwiftUI
 internal import Combine
 

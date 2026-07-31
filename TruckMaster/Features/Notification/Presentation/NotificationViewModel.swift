@@ -7,7 +7,7 @@
 
 
 
-import Foundation
+internal import Foundation
 internal import Combine
 
 @available(iOS 16.0, *)

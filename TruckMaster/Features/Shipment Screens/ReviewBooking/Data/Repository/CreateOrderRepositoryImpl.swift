@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 26/06/26.
 //
 
-import Foundation
+internal import Foundation
 
 final class CreateOrderRepositoryImpl: CreateOrderRepository {
 

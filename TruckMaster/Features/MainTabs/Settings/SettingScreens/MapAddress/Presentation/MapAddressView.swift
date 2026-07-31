@@ -4,7 +4,7 @@
 //
 
 internal import SwiftUI
-import GoogleMaps
+internal import GoogleMaps
 
 @available(iOS 16.0, *)
 struct MapAddressView: View {

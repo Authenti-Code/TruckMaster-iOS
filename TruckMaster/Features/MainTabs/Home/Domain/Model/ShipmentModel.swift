@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 11/06/26.
 //
 
-import Foundation
+internal import Foundation
 
 struct ShipmentModel: Identifiable, Codable {
     let id:            String

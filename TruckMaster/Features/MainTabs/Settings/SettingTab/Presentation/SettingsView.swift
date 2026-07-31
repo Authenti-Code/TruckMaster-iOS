@@ -14,138 +14,138 @@ struct SettingsView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
 
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 0) {
+            VStack(spacing: 0) {
 
-                    // MARK: - Header
-                    HStack {
-                        ReusableText(
-                            title: "settings_heading",
-                            fontSize: 18,
-                            fontName: "Livvic-SemiBold",
-                            fontColor: AppColors.textBlack1
-                        )
+                // MARK: - Header 
+                HStack {
+                    ReusableText(
+                        title: "settings_heading",
+                        fontSize: 18,
+                        fontName: "Livvic-SemiBold",
+                        fontColor: AppColors.textBlack1
+                    )
 
-                        Spacer()
+                    Spacer()
 
-                        Button {
-                            viewModel.notificationTapped()
-                        } label: {
-                            Image(ImageConstants.icNotification)
-                        }
+                    Button {
+                        viewModel.notificationTapped()
+                    } label: {
+                        Image(ImageConstants.icNotification)
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 20)
-                    .padding(.bottom, 16)
-                    
-                    
-                 
-                    
-                    // MARK: - Profile Card
-                    if let user = viewModel.state.user {
-                        
-                        
-                        CardContainer(
-                            cornerRadius: 16,
-                            backgroundColor: AppColors.grey3
-                        ) {
-                            HStack(spacing: 12) {
-                                if let profileImage = user.profileImage, !profileImage.isEmpty {
-                                    
-                                    AsyncImage(url: URL(string: profileImage)) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                    } placeholder: {
-                                        Circle()
-                                            .fill(AppColors.grey2)
-                                            .frame(width: 50, height: 50)
-                                            .shimmer()
-                                    }
-                                    .frame(width: 50, height: 50)
-                                    .clipShape(Circle())
-                              
-                                } else {
-                                    Image(ImageConstants.user)
-                                        .resizable()
-                                        .scaledToFill()
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 16)
+
+                // MARK: - Scrollable content
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 0) {
+
+                        // MARK: - Profile Card
+                        if let user = viewModel.state.user {
+
+                            CardContainer(
+                                cornerRadius: 16,
+                                backgroundColor: AppColors.grey3
+                            ) {
+                                HStack(spacing: 12) {
+                                    if let profileImage = user.profileImage, !profileImage.isEmpty {
+
+                                        AsyncImage(url: URL(string: profileImage)) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                        } placeholder: {
+                                            Circle()
+                                                .fill(AppColors.grey2)
+                                                .frame(width: 50, height: 50)
+                                                .shimmer()
+                                        }
                                         .frame(width: 50, height: 50)
                                         .clipShape(Circle())
+
+                                    } else {
+                                        Image(ImageConstants.user)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 50, height: 50)
+                                            .clipShape(Circle())
+                                    }
+
+                                    VStack(alignment: .leading, spacing: 4) {
+
+                                        Text(user.name)
+                                            .font(.custom("Livvic-SemiBold", size: 15))
+                                            .foregroundColor(AppColors.textBlack1)
+
+                                        Text(user.email)
+                                            .font(.custom("Livvic-Regular", size: 13))
+                                            .foregroundColor(AppColors.grey1)
+                                    }
+
+                                    Spacer()
+
+                                    Button {
+                                        viewModel.editTapped()
+                                    } label: {
+                                        HStack(spacing: 4) {
+
+                                            Text("Edit")
+                                                .font(.custom("Livvic-SemiBold", size: 13))
+                                                .foregroundColor(AppColors.secondary)
+
+                                            Image(systemName: "chevron.right")
+                                                .font(.system(size: 12))
+                                                .foregroundColor(AppColors.secondary)
+                                        }
+                                    }
                                 }
+                                .padding(16)
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 16)
+                        }
 
-                                VStack(alignment: .leading, spacing: 4) {
-
-                                    Text(user.name)
-                                        .font(.custom("Livvic-SemiBold", size: 15))
-                                        .foregroundColor(AppColors.textBlack1)
-
-                                    Text(user.email)
-                                        .font(.custom("Livvic-Regular", size: 13))
-                                        .foregroundColor(AppColors.grey1)
-                                }
-
-                                Spacer()
-
-                                Button {
-                                    viewModel.editTapped()
-                                } label: {
-                                    HStack(spacing: 4) {
-
-                                        Text("Edit")
-                                            .font(.custom("Livvic-SemiBold", size: 13))
-                                            .foregroundColor(AppColors.secondary)
-
-                                        Image(systemName: "chevron.right")
-                                            .font(.system(size: 12))
-                                            .foregroundColor(AppColors.secondary)
+                        // MARK: - Settings Items
+                        ElevatedCardContainer(
+                            cornerRadius: 16,
+                            backgroundColor: .white
+                        ) {
+                            VStack(spacing: 0) {
+                                ForEach(Array(viewModel.state.settingsItems.enumerated()), id: \.element.id) { index, item in
+                                    SettingsRowItem(item: item) {
+                                        viewModel.settingsItemTapped(item)
                                     }
                                 }
                             }
-                            .padding(16)
                         }
                         .padding(.horizontal, 20)
-                        .padding(.bottom, 16)
-                    }
+                        .padding(.bottom, 24)
 
-                    // MARK: - Settings Items
-                    ElevatedCardContainer(
-                        cornerRadius: 16,
-                        backgroundColor: .white
-                    ) {
-                        VStack(spacing: 0) {
-                            ForEach(Array(viewModel.state.settingsItems.enumerated()), id: \.element.id) { index, item in
-                                SettingsRowItem(item: item) {
-                                    viewModel.settingsItemTapped(item)
-                                }
+                        // MARK: - Logout
+                        Button {
+                            showLogoutConfirmation = true
+                        } label: {
+                            HStack(spacing: 8) {
+                                ReusableText(
+                                    title: "logout_label",
+                                    fontSize: 15,
+                                    fontName: "Livvic-SemiBold",
+                                    fontColor: AppColors.secondary
+                                )
+                                Image(systemName: "rectangle.portrait.and.arrow.right")
+                                    .foregroundColor(AppColors.secondary)
                             }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 8)
                         }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 24)
 
-                    // MARK: - Logout
-                    Button {
-                        showLogoutConfirmation = true
-                    } label: {
-                        HStack(spacing: 8) {
-                            ReusableText(
-                                title: "logout_label",
-                                fontSize: 15,
-                                fontName: "Livvic-SemiBold",
-                                fontColor: AppColors.secondary
-                            )
-                            Image(systemName: "rectangle.portrait.and.arrow.right")
-                                .foregroundColor(AppColors.secondary)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
+                        Spacer(minLength: 100)
                     }
-
-                    Spacer(minLength: 100)
                 }
+                .scrollIndicators(.hidden)
             }
             .navigationBarHidden(true)
-            .scrollIndicators(.hidden)
 //            .snackbar(
 //                isShowing: viewModel.binding(for: \.state.showSnackbar),
 //                message: viewModel.state.snackbarMessage,

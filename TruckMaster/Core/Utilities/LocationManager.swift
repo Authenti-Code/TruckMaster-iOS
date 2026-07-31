@@ -7,7 +7,7 @@
 //
 
 
-import CoreLocation
+internal import CoreLocation
 internal import Combine
 
 struct LocationAddressDetails {

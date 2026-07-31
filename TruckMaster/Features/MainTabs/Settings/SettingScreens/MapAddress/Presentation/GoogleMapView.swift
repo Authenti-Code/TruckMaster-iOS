@@ -4,7 +4,7 @@
 //
 
 internal import SwiftUI
-import GoogleMaps
+internal import GoogleMaps
 
 struct GoogleMapView: UIViewRepresentable {
 

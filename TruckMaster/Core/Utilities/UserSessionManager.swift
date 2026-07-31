@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 15/06/26.
 //
 
-import Foundation
+internal import Foundation
 internal import Combine
 
 class UserSessionManager: ObservableObject {

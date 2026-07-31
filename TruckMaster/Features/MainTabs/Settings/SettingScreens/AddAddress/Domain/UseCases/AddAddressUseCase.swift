@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 16/06/26.
 //
 
-import Foundation
+internal import Foundation
 
 final class AddAddressUseCase {
     private let repository: AddAddressRepository

@@ -3,9 +3,9 @@
 //  TruckMaster
 //
 
-import Foundation
-import GoogleMaps
-import CoreLocation
+internal import Foundation
+internal import GoogleMaps
+internal import CoreLocation
 internal import SwiftUI
 internal import Combine
 

@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 30/06/26.
 //
 
-import UIKit
+internal import UIKit
 
 final class PulsingMarkerView: UIView {
 

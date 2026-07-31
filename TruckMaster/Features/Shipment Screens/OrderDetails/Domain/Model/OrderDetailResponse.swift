@@ -3,7 +3,7 @@
 //  TruckMaster
 //
 
-import Foundation
+internal import Foundation
 
 // MARK: - Order Detail Response
 struct OrderDetailResponse: Codable {

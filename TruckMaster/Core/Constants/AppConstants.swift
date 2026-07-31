@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 03/06/26.
 //
 
-import Foundation
+internal import Foundation
 internal import SwiftUI
 
 enum ImageConstants {

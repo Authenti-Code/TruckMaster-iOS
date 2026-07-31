@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 08/06/26.
 //
 
-import Foundation
+internal import Foundation
 
 final class VerifyCodeRepositoryImpl: VerifyCodeRepository {
     func resendCode(request: ResendCodeRequestModel) async throws -> String {

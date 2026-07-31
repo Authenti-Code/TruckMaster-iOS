@@ -6,7 +6,7 @@
 //
 
 
-import Foundation
+internal import Foundation
 
 final class SettingsRepositoryImpl: SettingsRepository {
     func getUserProfileApi() async throws -> ProfileResponse {

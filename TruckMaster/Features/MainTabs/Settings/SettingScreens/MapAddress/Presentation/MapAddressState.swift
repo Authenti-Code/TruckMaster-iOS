@@ -5,7 +5,7 @@
 //  Created by AuthentiCode on 15/06/26.
 //
 
-import GoogleMaps
+internal import GoogleMaps
 
 struct MapAddressState {
     var searchText: String = ""
