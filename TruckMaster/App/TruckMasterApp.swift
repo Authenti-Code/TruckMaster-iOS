@@ -46,4 +46,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
     
+    func applicationWillTerminate(_ application: UIApplication) {
+        GlobalShipmentSocket.disconnect()
+    }
+    
 }

@@ -11,7 +11,7 @@ struct EditProfileView: View {
     var body: some View {
         VStack(spacing: 0) {
 
-            // MARK: - Header
+            // MARK: - Header 
             ZStack {
 
                 ReusableText(
@@ -35,105 +35,103 @@ struct EditProfileView: View {
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 16)
-            // MARK: - Content
 
+            // MARK: - Scrollable content
+            ScrollView {
+                VStack(spacing: 0) {
 
-            VStack(spacing: 0) {
-
-                // MARK: - Profile Image
-                ZStack(alignment: .bottom) {
-                    // Profile Image
-                    if let selectedImage = viewModel.state.selectedImage {
-                        Image(uiImage: selectedImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 110, height: 110)
-                            .clipShape(Circle())
-                    } else if viewModel.state.profileImg.isEmpty {
-                        Image(ImageConstants.user)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 110, height: 110)
-                            .clipShape(Circle())
-                    } else {
-                        AsyncImage(url: URL(string: viewModel.state.profileImg)) { image in
-                            image
+                    // MARK: - Profile Image
+                    ZStack(alignment: .bottom) {
+                        if let selectedImage = viewModel.state.selectedImage {
+                            Image(uiImage: selectedImage)
                                 .resizable()
                                 .scaledToFill()
-                        } placeholder: {
-                            Circle()
-                                .fill(AppColors.grey2)
                                 .frame(width: 110, height: 110)
-                                .shimmer()
+                                .clipShape(Circle())
+                        } else if viewModel.state.profileImg.isEmpty {
+                            Image(ImageConstants.user)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 110, height: 110)
+                                .clipShape(Circle())
+                        } else {
+                            AsyncImage(url: URL(string: viewModel.state.profileImg)) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            } placeholder: {
+                                Circle()
+                                    .fill(AppColors.grey2)
+                                    .frame(width: 110, height: 110)
+                                    .shimmer()
+                            }
+                            .frame(width: 110, height: 110)
+                            .clipShape(Circle())
                         }
-                        .frame(width: 110, height: 110)
-                        .clipShape(Circle())
-                    }
 
-                    // Bottom Overlay
-                    Button {
-                        showImageOptions = true
-                    } label: {
-                        ZStack {
-                            Rectangle()
-                                .fill(.white.opacity(0.85))
-                                .frame(height: 28)
+                        Button {
+                            showImageOptions = true
+                        } label: {
+                            ZStack {
+                                Rectangle()
+                                    .fill(.white.opacity(0.85))
+                                    .frame(height: 28)
 
-                            Image(ImageConstants.edit)
-                                .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(AppColors.primary)
+                                Image(ImageConstants.edit)
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundColor(AppColors.primary)
+                            }
                         }
                     }
-                }
-                .frame(width: 110, height: 110)
-                .clipShape(Circle())
-                .padding(.top, 20)
-                .padding(.bottom, 30)
+                    .frame(width: 110, height: 110)
+                    .clipShape(Circle())
+                    .padding(.top, 20)
+                    .padding(.bottom, 30)
 
-                // MARK: - Form Fields
-                VStack(alignment: .leading, spacing: 16) {
+                    // MARK: - Form Fields
+                    VStack(alignment: .leading, spacing: 16) {
 
-                    // Name
-                    VStack(alignment: .leading, spacing: 4) {
-                        NameInputField(
-                            label: "name_required",
-                            hint: "enter_name",
-                            isRequired: true,
-                            text: viewModel.nameBinding
-                        )
-                    }
+                        VStack(alignment: .leading, spacing: 4) {
+                            NameInputField(
+                                label: "name_required",
+                                hint: "enter_name",
+                                isRequired: true,
+                                text: viewModel.nameBinding
+                            )
+                        }
 
-                    // Email
-                    LabeledInputField(
-                        label: "email_address_required",
-                        hint: "enter_email",
-                        isRequired: true,
-                        text: viewModel.emailBinding
-                    )
-
-                    // Contact
-                    VStack(alignment: .leading, spacing: 4) {
                         LabeledInputField(
-                            label: "contact_required",
-                            hint: "enter_contact",
+                            label: "email_address_required",
+                            hint: "enter_email",
                             isRequired: true,
-                            keyboardType: .numberPad,
-                            text: viewModel.contactBinding
+                            text: viewModel.emailBinding
                         )
-                    }
-                }
-                .padding(.horizontal, 20)
 
-                Spacer()
-
-                PrimaryButton(title: "update_title") {
-                    Task {
-                        viewModel.updateTapped()
+                        VStack(alignment: .leading, spacing: 4) {
+                            LabeledInputField(
+                                label: "contact_required",
+                                hint: "enter_contact",
+                                isRequired: true,
+                                keyboardType: .numberPad,
+                                text: viewModel.contactBinding
+                            )
+                        }
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 20)
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 20)
             }
+            .scrollIndicators(.hidden)
+            .scrollDismissesKeyboard(.interactively)
+
+            // MARK: - Fixed bottom button
+            PrimaryButton(title: "update_title") {
+                Task {
+                    viewModel.updateTapped()
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 20)
         }
 
         .background(Color.white)
@@ -190,19 +188,5 @@ struct EditProfileView: View {
             .ignoresSafeArea()
         }
         .dismissKeyboardOnTap()
-    }
-}
-
-#Preview {
-    if #available(iOS 16.0, *) {
-        let repo = EditProfileRepositoryImpl(apiClient: APIClient())
-        let useCase = EditProfileUseCase(repository: repo)
-
-        EditProfileView(
-            viewModel: EditProfileViewModel(
-                editProfileUseCase: useCase,
-                router: AppRouter()
-            )
-        )
     }
 }

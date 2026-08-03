@@ -6,7 +6,7 @@
 //
 
 struct OrderDetailState {
-    var order: OrderDetailResponse? = nil
+    var order: OrderOfferDetail? = nil
     var isLoading: Bool = false
     var showSnackbar: Bool = false
     var snackbarMessage: String = ""

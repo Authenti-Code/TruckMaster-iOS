@@ -142,7 +142,8 @@ final class AppContainer {
     }
     
     func makeMainTabView() -> some View {
-        MainTabView(container: self)
+        GlobalShipmentSocket.connectIfNeeded()
+        return MainTabView(container: self)
     }
     
     func makeHomeView() -> some View {
@@ -362,13 +363,16 @@ final class AppContainer {
         return SearchCompanyView(viewModel: viewModel)
     }
     
-    func makeOrderDetailView() -> some View {
+    func makeOrderDetailView(orderId: String, companyId: Int) -> some View {
         let viewModel = OrderDetailViewModel(
             useCase: OrderDetailUseCase(
                 repository: OrderDetailRepositoryImpl(apiClient: apiClient)
             ),
-            router: router
+            router: router,
+            orderId: orderId,
+            companyId: companyId
         )
+    
         return OrderDetailView(viewModel: viewModel)
     }
     

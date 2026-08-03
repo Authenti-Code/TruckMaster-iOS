@@ -32,6 +32,8 @@ enum EndPoints {
     case createOrder
     case activeOrders
     case getOrders
+    case getOfferDetails
+    case respondToOffer
 
     var path: String {
 
@@ -105,8 +107,15 @@ enum EndPoints {
             
         case .getOrders:
             return "/orders"
+            
         case .activeOrders:
             return "/active-orders"
+            
+        case .getOfferDetails:
+            return "/order/offer/details"
+            
+        case .respondToOffer:
+            return "/order/offer/respond"
         }
     }
 

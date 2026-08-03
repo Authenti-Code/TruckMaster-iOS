@@ -82,8 +82,51 @@ extension String {
     var lettersOnly: String {
            filter { $0.isLetter || $0 == " " }
        }
+    
+    var relativeTimeAgo: String {
+           let formatter = ISO8601DateFormatter()
+           formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+           guard let date = formatter.date(from: self) else { return "" }
+
+           let seconds = max(0, Date().timeIntervalSince(date))
+           let minutes = Int(seconds / 60)
+
+           switch seconds {
+           case ..<60:
+               return "Just now"
+           case ..<3600:
+               return "\(minutes)min"
+           case ..<86400:
+               return "\(Int(seconds / 3600))h"
+           default:
+               return "\(Int(seconds / 86400))d"
+           }
+       }
 }
 
+
+
+// MARK: - Int
+
+extension Int {
+    var toString: String { String(self) }
+    var toDouble: Double { Double(self) }
+}
+
+// MARK: - Double
+
+extension Double {
+    var toString: String { String(self) }
+    var toInt: Int { Int(self) }
+}
+
+// MARK: - String
+
+extension String {
+    var toInt: Int { Int(self) ?? 0 }
+    var toDouble: Double { Double(self) ?? 0.0 }
+}
 
 extension UITextField {
     func isLeadingSpace(range: NSRange, replacementString string: String) -> Bool {

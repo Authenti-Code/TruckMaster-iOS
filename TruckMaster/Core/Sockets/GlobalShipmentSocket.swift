@@ -8,7 +8,7 @@
 enum GlobalShipmentSocket {
     static func connectIfNeeded() {
         guard let userId = UserPreferences.shared.getUser()?.id else { return }
-//        ShipmentOrderSocketRepository().startListening(resourceId: userId)
+        OfferSocketRepository().startListening(resourceId: userId)
     }
  
     static func disconnect() {

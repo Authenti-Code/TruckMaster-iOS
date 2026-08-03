@@ -73,7 +73,7 @@ struct SearchCompanyView: View {
                                 }
 
                                 ReusableText(
-                                    title: "no_company_found_title",
+                                    title: "searching_title",
                                     fontSize: 16,
                                     fontName: "Livvic-Medium",
                                     fontColor: AppColors.grey1
@@ -144,17 +144,17 @@ private struct CompanyCardView: View {
                         .foregroundColor(AppColors.textBlack1)
                     
                     HStack(spacing: 8) {
-                        if let rating = offer.company.id.isMultiple(of: 2) ? nil : "4.8" {
+                      
                       
                             HStack(spacing: 2) {
                                 Image(systemName: "star.fill")
                                     .font(.system(size: 11))
                                     .foregroundColor(.yellow)
-                                Text(rating)
+                                Text("4.2")
                                     .font(.custom("Livvic-Medium", size: 13))
                                     .foregroundColor(AppColors.grey1)
                             }
-                        }
+                        
                     
                       
                     }
@@ -163,16 +163,17 @@ private struct CompanyCardView: View {
                 Spacer()
                 
                 VStack(alignment: .trailing, spacing: 4) {
-                    Text("$\(offer.price)")
+                    Text("$\(offer.price ?? "")")
                         .font(.custom("Livvic-SemiBold", size: 16))
                         .foregroundColor(AppColors.textBlack1)
                     
-                    if let time = offer.respondedAt {
-                        Text("\(time)")
-                            .font(.custom("Livvic-Medium", size: 13))
-                            .foregroundColor(AppColors.grey1)
-                    }
-                }
+                    TimelineView(.periodic(from: .now, by: 1)) { _ in
+                        if let time = offer.respondedAt?.relativeTimeAgo {
+                            Text("\(time)")
+                                .font(.custom("Livvic-Medium", size: 13))
+                                .foregroundColor(AppColors.grey1)
+                        }
+                    }                }
             }
             Divider()
             

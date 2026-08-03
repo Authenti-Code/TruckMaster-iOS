@@ -1,65 +1,81 @@
 //
-//  OrderDetailModel.swift
+//  OrderOfferDetailModel.swift
 //  TruckMaster
 //
 
 internal import Foundation
 
-// MARK: - Order Detail Response
-struct OrderDetailResponse: Codable {
-    let orderId: String
-    let status: String
+// MARK: - Top-level response
+struct OrderOfferDetailResponse: Codable {
+    let success: String
+    let message: String
+    let data: OrderOfferDetail
+}
+
+// MARK: - Offer detail
+struct OrderOfferDetail: Codable {
+    let id: Int
     let pickupAddress: OrderAddress
     let dropAddress: OrderAddress
-    let items: [OrderItem]
-    let extras: OrderExtras
-    let scheduleType: String
-    let scheduledAt: String?
-    let companyOffer: CompanyOffer?
-    let priceBreakdown: PriceBreakdown?
+    let orderItems: [OrderItemDetail]
+    let orderExtra: OrderExtras
+    let company: OfferCompany
+    let respondedAt: String?
+    let status: String
+    let price: String
+    let priceBreakdown: OfferPriceBreakdown
 
     enum CodingKeys: String, CodingKey {
-        case orderId       = "order_id"
+        case id
+        case pickupAddress   = "pickup_address"
+        case dropAddress     = "drop_address"
+        case orderItems      = "order_items"
+        case orderExtra      = "order_extra"
+        case company
+        case respondedAt     = "responded_at"
         case status
-        case pickupAddress = "pickup_address"
-        case dropAddress   = "drop_address"
-        case items
-        case extras
-        case scheduleType  = "schedule_type"
-        case scheduledAt   = "scheduled_at"
-        case companyOffer  = "company_offer"
-        case priceBreakdown = "price_breakdown"
+        case price
+        case priceBreakdown  = "price_breakdown"
     }
 }
 
 // MARK: - Address
 struct OrderAddress: Codable {
-    let address: String
-    let latitude: String
-    let longitude: String
     let name: String?
+    let address: String
     let contact: String?
+    let latitude: Double
+    let longitude: Double
 }
 
 // MARK: - Item
-struct OrderItem: Codable {
-    let categoryId: String
-    let categoryName: String?
-    let categoryImage: String?
-    let subCategoryId: Int?
-    let quantity: Int?
-    let dimensions: [OrderDimension]
-    let dimensionUnit: String?
+struct OrderItemDetail: Codable {
+    let category: ItemCategory
+    let subCategory: [ItemSubCategory]
+    let dimensions: [ItemDimensionGroup]
 
     enum CodingKeys: String, CodingKey {
-        case categoryId    = "category_id"
-        case categoryName  = "category_name"
-        case categoryImage = "category_image"
-        case subCategoryId = "sub_category_id"
-        case quantity
+        case category
+        case subCategory = "sub_category"
         case dimensions
-        case dimensionUnit = "dimension_unit"
     }
+}
+
+struct ItemCategory: Codable {
+    let name: String
+    let image: String?
+    let quantity: Int
+}
+
+struct ItemSubCategory: Codable {
+    let name: String
+    let quantity: Int
+}
+
+struct ItemDimensionGroup: Codable {
+    let label: String
+    let unit: String
+    let values: [OrderDimension]
 }
 
 struct OrderDimension: Codable {
@@ -72,56 +88,55 @@ struct OrderExtras: Codable {
     let helpers: Int
     let fragileHandling: Bool
     let stairsCarry: Bool
-    let urgent: Bool
-    let zipHandler: Bool
     let elevator: Bool
     let additionalInfo: String?
+    let zipHandler: Bool
 
     enum CodingKeys: String, CodingKey {
         case helpers
-        case fragileHandling  = "fragile_handling"
-        case stairsCarry      = "stairs_carry"
-        case urgent
-        case zipHandler       = "zip_handler"
+        case fragileHandling = "fragile_handling"
+        case stairsCarry     = "stairs_carry"
         case elevator
-        case additionalInfo   = "additional_info"
+        case additionalInfo  = "additional_info"
+        case zipHandler      = "zip_handler"
     }
 }
 
-
-struct CompanyOffer: Codable {
-    let companyId: String
+// MARK: - Company
+struct OfferCompany: Codable {
+    let id: Int
     let companyName: String
-    let companyImage: String?
-    let rating: String?
-    let truckType: String?
-    let estimatedTime: String?
-    let totalPrice: Double
+    let logo: String?
 
     enum CodingKeys: String, CodingKey {
-        case companyId    = "company_id"
-        case companyName  = "company_name"
-        case companyImage = "company_image"
-        case rating
-        case truckType    = "truck_type"
-        case estimatedTime = "estimated_time"
-        case totalPrice   = "total_price"
+        case id
+        case companyName = "company_name"
+        case logo
     }
 }
 
-// MARK: - Price Breakdown (matches screenshot's "Price Breakup" section)
-struct PriceBreakdown: Codable {
-    let distanceLabel: String?     
-    let distancePrice: Double
-    let helpersPrice: Double
-    let tax: Double
-    let total: Double
+// MARK: - Price breakdown
+struct OfferPriceBreakdown: Codable {
+    let taxCharges: Double
+    let truckCharges: Double
+    let helperCharges: Double
 
     enum CodingKeys: String, CodingKey {
-        case distanceLabel  = "distance_label"
-        case distancePrice  = "distance_price"
-        case helpersPrice   = "helpers_price"
-        case tax
-        case total
+        case taxCharges    = "tax_charges"
+        case truckCharges  = "truck_charges"
+        case helperCharges = "helper_charges"
+    }
+}
+
+
+struct OrderOfferRespondData: Codable {
+    let orderId: Int
+    let companyId: Int
+    let status: String
+
+    enum CodingKeys: String, CodingKey {
+        case orderId   = "order_id"
+        case companyId = "company_id"
+        case status
     }
 }

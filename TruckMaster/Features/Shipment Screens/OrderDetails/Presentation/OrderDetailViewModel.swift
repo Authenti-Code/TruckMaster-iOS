@@ -5,7 +5,6 @@
 //  Created by AuthentiCode on 01/07/26.
 //
 
-
 internal import Foundation
 internal import Combine
 
@@ -16,10 +15,14 @@ final class OrderDetailViewModel: ObservableObject {
     @Published var state = OrderDetailState()
     private let useCase: OrderDetailUseCase
     private let router: AppRouter
+    private let orderId: String
+    private let companyId: Int
 
-    init(useCase: OrderDetailUseCase, router: AppRouter) {
+    init(useCase: OrderDetailUseCase, router: AppRouter, orderId: String, companyId: Int) {
         self.useCase = useCase
         self.router = router
+        self.orderId = orderId
+        self.companyId = companyId
     }
 
     func onAppear() {
@@ -31,11 +34,11 @@ final class OrderDetailViewModel: ObservableObject {
     }
 
     func rejectTapped() {
-        // router.navigate(to: .rejectOrder) — wire when ready
+        Task { await respond(status: "decline") }
     }
 
     func acceptTapped() {
-        // router.navigate(to: .acceptOrder) — wire when ready
+        Task { await respond(status: "accept") }
     }
 
     private func loadOrderDetail() async {
@@ -43,7 +46,28 @@ final class OrderDetailViewModel: ObservableObject {
         defer { state.isLoading = false }
 
         do {
-            state.order = try await useCase.execute()
+            state.order = try await useCase.execute(orderId: orderId, companyId: companyId)
+        } catch {
+            triggerError(error.localizedDescription)
+        }
+    }
+
+    private func respond(status: String) async {
+        state.isLoading = true
+        defer { state.isLoading = false }
+
+        do {
+            let result = try await useCase.respond(
+                status: status,
+                orderId: orderId,
+                companyId: String(companyId)
+            )
+            triggerSuccess(
+                result.status.lowercased() == "declined"
+                    ? "Offer declined successfully"
+                    : "Offer accepted successfully"
+            )
+            router.navigateBack()
         } catch {
             triggerError(error.localizedDescription)
         }
@@ -52,6 +76,12 @@ final class OrderDetailViewModel: ObservableObject {
     private func triggerError(_ message: String) {
         state.snackbarMessage = message
         state.snackbarType    = .error
+        state.showSnackbar    = true
+    }
+
+    private func triggerSuccess(_ message: String) {
+        state.snackbarMessage = message
+        state.snackbarType    = .success
         state.showSnackbar    = true
     }
 }

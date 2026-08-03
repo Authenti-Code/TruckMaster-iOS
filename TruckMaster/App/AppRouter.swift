@@ -33,7 +33,7 @@ enum Route: Hashable {
     case extras
     case reviewBooking
     case searchCompany
-    case orderDetails
+    case orderDetails(orderId: String, companyId: Int)
     
     //Track Order
     case enRoute
@@ -181,8 +181,8 @@ struct RootView: View {
                     case .searchCompany:
                         container.makePickupLocationView()
                         
-                    case .orderDetails:
-                        container.makeOrderDetailView()
+                    case .orderDetails(let orderId, let companyId):
+                        container.makeOrderDetailView(orderId: orderId, companyId: companyId)
                         
                     case .enRoute:
                         container.makeEnRouteView()

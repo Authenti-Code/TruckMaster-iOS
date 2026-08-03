@@ -7,12 +7,20 @@
 
 final class OrderDetailUseCase {
     private let repository: OrderDetailRepository
-    
+
     init(repository: OrderDetailRepository) {
         self.repository = repository
     }
-    
-    func execute() async throws -> OrderDetailResponse{
-        try await repository.fetchOrderDetail()
+
+    func execute(orderId: String, companyId: Int) async throws -> OrderOfferDetail {
+        try await repository.fetchOrderDetail(
+            request: OrderDetailRequest(orderId: orderId, companyId: companyId)
+        )
+    }
+
+    func respond(status: String, orderId: String, companyId: String) async throws -> OrderOfferRespondData {
+        try await repository.respondToOffer(
+            request: OrderOfferRespondRequest(status: status, orderId: orderId, companyId: companyId)
+        )
     }
 }

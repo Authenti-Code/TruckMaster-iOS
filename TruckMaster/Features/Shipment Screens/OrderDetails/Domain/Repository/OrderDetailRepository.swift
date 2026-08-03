@@ -4,5 +4,6 @@
 //
 
 protocol OrderDetailRepository {
-    func fetchOrderDetail() async throws -> OrderDetailResponse
+    func fetchOrderDetail(request: OrderDetailRequest) async throws -> OrderOfferDetail
+    func respondToOffer(request: OrderOfferRespondRequest) async throws -> OrderOfferRespondData
 }

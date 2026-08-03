@@ -17,4 +17,6 @@ struct PickupLocationState {
     var visibleCount: Int = 0
     var statusMessage: String = "Searching for the best company to help relocate your items"
     var isSearching: Bool = true
+    var orderId: String? = nil
+    var companyId: Int? = nil
 }
