@@ -65,11 +65,13 @@ struct QuantityView: View {
                             let count = viewModel.state.items.first(where: { $0.id == sub.id })?.count ?? 0
 
                             QuantityItemView(
+                                viewModel: viewModel,
                                 item: sub,
                                 count: count,
                                 onMinus: { viewModel.minusTapped(subCategoryId: sub.id) },
                                 onPlus: { viewModel.plusTapped(subCategoryId: sub.id) },
-                                onSizesTapped: { viewModel.sizesTapped(subCategoryId: sub.id) }
+                                onSizesTapped: { viewModel.sizesTapped(subCategoryId: sub.id) },
+                                onToggle: { viewModel.toggleTapped(subCategoryId: sub.id) }
                             )
                         }
                     }
@@ -117,11 +119,16 @@ struct QuantityView: View {
 
 @available(iOS 16.0, *)
 private struct QuantityItemView: View {
+    let viewModel: QuantityViewModel
     let item: SubCategoryModel
     let count: Int
     let onMinus: () -> Void
     let onPlus: () -> Void
     let onSizesTapped: () -> Void
+    let onToggle: () -> Void
+
+    private var isFullMove: Bool { viewModel.state.categoryName == "full move" }
+    private var isSelected: Bool { count > 0 }
 
     var body: some View {
         HStack(spacing: 12) {
@@ -130,45 +137,52 @@ private struct QuantityItemView: View {
                     .font(.custom("Livvic-Medium", size: 15))
                     .foregroundColor(AppColors.textBlack1)
 
-                if count > 0 {
+                if count > 0 && !isFullMove {
                     Text("Add sizes >")
                         .font(.custom("Livvic-Medium", size: 14))
                         .foregroundColor(AppColors.colorRed2)
-                        .onTapGesture {
-                            onSizesTapped()
-                        }
+                        .onTapGesture { onSizesTapped() }
                 }
             }
 
             Spacer()
 
-            HStack(spacing: 16) {
-                Button { onMinus() } label: {
-                    Image(systemName: "minus")
-                        .font(.system(size: 14, weight: .semibold))
-                               .padding(12)
-                               .contentShape(Rectangle())
-                }
-
-                Text("\(count)")
-                    .font(.custom("Livvic-SemiBold", size: 15))
-                    .foregroundColor(AppColors.textBlack1)
-
-                Button { onPlus() } label: {
-                    Image(systemName: "plus")
-                        .font(.system(size: 14, weight: .semibold))
-                               .padding(12)
-                               .contentShape(Rectangle())
+            if isFullMove {
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(isSelected ? AppColors.primary : Color.gray.opacity(0.4))
+                    .font(.system(size: 20))
+            } else {
+                HStack(spacing: 16) {
+                    Button { onMinus() } label: {
+                        Image(systemName: "minus")
+                            .font(.system(size: 14, weight: .semibold))
+                            .padding(12)
+                            .contentShape(Rectangle())
+                    }
+                    Text("\(count)")
+                        .font(.custom("Livvic-SemiBold", size: 15))
+                        .foregroundColor(AppColors.textBlack1)
+                    Button { onPlus() } label: {
+                        Image(systemName: "plus")
+                            .font(.system(size: 14, weight: .semibold))
+                            .padding(12)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
-        .background(Color.white)
+        .background(isFullMove && isSelected ? AppColors.colorBlue : Color.white)
         .cornerRadius(12)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.gray.opacity(0.15), lineWidth: 1)
+                .stroke(isFullMove && isSelected ? AppColors.primary : Color.gray.opacity(0.15),
+                        lineWidth: isFullMove && isSelected ? 1.5 : 1)
         )
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if isFullMove { onToggle() }
+        }
     }
 }

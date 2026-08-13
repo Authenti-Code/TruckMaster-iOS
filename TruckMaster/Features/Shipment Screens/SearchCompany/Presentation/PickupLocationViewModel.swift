@@ -18,6 +18,7 @@ final class PickupLocationViewModel: ObservableObject {
 
     private var offerSocketTask: Task<Void, Never>?
     private var expiryTasks: [Int: Task<Void, Never>] = [:]
+    private var foregroundObserver: NSObjectProtocol?
 
     init(
         coordinate: CLLocationCoordinate2D,
@@ -32,9 +33,16 @@ final class PickupLocationViewModel: ObservableObject {
         self.offerSocketRepository = offerSocketRepository ?? OfferSocketRepository()
     }
 
+    deinit {
+        if let foregroundObserver {
+            NotificationCenter.default.removeObserver(foregroundObserver)
+        }
+    }
+
     func onAppear() {
         Task { await searchForCompany() }
         observeOffers()
+        observeForeground()
     }
 
     func backTapped() {
@@ -68,6 +76,23 @@ final class PickupLocationViewModel: ObservableObject {
 
         } catch {
 
+        }
+    }
+
+    // MARK: - App lifecycle
+    private func observeForeground() {
+        guard foregroundObserver == nil else { return }
+
+        foregroundObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.willEnterForegroundNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                await self.searchForCompany()
+                self.observeOffers()
+            }
         }
     }
 
@@ -124,3 +149,4 @@ final class PickupLocationViewModel: ObservableObject {
         expiryTasks[offer.company.id] = nil
     }
 }
+

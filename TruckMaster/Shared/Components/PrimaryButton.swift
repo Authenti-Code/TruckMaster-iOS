@@ -117,7 +117,6 @@ struct DropdownField: View {
                     Image(systemName: showDropdown ? "chevron.up" : "chevron.down")
                         .foregroundColor(.gray)
                         .font(.system(size: 14, weight: .medium))
-                        .animation(.easeInOut, value: showDropdown)
                 }
             }
             .padding(.horizontal, 16)

@@ -46,6 +46,12 @@ final class QuantityViewModel: ObservableObject {
     private func loadInitialData() async {
 
     }
+    
+    func toggleTapped(subCategoryId: Int) {
+        if let index = state.items.firstIndex(where: { $0.id == subCategoryId }) {
+            state.items[index].count = state.items[index].count > 0 ? 0 : 1
+        }
+    }
 
     func plusTapped(subCategoryId: Int) {
         guard let index = state.items.firstIndex(where: { $0.id == subCategoryId }) else {
@@ -82,7 +88,7 @@ final class QuantityViewModel: ObservableObject {
             router: router
         )
     }
-
+   
     func nextTapped() {
         let selectedItems = state.items.filter { $0.count > 0 }
 
@@ -91,17 +97,38 @@ final class QuantityViewModel: ObservableObject {
             return
         }
 
-        for item in selectedItems {
-
-            guard let draftItem = draft.items.first(where: {
-                $0.categoryId == String(state.categoryId) &&
-                $0.subCategoryId == item.id
-            }) else {
-                triggerError("Please enter dimensions for all selected items.")
-                return
+        if state.categoryName == "full move" {
+            for item in selectedItems {
+                if let index = draft.items.firstIndex(where: {
+                    $0.categoryId == String(state.categoryId) &&
+                    $0.subCategoryId == item.id
+                }) {
+                    draft.items[index].dimensions = [DimensionRequest(width: "0", length: "0")]
+                    draft.items[index].quantity = 1
+                } else {
+                    draft.items.append(
+                        ItemRequest(
+                            categoryId: String(state.categoryId),
+                            subCategoryId: item.id,
+                            quantity: 1,
+                            dimensions: [DimensionRequest(width: "1", length: "1")],
+                            dimensionUnit: "m"
+                        )
+                    )
+                }
             }
+            router.navigateBack()
+            return
+        }
 
-            if draftItem.dimensions.count != item.count {
+        for item in selectedItems {
+            guard
+                let draftItem = draft.items.first(where: {
+                    $0.categoryId == String(state.categoryId) &&
+                    $0.subCategoryId == item.id
+                }),
+                draftItem.dimensions.count == item.count
+            else {
                 triggerError("Please enter dimensions for all selected items.")
                 return
             }
@@ -109,7 +136,7 @@ final class QuantityViewModel: ObservableObject {
 
         router.navigateBack()
     }
-
+    
     // MARK: - Private
     private func updateDraft(for item: ItemModel) {
 

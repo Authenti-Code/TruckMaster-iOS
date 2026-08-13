@@ -25,8 +25,13 @@ final class SizesViewModel: ObservableObject {
          self.state.subCategoryName = subCategoryName
 
          if let existing = draft.items.first(where: { $0.subCategoryId == subCategoryId }) {
-             var prefilled = existing.dimensions.map {
-                 SizeDimension(widthInCm: String($0.width), lengthInCm: String($0.length))
+             let savedUnit = MeasurementUnit.allCases.first(where: { $0.apiValue == existing.dimensionUnit }) ?? .m
+
+             var prefilled = existing.dimensions.map { dim in
+                 SizeDimension(
+                     widthInCm: Self.toCm(dim.width, from: savedUnit),
+                     lengthInCm: Self.toCm(dim.length, from: savedUnit)
+                 )
              }
 
              if prefilled.count < itemCount {
@@ -36,6 +41,7 @@ final class SizesViewModel: ObservableObject {
              }
 
              state.dimensions = prefilled
+             state.selectedUnit = savedUnit
          } else {
              state.dimensions = Array(repeating: SizeDimension(), count: itemCount)
          }
@@ -62,6 +68,16 @@ final class SizesViewModel: ObservableObject {
         }
     }
 
+    // Converts a value stored/saved in a given unit back into the
+    // canonical cm representation used internally by `state.dimensions`.
+    private static func toCm(_ value: String, from unit: MeasurementUnit) -> String {
+        guard let v = Double(value) else { return "" }
+        switch unit {
+        case .m:    return String(v * 100)
+        case .inch: return String(v * 2.54)
+        }
+    }
+
     // Converts an internally-stored cm value back into whichever unit
     // is currently selected, so the outgoing request's value and its
     // unit tag always match.
@@ -77,9 +93,22 @@ final class SizesViewModel: ObservableObject {
         state.dimensions.allSatisfy { !$0.widthInCm.isEmpty && !$0.lengthInCm.isEmpty }
     }
 
+    private var isWithinValidRange: Bool {
+        state.dimensions.allSatisfy { dim in
+            guard let w = Double(displayValue(forCm: dim.widthInCm)),
+                  let l = Double(displayValue(forCm: dim.lengthInCm)) else { return false }
+            return (1...1000).contains(w) && (1...1000).contains(l)
+        }
+    }
+
     func saveTapped() -> Bool {
         guard isDoneEnabled else {
             triggerError("Enter width and length for all items")
+            return false
+        }
+
+        guard isWithinValidRange else {
+            triggerError("Width and length must be between 1 and 1000")
             return false
         }
 
