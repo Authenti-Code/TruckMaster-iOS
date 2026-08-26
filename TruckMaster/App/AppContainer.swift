@@ -248,6 +248,18 @@ final class AppContainer {
         return HelpSupportView(viewModel: viewModel)
     }
     
+    
+    func makeSupportTicketView() -> some View {
+        let repository = SupportTicketRepositoryImpl(apiClient: apiClient)
+        let useCase    = GetSupportTicketUseCase(repository: repository)
+        let viewModel  = SupportTicketViewModel(
+            useCase: useCase,
+            router: router
+        )
+        return SupportTicketView(viewModel: viewModel)
+    }
+    
+    
     func makeNotificationView() -> some View {
         let repository = NotificationRepositoryImpl(apiClient: apiClient)
         let useCase    = GetNotificationsUseCase(repository: repository)

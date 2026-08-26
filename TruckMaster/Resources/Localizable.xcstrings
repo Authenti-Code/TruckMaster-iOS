@@ -1883,6 +1883,28 @@
         }
       }
     },
+    "no_ticket_found_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No tickets found"
+          }
+        }
+      }
+    },
+    "no_ticket_found_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You haven’t raised any support tickets yet. We’re here to help!"
+          }
+        }
+      }
+    },
     "no_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2150,6 +2172,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "الملف الشخصي"
+          }
+        }
+      }
+    },
+    "raise_support_ticket_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raise Support Ticket"
+          }
+        }
+      }
+    },
+    "raise_ticket_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raise ticket"
           }
         }
       }

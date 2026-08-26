@@ -98,6 +98,7 @@ enum ImageConstants {
     static let trash = "ic_trash"
     static let notification = "ic_notification_unselected"
     static let noSavedAddress = "no_saved_address"
+    static let noTickets = "img_raise_ticket"
     static let change = "ic_change"
     static let delete = "ic_delete"
     static let send = "ic_send"

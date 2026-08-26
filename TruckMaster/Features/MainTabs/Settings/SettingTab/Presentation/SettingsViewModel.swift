@@ -57,7 +57,7 @@ final class SettingsViewModel: ObservableObject {
         switch item.route {
         case .savedAddress:       router.navigate(to: .savedAddress)
         case .accountSettings:    router.navigate(to: .accountSettings)
-        case .helpAndSupport:     router.navigate(to: .helpAndSupport)
+        case .helpAndSupport:     router.navigate(to: .supportTicket)
         case .faqs:               router.navigate(to: .faqs)
         case .termsAndConditions: router.navigate(to: .termsAndConditions(isPolicy: false))
         case .privacyPolicy:      router.navigate(to: .termsAndConditions(isPolicy: true))

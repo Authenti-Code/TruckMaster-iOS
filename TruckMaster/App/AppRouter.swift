@@ -20,6 +20,7 @@ enum Route: Hashable {
     case accountSettings
     case deleteAccount
     case changePassword
+    case supportTicket
     case helpAndSupport
     case faqs
     case termsAndConditions(isPolicy: Bool)
@@ -195,6 +196,10 @@ struct RootView: View {
                         
                     case .deliveredDetail:
                         container.makeDeliveredDetailView()
+                        
+                        
+                    case .supportTicket:
+                        container.makeSupportTicketView()
                     }
                 }
         }
