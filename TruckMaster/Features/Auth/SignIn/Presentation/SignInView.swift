@@ -71,6 +71,8 @@ struct SignInView: View {
                                 label: "email_address_required",
                                 hint: "enter_email",
                                 isRequired: true,
+                                isMultiline: true,
+                                lineLimit: 1...2,
                                 text: viewModel.emailBinding
                             )
 
@@ -80,6 +82,8 @@ struct SignInView: View {
                                 hint: "enter_password",
                                 isRequired: true,
                                 isSecure: true,
+                                isMultiline: true,
+                                lineLimit: 1...2,
                                 text: viewModel.passwordBinding
                             )
 

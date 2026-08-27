@@ -1,12 +1,4 @@
-//
-//  LabeledInputField.swift
-//  TruckMaster
-//
-//  Created by AuthentiCode on 04/06/26.
-//
-
-internal import SwiftUI
-
+import SwiftUI
 struct LabeledInputField: View {
 
     let label: LocalizedStringKey
@@ -16,6 +8,8 @@ struct LabeledInputField: View {
     var isEditable: Bool = true
     var isSecure: Bool = false
     var keyboardType: UIKeyboardType = .default
+    var isMultiline: Bool = false
+    var lineLimit: ClosedRange<Int> = 1...1
     @Binding var text: String
 
     @State private var isPasswordVisible: Bool = false
@@ -33,7 +27,7 @@ struct LabeledInputField: View {
             }
 
             // Input Field
-            HStack(spacing: 12) {
+            HStack(alignment: isMultiline ? .top : .center, spacing: 12) {
 
                 if let icon = icon {
                     icon
@@ -43,13 +37,32 @@ struct LabeledInputField: View {
                         .foregroundColor(.gray)
                 }
 
-                SpaceGuardedTextField(
-                    text: $text,
-                    placeholder: hint,
-                    isSecure: isSecure && !isPasswordVisible,
-                    keyboardType: keyboardType,
-                    isEditable: isEditable
-                )
+                if isMultiline && lineLimit.upperBound > 1 {
+                    if #available(iOS 16.0, *) {
+                        TextField(LocalizedStringKey(hint), text: $text, axis: .vertical)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .lineLimit(lineLimit)
+                            .keyboardType(keyboardType)
+                            .disabled(!isEditable)
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                } else if isMultiline {
+                    TextField(LocalizedStringKey(hint), text: $text)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                        .keyboardType(keyboardType)
+                        .disabled(!isEditable)
+                } else {
+                    SpaceGuardedTextField(
+                        text: $text,
+                        placeholder: hint,
+                        isSecure: isSecure && !isPasswordVisible,
+                        keyboardType: keyboardType,
+                        isEditable: isEditable
+                    )
+                }
 
                 // Eye icon for password
                 if isSecure {
@@ -70,7 +83,8 @@ struct LabeledInputField: View {
                 }
             }
             .padding(.horizontal, 14)
-            .frame(height: 48)
+            .padding(.vertical, isMultiline ? 10 : 0)
+            .frame(height: isMultiline ? nil : 48)
             .background(isEditable ? Color.white : Color(.systemGray6))
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .overlay(

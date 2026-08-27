@@ -495,23 +495,6 @@
         }
       }
     },
-    "contact_text" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الاتصال بنا"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contact"
-          }
-        }
-      }
-    },
     "contact_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -834,6 +817,17 @@
         }
       }
     },
+    "description_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Description"
+          }
+        }
+      }
+    },
     "dimensions_title" : {
       "localizations" : {
         "ar" : {
@@ -1051,6 +1045,28 @@
         }
       }
     },
+    "enter_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter description"
+          }
+        }
+      }
+    },
+    "enter_description_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter description"
+          }
+        }
+      }
+    },
     "enter_email" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1166,6 +1182,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enter sender name"
+          }
+        }
+      }
+    },
+    "enter_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter title"
           }
         }
       }
@@ -1781,23 +1808,6 @@
         }
       }
     },
-    "no_company_found_title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لم يتم العثور على أي شركة"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No company found"
-          }
-        }
-      }
-    },
     "no_content_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2194,6 +2204,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Raise ticket"
+          }
+        }
+      }
+    },
+    "raise_ticket_title1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raise Ticket"
           }
         }
       }
@@ -2905,6 +2926,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Time"
+          }
+        }
+      }
+    },
+    "title_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Title"
           }
         }
       }

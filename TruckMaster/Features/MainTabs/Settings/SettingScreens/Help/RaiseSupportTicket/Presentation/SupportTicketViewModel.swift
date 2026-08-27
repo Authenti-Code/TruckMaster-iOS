@@ -35,6 +35,14 @@ final class SupportTicketViewModel: ObservableObject {
 //        router.navigate(to: .ticketDetails(ticket: ticket))
     }
 
+    func raiseTicketTapped() {
+        state.showRaiseTicketSheet = true
+    }
+
+    func makeRaiseTicketViewModel() -> RaiseTicketViewModel? {
+        RaiseTicketViewModel(router: router)
+    }
+
     // MARK: - Private
     private func loadTickets() async {
         state.isLoading = true

@@ -77,6 +77,8 @@ struct UpdatePasswordView: View {
                         hint: "enter_new_password",
                         isRequired: true,
                         isSecure: true,
+                        isMultiline: true,
+                        lineLimit: 1...2,
                         text: viewModel.passwordBinding
                     )
 
@@ -86,6 +88,8 @@ struct UpdatePasswordView: View {
                         hint: "enter_confirm_password",
                         isRequired: true,
                         isSecure: true,
+                        isMultiline: true,
+                        lineLimit: 1...2,
                         text: viewModel.confirmPasswordBinding
                     )
                     

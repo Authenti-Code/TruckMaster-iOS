@@ -74,35 +74,47 @@ struct SupportTicketView: View {
             }
 
             Button {
-                
+                viewModel.raiseTicketTapped()
             } label: {
-                            HStack(spacing: 8) {
-                                Image(systemName: "plus")
-                                    .font(.system(size: 14, weight: .bold))
-                              
-                                ReusableText(
-                                    title: "raise_ticket_title",
-                                    fontSize: 15,
-                                    fontName: "Livvic-SemiBold",
-                                    fontColor: .white
-                                )
-                            }
-                            .foregroundColor(.white)
-                            .frame(maxWidth: 200)
-                            .frame(height: 52)
-                            .background(AppColors.primary)
-                            .clipShape(Capsule())
-                            .padding(.horizontal, 40)
-                            .padding(.bottom, 16)
-                        }
-            
+                HStack(spacing: 8) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 14, weight: .bold))
+
+                    ReusableText(
+                        title: "raise_ticket_title",
+                        fontSize: 15,
+                        fontName: "Livvic-SemiBold",
+                        fontColor: .white
+                    )
+                }
+                .foregroundColor(.white)
+                .frame(maxWidth: 200)
+                .frame(height: 52)
+                .background(AppColors.primary)
+                .clipShape(Capsule())
+                .padding(.horizontal, 40)
+                .padding(.bottom, 16)
+            }
+
         }
         .navigationBarHidden(true)
+        .sheet(isPresented: viewModel.binding(for: \.state.showRaiseTicketSheet)) {
+            if let raiseTicketViewModel = viewModel.makeRaiseTicketViewModel() {
+                if #available(iOS 16.4, *) {
+                    RaiseTicketSheet(viewModel: raiseTicketViewModel)
+                        .presentationDetents([.height(350)])
+                        .presentationBackground(.white)
+                } else {
+                    RaiseTicketSheet(viewModel: raiseTicketViewModel)
+                }
+            }
+        }
         .snackbar(
             isShowing: viewModel.binding(for: \.state.showSnackbar),
             message: viewModel.state.snackbarMessage,
             type: viewModel.state.snackbarType
         )
+        .dismissKeyboardOnTap()
         .onAppear { viewModel.onAppear() }
     }
 

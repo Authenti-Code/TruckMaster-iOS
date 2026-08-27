@@ -86,6 +86,8 @@ struct MapAddressView: View {
                                                 hint: "enter_contact",
                                                 isRequired: true,
                                                 keyboardType: .numberPad,
+                                                isMultiline: true,
+                                                lineLimit: 1...2,
                                                 text: viewModel.contactBinding
                                             )
                                             // Save as

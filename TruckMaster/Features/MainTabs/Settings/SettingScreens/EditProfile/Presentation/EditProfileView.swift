@@ -104,6 +104,8 @@ struct EditProfileView: View {
                             label: "email_address_required",
                             hint: "enter_email",
                             isRequired: true,
+                            isMultiline: true,
+                            lineLimit: 1...2,
                             text: viewModel.emailBinding
                         )
 
@@ -113,6 +115,8 @@ struct EditProfileView: View {
                                 hint: "enter_contact",
                                 isRequired: true,
                                 keyboardType: .numberPad,
+                                isMultiline: true,
+                                lineLimit: 1...2,
                                 text: viewModel.contactBinding
                             )
                         }

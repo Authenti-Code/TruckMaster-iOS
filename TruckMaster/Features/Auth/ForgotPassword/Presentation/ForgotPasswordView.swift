@@ -76,6 +76,8 @@ struct ForgotPasswordView: View {
                         label: "email_address_required",
                         hint: "enter_email",
                         isRequired: true,
+                        isMultiline: true,
+                        lineLimit: 1...2,
                         text: viewModel.emailBinding
                     )
                     .padding(.bottom, 20)

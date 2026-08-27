@@ -81,6 +81,8 @@ struct SignUpView: View {
                                 label: "email_address_required",
                                 hint: "enter_email",
                                 isRequired: true,
+                                isMultiline: true,
+                                lineLimit: 1...2,
                                 text: viewModel.emailBinding
                             )
 
@@ -91,6 +93,8 @@ struct SignUpView: View {
                                     hint: "enter_contact",
                                     isRequired: true,
                                     keyboardType: .numberPad,
+                                    isMultiline: true,
+                                    lineLimit: 1...2,
                                     text: viewModel.phoneBinding
                                 )
                             }
@@ -101,6 +105,8 @@ struct SignUpView: View {
                                 hint: "enter_password",
                                 isRequired: true,
                                 isSecure: true,
+                                isMultiline: true,
+                                lineLimit: 1...2,
                                 text: viewModel.passwordBinding
                             )
 
@@ -110,6 +116,8 @@ struct SignUpView: View {
                                 hint: "enter_confirm_password",
                                 isRequired: true,
                                 isSecure: true,
+                                isMultiline: true,
+                                lineLimit: 1...2,
                                 text: viewModel.confirmPasswordBinding
                             )
 

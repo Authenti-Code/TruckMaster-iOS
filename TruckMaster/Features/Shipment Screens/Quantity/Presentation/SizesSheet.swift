@@ -122,6 +122,8 @@ private struct SizeItem: View {
                     hint: "Width",
                     isRequired: true,
                     keyboardType: .decimalPad,
+                    isMultiline: true,
+                    lineLimit: 1...2,
                     text: $width,
                 )
                 .frame(width: 100)
@@ -138,6 +140,8 @@ private struct SizeItem: View {
                     hint: "Length",
                     isRequired: true,
                     keyboardType: .decimalPad,
+                    isMultiline: true,
+                    lineLimit: 1...2,
                     text: $length
                 )
                 .frame(width: 100)

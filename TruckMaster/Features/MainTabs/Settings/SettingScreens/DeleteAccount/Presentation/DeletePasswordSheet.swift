@@ -28,6 +28,8 @@ struct DeletePasswordSheet: View {
                 hint: "enter_password",
                 isRequired: true,
                 isSecure: true,
+                isMultiline: true,
+                lineLimit: 1...2,
                 text: viewModel.binding(for: \.state.password)
             )
             .padding(.bottom, 10)

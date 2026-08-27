@@ -8,6 +8,7 @@
 struct SupportTicketState {
     var ticket: [SupportTicketModel] = []
     var isLoading: Bool = false
+    var showRaiseTicketSheet = false
     var showSnackbar: Bool = false
     var snackbarMessage: String = ""
     var snackbarType: SnackbarType = .error
