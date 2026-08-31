@@ -7,5 +7,6 @@
 
 protocol SupportTicketRepository {
     func fetchTickets() async throws -> [SupportTicketModel]
+    func raiseTicket(request: RaiseTicketRequestModel) async throws -> RaiseTicketResponseModel
     
 }

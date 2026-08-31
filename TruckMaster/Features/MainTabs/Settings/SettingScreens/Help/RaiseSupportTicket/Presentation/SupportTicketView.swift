@@ -70,6 +70,7 @@ struct SupportTicketView: View {
                         .padding(.bottom, 100)
                     }
                     .scrollIndicators(.hidden)
+                    .refreshable { await viewModel.refresh() }
                 }
             }
 
@@ -150,15 +151,30 @@ struct SupportTicketCardView: View {
 
             // Header
             HStack {
-                Text(ticket.status.capitalized)
-                    .font(.custom("Livvic-SemiBold", size: 12))
-                    .foregroundColor(statusColor)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(
-                        Capsule()
-                            .fill(statusColor.opacity(0.12))
-                    )
+                if ticket.status.lowercased() != "open"
+                {
+                    Text(ticket.status.capitalized)
+                        .font(.custom("Livvic-SemiBold", size: 12))
+                        .foregroundColor(statusColor)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(
+                            Capsule()
+                                .fill(statusColor.opacity(0.12))
+                        )
+                }
+                else{
+                    Text(ticket.status.capitalized)
+                        .font(.custom("Livvic-SemiBold", size: 12))
+                        .foregroundColor(statusColor)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(
+                            Capsule()
+                                .fill(statusColor.opacity(0.12))
+                        )
+                }
+              
 
                 Spacer()
 
@@ -219,7 +235,8 @@ struct SupportTicketCardView: View {
 
     private var statusColor: Color {
         switch ticket.status.lowercased() {
-        case "open", "in progress": return .green
+        case "in progress": return .green
+        case "open": return AppColors.colorPink2
         case "closed": return .gray
         default: return AppColors.grey1
         }

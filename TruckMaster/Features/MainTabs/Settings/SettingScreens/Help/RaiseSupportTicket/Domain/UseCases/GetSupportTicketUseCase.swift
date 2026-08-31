@@ -16,4 +16,8 @@ final class GetSupportTicketUseCase {
         try await repository.fetchTickets()
     }
     
+    func raiseTicket(request: RaiseTicketRequestModel) async throws -> RaiseTicketResponseModel {
+        try await repository.raiseTicket(request: request)
+    }
+    
 }

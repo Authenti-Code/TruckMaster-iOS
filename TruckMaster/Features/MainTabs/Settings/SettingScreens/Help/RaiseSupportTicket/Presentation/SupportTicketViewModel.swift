@@ -27,6 +27,10 @@ final class SupportTicketViewModel: ObservableObject {
         Task { await loadTickets() }
     }
 
+    func refresh() async {
+        await loadTickets()
+    }
+
     func backTapped() {
         router.navigateBack()
     }
@@ -40,7 +44,11 @@ final class SupportTicketViewModel: ObservableObject {
     }
 
     func makeRaiseTicketViewModel() -> RaiseTicketViewModel? {
-        RaiseTicketViewModel(router: router)
+        RaiseTicketViewModel(router: router, useCase: useCase) { [weak self] in
+            guard let self else { return }
+            self.state.showRaiseTicketSheet = false
+            Task { await self.loadTickets() }
+        }
     }
 
     // MARK: - Private
