@@ -21,7 +21,7 @@ enum Route: Hashable {
     case deleteAccount
     case changePassword
     case supportTicket
-    case helpAndSupport
+    case helpAndSupport(ticketId: Int)
     case faqs
     case termsAndConditions(isPolicy: Bool)
     case privacyPolicy
@@ -149,8 +149,8 @@ struct RootView: View {
                     case .changePassword:
                         container.makeChangePasswordView()
                         
-                    case .helpAndSupport:
-                        container.makeHelpSupportView()
+                    case .helpAndSupport(let ticketId):
+                        container.makeHelpSupportView(ticketId : ticketId)
                        
                     case .faqs:
                         container.makeFaqView()

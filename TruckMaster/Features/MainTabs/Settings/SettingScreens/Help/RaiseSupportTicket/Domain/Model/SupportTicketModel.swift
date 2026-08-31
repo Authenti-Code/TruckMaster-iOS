@@ -15,6 +15,7 @@ struct SupportTicketModel: Codable, Identifiable, Hashable {
     let subject: String
     let status: String
     let order_id: Int?
+    let description: String?
     let createdAt: String
     let order: TicketOrderModel?
 }

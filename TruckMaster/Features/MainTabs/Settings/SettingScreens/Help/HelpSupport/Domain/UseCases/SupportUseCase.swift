@@ -12,8 +12,8 @@ final class GetSupportMessagesUseCase {
         self.repository = repository
     }
 
-    func execute() async throws -> [ChatMessageModel] {
-        try await repository.fetchMessages()
+    func execute(request: GetMsgRequest) async throws -> GetMsgResponse {
+        try await repository.fetchMessages(request: request)
     }
 }
 
@@ -24,7 +24,7 @@ final class SendSupportMessageUseCase {
         self.repository = repository
     }
 
-    func execute(text: String) async throws -> ChatMessageModel {
-        try await repository.sendMessage(text: text)
+    func execute(text: String, ticketId: Int) async throws -> ChatMessageModel {
+        try await repository.sendMessage(text: text, ticketId: ticketId)
     }
 }

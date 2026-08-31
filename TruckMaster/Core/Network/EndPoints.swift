@@ -38,6 +38,8 @@ enum EndPoints {
     //help support
     case getSupportTickets
     case raiseTicket
+    case getMessages
+    case sendSupportMessage
 
     var path: String {
 
@@ -127,6 +129,13 @@ enum EndPoints {
             
         case .raiseTicket:
             return "/support-tickets/raise"
+            
+        case .getMessages:
+            return "/support-tickets/get/messages"
+            
+        case .sendSupportMessage:
+            return "/support-tickets/message"
+            
         }
     }
 

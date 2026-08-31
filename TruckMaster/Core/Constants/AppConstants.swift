@@ -50,6 +50,7 @@ enum ImageConstants {
     static let date = "ic_date"
     static let time = "ic_time"
     static let logout = "ic_logout"
+    static let calender = "ic_calender"
     
     //Home icons
     static let homeUnSelected = "ic_home_unselected"

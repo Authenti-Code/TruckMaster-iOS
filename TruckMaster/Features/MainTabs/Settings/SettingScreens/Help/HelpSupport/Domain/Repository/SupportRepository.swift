@@ -6,6 +6,6 @@
 //
 
 protocol SupportRepository {
-    func fetchMessages() async throws -> [ChatMessageModel]
-    func sendMessage(text: String) async throws -> ChatMessageModel
+    func fetchMessages(request: GetMsgRequest) async throws -> GetMsgResponse
+    func sendMessage(text: String, ticketId: Int) async throws -> ChatMessageModel
 }

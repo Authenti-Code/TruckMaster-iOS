@@ -46,6 +46,7 @@ struct HelpSupportView: View {
                         ForEach(viewModel.state.messages) { message in
                             ChatBubble(message: message)
                                 .id(message.id)
+                                .onAppear { viewModel.loadMoreIfNeeded(currentMessage: message) }
                         }
                     }
                     .padding(.horizontal, 20)
@@ -88,19 +89,32 @@ struct HelpSupportView: View {
 private struct ChatBubble: View {
     let message: ChatMessageModel
 
+    @available(iOS 16.0, *)
+    private var bubbleShape: UnevenRoundedRectangle {
+        UnevenRoundedRectangle(
+            topLeadingRadius: 16,
+            bottomLeadingRadius: message.isFromUser ? 16 : 4,
+            bottomTrailingRadius: message.isFromUser ? 4 : 16,
+            topTrailingRadius: 16
+        )
+    }
+
     var body: some View {
         HStack {
             if message.isFromUser { Spacer(minLength: 40) }
 
-            Text(message.text)
-                .font(.custom("Livvic-Regular", size: 14))
-                .foregroundColor(message.isFromUser ? AppColors.textBlack1 : .white)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .background(
-                    RoundedRectangle(cornerRadius: 14)
-                        .fill(message.isFromUser ? AppColors.grey2 : AppColors.primary)
-                )
+            if #available(iOS 16.0, *) {
+                Text(message.text)
+                    .font(.custom("Livvic-Regular", size: 14))
+                    .foregroundColor(message.isFromUser ? .white : AppColors.textBlack1)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .background(
+                        bubbleShape.fill(message.isFromUser ? AppColors.primary : AppColors.grey2)
+                    )
+            } else {
+                // Fallback on earlier versions
+            }
 
             if !message.isFromUser { Spacer(minLength: 40) }
         }

@@ -35,8 +35,8 @@ final class SupportTicketViewModel: ObservableObject {
         router.navigateBack()
     }
 
-    func ticketTapped(_ ticket: SupportTicketModel) {
-//        router.navigate(to: .ticketDetails(ticket: ticket))
+    func ticketTapped(ticketId: Int) {
+        router.navigate(to: .helpAndSupport(ticketId: ticketId))
     }
 
     func raiseTicketTapped() {

@@ -236,14 +236,17 @@ final class AppContainer {
         return ChangePasswordView(viewModel: viewModel)
     }
     
-    func makeHelpSupportView() -> some View {
+    func makeHelpSupportView(ticketId: Int) -> some View {
         let repository = SupportRepositoryImpl(apiClient: apiClient)
         let getMessagesUseCase = GetSupportMessagesUseCase(repository: repository)
         let sendMessageUseCase = SendSupportMessageUseCase(repository: repository)
+        let messageReceiver = MessageSocketRepository()
         let viewModel = HelpSupportViewModel(
             getMessagesUseCase: getMessagesUseCase,
             sendMessageUseCase: sendMessageUseCase,
-            router: router
+            messageReceiver: messageReceiver,
+            router: router,
+            ticketId: ticketId
         )
         return HelpSupportView(viewModel: viewModel)
     }

@@ -16,15 +16,24 @@ final class SocketService: SocketServiceProtocol {
     private var socket: SocketIOClient?
     private let socketURL: URL
     private var isConnected = false
+    private var pendingJoins: [(resource: String, resourceId: String)] = []
 
     private init(socketURL: URL = URL(string: ApiConstants.socketURL)!) {
         self.socketURL = socketURL
     }
 
     func connect(resource: String, resourceId: String) {
-        guard !isConnected else { return }
-        isConnected = true
+        guard isConnected, socket?.status == .connected else {
+            pendingJoins.append((resource, resourceId))
+            if manager == nil {
+                setUpSocket()
+            }
+            return
+        }
+        joinRoom(resource: resource, resourceId: resourceId)
+    }
 
+    private func setUpSocket() {
         let manager = SocketManager(
             socketURL: socketURL,
             config: [
@@ -41,7 +50,11 @@ final class SocketService: SocketServiceProtocol {
 
         socket?.on(clientEvent: .connect) { [weak self] _, _ in
             guard let self = self else { return }
-                self.joinRoom(resource: resource, resourceId: resourceId)
+            self.isConnected = true
+            for pending in self.pendingJoins {
+                self.joinRoom(resource: pending.resource, resourceId: pending.resourceId)
+            }
+            self.pendingJoins.removeAll()
         }
 
         socket?.on(clientEvent: .disconnect) { [weak self] data, _ in
@@ -72,19 +85,18 @@ final class SocketService: SocketServiceProtocol {
             "resource": resource,
             "resource_id": Int(resourceId) ?? resourceId
         ]
-        Logger.logSocketEmit(event: SocketEvent.joinRoom, payload: payload)
+
 
         socket?.emitWithAck(SocketEvent.joinRoom, payload)
             .timingOut(after: 10) { data in
-
+                print(" join_room ack:", data)
                 if let status = data.first as? String,
                    status == SocketAckStatus.noAck {
-                    Logger.log("join_room: server did not respond within 10 seconds", category: .error)
+                    print(" join_room: no ack within 10s")
                     return
                 }
-
                 if let response = data.first {
-                    Logger.logSocketResponse(event: SocketEvent.joinRoom, payload: response)
+                    print(" join_room response:", response)
                 }
             }
     }
@@ -94,6 +106,7 @@ final class SocketService: SocketServiceProtocol {
         manager = nil
         socket = nil
         isConnected = false
+        pendingJoins.removeAll()
     }
 
     func events(_ event: String) -> AsyncStream<Data> {

@@ -58,16 +58,18 @@ struct SupportTicketView: View {
                             ForEach(viewModel.state.ticket) { ticket in
                                 SupportTicketCardView(
                                     ticket: ticket,
-                                    ticketType: "Driver",
+                                    ticketType: "User",
                                     assigneeName: "",
                                     assigneeAvatar: "",
-                                    description: ""
+                                    description: "",
+                                    viewModel: viewModel
                                 )
                             }
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 8)
                         .padding(.bottom, 100)
+                        
                     }
                     .scrollIndicators(.hidden)
                     .refreshable { await viewModel.refresh() }
@@ -145,15 +147,15 @@ struct SupportTicketCardView: View {
     let assigneeName: String
     let assigneeAvatar: String
     let description: String
+    let viewModel: SupportTicketViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
 
             // Header
             HStack {
-                if ticket.status.lowercased() != "open"
-                {
-                    Text(ticket.status.capitalized)
+                
+                Text(statusTitle)
                         .font(.custom("Livvic-SemiBold", size: 12))
                         .foregroundColor(statusColor)
                         .padding(.horizontal, 12)
@@ -162,20 +164,6 @@ struct SupportTicketCardView: View {
                             Capsule()
                                 .fill(statusColor.opacity(0.12))
                         )
-                }
-                else{
-                    Text(ticket.status.capitalized)
-                        .font(.custom("Livvic-SemiBold", size: 12))
-                        .foregroundColor(statusColor)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(
-                            Capsule()
-                                .fill(statusColor.opacity(0.12))
-                        )
-                }
-              
-
                 Spacer()
 
                 Text(ticketType)
@@ -189,7 +177,7 @@ struct SupportTicketCardView: View {
                 .foregroundColor(AppColors.textBlack1)
 
             // Description
-            Text(description)
+            Text(ticket.description ?? "")
                 .font(.custom("Livvic-Regular", size: 14))
                 .foregroundColor(AppColors.grey1)
                 .multilineTextAlignment(.leading)
@@ -216,7 +204,7 @@ struct SupportTicketCardView: View {
                 Spacer()
 
                 HStack(spacing: 6) {
-                    Image(systemName: "calendar")
+                    Image(ImageConstants.calender)
                         .foregroundColor(AppColors.grey1)
                     Text(formattedDate)
                         .font(.custom("Livvic-Regular", size: 13))
@@ -231,11 +219,24 @@ struct SupportTicketCardView: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color.gray.opacity(0.15), lineWidth: 1)
         )
+        .onTapGesture {
+            viewModel.ticketTapped(ticketId: ticket.id)
+        }
+       
+    }
+
+    private var statusTitle: String {
+        switch ticket.status.lowercased() {
+        case "in_progress": return "In progress"
+        case "open": return "Open"
+        case "closed": return "Closed"
+        default: return ticket.status.capitalized
+        }
     }
 
     private var statusColor: Color {
         switch ticket.status.lowercased() {
-        case "in progress": return .green
+        case "in_progress": return .green
         case "open": return AppColors.colorPink2
         case "closed": return .gray
         default: return AppColors.grey1
